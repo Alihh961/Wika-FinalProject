@@ -1,0 +1,46 @@
+<div class="searchFilterDiv">
+
+    <app-search (searchInputValueEvent)="onSearchTextEntered($event)"></app-search>
+    <app-filter [all]="getAllTokensQty()" [transferable]="getTransferableTokensQty()"
+        [non_transferable]="getNonTransferableTokensQty()"
+        (filterSelectionChangedEvent)="onFilterSelectionChanged($event)"></app-filter>
+
+</div>
+<section class="homePageGallery">
+
+    <ng-container *ngFor="let token of tokens">
+        <ng-container *ngIf="selectedRadioButton === 'all' || selectedRadioButton === token.type ">
+            <div class="product-accueil" (mouseenter)="hovered=true" (mouseleave)="hovered=false" appHighlight
+                *ngIf="searchInputValue === '' || token.title.toLowerCase().includes(searchInputValue.toLowerCase())">
+                <img [src]="token.source">
+
+                <h3>{{token.title}}</h3>
+                <h5>Product created by {{token.creatorname}}</h5>
+
+                <!-- <p>{{token.discription}}</p> -->
+
+                <!-- <div class="quantity-div">
+                    <h5>Quantity: </h5>
+                    <input type="number" placeholder="Qty" name="quantity" max="2">
+                </div> -->
+                <div class="info">
+                    <div class="price">
+                        <h4>{{token.price}}</h4>
+                        <img src="../../assets/imgs/Ethereum.png" alt="ETH">
+                    </div>
+                    <h5>{{token.creationdate}}</h5>
+                </div>
+                <div class="buttons">
+                    <a href=""><input type="button" value="Add To Carte"></a>
+                    <a href=""><input type="button" value="View"></a>
+                </div>
+
+            </div>
+
+
+
+
+        </ng-container>
+    </ng-container>
+
+</section>

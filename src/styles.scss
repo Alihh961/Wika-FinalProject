@@ -1,1 +1,16 @@
 /* You can add global styles to this file, and also import other style files */
+$bgcolor: #0d192b;
+body{
+    // overflow: hidden;
+    margin: 0 !important;
+    padding: 0 !important;
+    box-sizing: border-box;
+}
+
+html {
+    height: 100vh;
+}
+
+*::selection{
+    background-color: transparent;
+}
