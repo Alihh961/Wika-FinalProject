@@ -13,17 +13,17 @@ import { HttpClient } from '@angular/common/http';
 })
 export class GalleryComponent implements OnInit {
 
-  constructor(private http :HttpClient){}
+  constructor(private http: HttpClient) { }
 
 
   //* Calling all tokens to display in Gallery view template 
-  
-  tokens :Array<Itoken> = [] ;
 
-  ngOnInit(){
+  tokens: Array<Itoken> = [];
 
-    this.http.get<any[]>('http://localhost/backend/alltokens.php').subscribe(
-      data =>{
+  ngOnInit() {
+
+    this.http.get<any[]>('http://localhost/backend/gallerytokens.php?order=' + this.selectedRadioButton ).subscribe(
+      data => {
         this.tokens = data;
       },
       error => {
@@ -33,42 +33,42 @@ export class GalleryComponent implements OnInit {
 
   }
 
-    searchInputValue:string = '';
+  searchInputValue: string = '';
 
-  onSearchTextEntered(searchValue: string){
+  onSearchTextEntered(searchValue: string) {
     this.searchInputValue = searchValue;
   }
 
-  hovered: boolean=false;
+  hovered: boolean = false;
 
 
   // displaying the qty of each filter option
   getAllTokensQty() {
     return this.tokens.length;
-  } 
+  }
 
-  getTransferableTokensQty() { 
+  getTransferableTokensQty() {
     return this.tokens.filter(token => token.type === "transferable").length;
   }
 
-  getNonTransferableTokensQty(){
+  getNonTransferableTokensQty() {
     return this.tokens.filter(token => token.type === "non-transferable").length;
   }
 
-  
+
   // checked radio button is all by default
-  selectedRadioButton:string = "all";
+  selectedRadioButton: string = "all";
 
   // filtering results when the radio button is changed
-  onFilterSelectionChanged(data:string){
+  onFilterSelectionChanged(data: string) {
 
     this.selectedRadioButton = data;
     console.log(this.selectedRadioButton);
-
+    console.log('http://localhost/backend/alltokens.php?order=' + this.selectedRadioButton );
   }
 
-  
 
 
-  
+
+
 }

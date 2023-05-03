@@ -1,6 +1,7 @@
+@import "../../styles.scss";
 .banner {
 
-    background-color: #0d192b;
+    background-color: $bgColor;
     // background:radial-gradient(circle at 50% 50%, rgba(0, 188, 212, 1) 0%, rgba(238, 130, 238, 1) 100%);
     background-image: radial-gradient(circle at 28% 50%, #362871 80px, transparent 100px),
         radial-gradient(circle at 64% 71%, #655223 10px, transparent 50px);
@@ -243,7 +244,7 @@ section:nth-of-type(1) {
 
     display: flex;
     align-items: center;
-    background-color: #0d192b;
+    background-color: $bgColor;
     text-align: center;
     position: relative;
     height: 80vh;

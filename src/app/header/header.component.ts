@@ -31,6 +31,7 @@ export class HeaderComponent implements AfterViewInit {
     if (window.scrollY !== 0) {
 
       headerElement.classList.add("onScroll");
+
     } else{
       headerElement.classList.remove("onScroll");
     }

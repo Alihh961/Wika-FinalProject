@@ -1,6 +1,7 @@
+@import "../../styles.scss";
 .searchFilterDiv {
 
-    background-color: #0d192b;
+    background-color: $bgColor;
     padding:15% 40px 0 40px;
     display: flex;
     justify-content: space-between;
@@ -26,7 +27,7 @@ app-filter {
 }
 
 .homePageGallery {
-    background-color: #0d192b;
+    background-color: $bgColor;
     display: flex;
     justify-content: space-around;
     align-items: center;
