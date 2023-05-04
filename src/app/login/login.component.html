@@ -96,10 +96,10 @@
                                                     <input type="text" name="streetname" placeholder="Street Name"
                                                         class="form-style p-0 text-center" autocomplete="off" (keyup)="searchingAddress($event)">
                                                     <div class="addressResults"
-                                                        *ngFor="let address of addressResults; let index = index">
+                                                        *ngFor="let address of addressResults" >
 
                                                         <div class="suggestions">
-                                                            {{address.features[index].properties.name}}</div>
+                                                            {{address}}</div>
 
                                                     </div>
 

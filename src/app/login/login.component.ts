@@ -57,12 +57,10 @@ export class LoginComponent {
   }
 
   addingAddressToPage(data: AddressResults) {
-    this.addressResults = [];
     for (const key in data ) {
 
+      this.addressResults = [];
       this.addressResults.push(data);
-
-      console.log(this.addressResults);
     }
 
   }
