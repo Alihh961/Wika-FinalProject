@@ -352,20 +352,24 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover{
 }
 
 .addressResults{
-    border: 0.5px solid black;
+
     width: fit-content;
     border-radius: 2px;
     cursor: pointer;
-    background-color: red;
+    background-color: white;
+    color: black;
     position: absolute;
     z-index: 500;
-    height: fit-content;
-    bottom: -36px;
+    max-height: 200px;
+    overflow: scroll;
+    top: 38px;
 }
 
 .suggestions{
 
     padding: 5px;
+    border: 0.5px solid black;
+    
 
 }
 .suggestions:hover{

@@ -94,12 +94,14 @@
                                                 <span>Full Address:</span>
                                                 <div class="d-flex gap-2 ">
                                                     <input type="text" name="streetname" placeholder="Street Name"
-                                                        class="form-style p-0 text-center" autocomplete="off" (keyup)="searchingAddress($event)">
-                                                    <div class="addressResults"
-                                                        *ngFor="let address of addressResults" >
+                                                        class="form-style p-0 text-center" autocomplete="off"
+                                                        (keyup)="searchingAddress($event)">
+                                                    <div class="addressResults">
 
-                                                        <div class="suggestions">
-                                                            {{address}}</div>
+                                                        <div class="suggestions" #suggestions *ngFor="let address of features">
+                                                            {{address.properties.name}},
+                                                            {{address.properties.city}},{{address.properties.postcode}}
+                                                        </div>
 
                                                     </div>
 

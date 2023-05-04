@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, ElementRef, ViewChild } from '@angular/core';
-import { AddressResults } from '../Interface/AddressResults';
+import { Feature , FeatureCollection } from '../Interface/AddressResults';
 import { map } from 'rxjs/operators';
 
 
@@ -12,13 +12,17 @@ import { map } from 'rxjs/operators';
 })
 export class LoginComponent {
 
-  addressResults: AddressResults[] = [];
+  // addressResults: AddressResults[] = [];
+  features: Feature[] =[] ;
+  @ViewChild('suggestions') suggestions!:ElementRef ;
+  @ViewChild('header') header!: ElementRef; // getting header tag from view template
 
 
   constructor(private http: HttpClient) {
 
   }
   ngOnInit() {
+    console.log(this.suggestions.nativeElement);
 
   }
 
@@ -27,6 +31,8 @@ export class LoginComponent {
   //* chaning the color of span signin and signup on click in the arrow
   @ViewChild("signinspan") signinspan !: ElementRef;
   @ViewChild("signupspan") signupspan !: ElementRef;
+  @ViewChild("test") test !: ElementRef;
+
 
   changingColorOfSpan() {
     if (getComputedStyle(this.signinspan.nativeElement).color == "rgb(8, 129, 120)") {
@@ -48,24 +54,15 @@ export class LoginComponent {
     const input = event.target as HTMLInputElement;
     const url = `https://api-adresse.data.gouv.fr/search/?q=${input.value}&limit=10`;
 
-    return this.http.get<AddressResults>(url).subscribe(reponse => {
-      //  console.log(reponse.features[0].properties);
-      //  console.log(this.addressResults[0].features);
-      this.addingAddressToPage(reponse);
-    })
+    return this.http.get<FeatureCollection>(url).subscribe(reponse => {
+  
+      this.features = reponse.features;
 
+    })  
   }
-
-  addingAddressToPage(data: AddressResults) {
-    for (const key in data ) {
-
-      this.addressResults = [];
-      this.addressResults.push(data);
-    }
 
   }
 
 
 
 
-}
