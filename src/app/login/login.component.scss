@@ -360,7 +360,7 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover{
     position: absolute;
     z-index: 500;
     height: fit-content;
-    bottom: 0;
+    bottom: -36px;
 }
 
 .suggestions{

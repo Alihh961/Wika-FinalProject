@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { AddressResults } from '../Interface/AddressResults';
+import { map } from 'rxjs/operators';
 
 
 
@@ -11,10 +12,10 @@ import { AddressResults } from '../Interface/AddressResults';
 })
 export class LoginComponent {
 
-  addressResults!: AddressResults ;
+  addressResults: AddressResults[] = [];
 
 
-  constructor(private fetchingAddress: HttpClient) {
+  constructor(private http: HttpClient) {
 
   }
   ngOnInit() {
@@ -47,21 +48,23 @@ export class LoginComponent {
     const input = event.target as HTMLInputElement;
     const url = `https://api-adresse.data.gouv.fr/search/?q=${input.value}&limit=10`;
 
-    return this.fetchingAddress.get(url).subscribe(reponse => {
-      this.addressResults = reponse;
-      // console.log(reponse);
-      // const container: any = document.querySelectorAll(".suggestions");
-      // container.innerHTML = "";
-      // console.log(this.addressResults.features[0].properties.city);
-      // console.log((Object.keys(addressResults)).length);
-
-      // for (let i = 0; i < 10; i++) {
-      //   container.nativeElement.innerHTML += `<div class="suggestions" onclick="addingsuggestion(this)">${(this.addressResults.features[i].properties.name)},${(this.addressResults.features[i].properties.postcode)},${(this.addressResults.features[i].properties.city)},${(this.addressResults.features[i].properties.context)}.</div>`;
-      //   console.log(this.addressResults.features[0].properties.city);
-      // }
+    return this.http.get<AddressResults>(url).subscribe(reponse => {
+      //  console.log(reponse.features[0].properties);
+      //  console.log(this.addressResults[0].features);
+      this.addingAddressToPage(reponse);
     })
 
-    // console.log(url);
+  }
+
+  addingAddressToPage(data: AddressResults) {
+    this.addressResults = [];
+    for (const key in data ) {
+
+      this.addressResults.push(data);
+
+      console.log(this.addressResults);
+    }
+
   }
 
 
