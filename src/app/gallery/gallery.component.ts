@@ -16,7 +16,7 @@ export class GalleryComponent implements OnInit {
   constructor(private http: HttpClient) { }
 
 
-  //* Calling all tokens to display in Gallery view template 
+  //* Calling tokens to display in Gallery view template 
 
   tokens: Array<Itoken> = [];
 

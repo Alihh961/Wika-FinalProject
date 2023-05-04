@@ -11,7 +11,8 @@ import { AddressResults } from '../Interface/AddressResults';
 })
 export class LoginComponent {
 
-  addressResults: any = [];
+  addressResults!: AddressResults ;
+
 
   constructor(private fetchingAddress: HttpClient) {
 
@@ -48,9 +49,10 @@ export class LoginComponent {
 
     return this.fetchingAddress.get(url).subscribe(reponse => {
       this.addressResults = reponse;
-      const container: any = document.querySelectorAll(".suggestions");
-      container.innerHTML = "";
-      console.log(typeof this.addressResults);
+      // console.log(reponse);
+      // const container: any = document.querySelectorAll(".suggestions");
+      // container.innerHTML = "";
+      // console.log(this.addressResults.features[0].properties.city);
       // console.log((Object.keys(addressResults)).length);
 
       // for (let i = 0; i < 10; i++) {
