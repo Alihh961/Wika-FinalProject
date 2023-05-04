@@ -158,6 +158,16 @@ h6 span:first-child{
     transform: rotateY(180deg);
 }
 
+.dob{ //span of date of bidrth div
+
+    left: 50%;
+    top: 25%;
+    i{
+        z-index:0;
+    }
+
+}
+
 .checkbox:checked~.card-3d-wrap .card-3d-wrapper {
     transform: rotateY(180deg);
 }
@@ -174,14 +184,14 @@ h6 span:first-child{
 }
 
 
-.form-group {
+.form-group,.form-floating {
     position: relative;
     display: block;
     margin: 0;
     padding: 0;
 }
 
-.form-style {
+.form-style,.form-control {
     padding: 13px 20px;
     padding-left: 55px;
     height: 48px;
@@ -198,6 +208,10 @@ h6 span:first-child{
     -webkit-transition: all 200ms linear;
     transition: all 200ms linear;
     box-shadow: 0 4px 8px 0 rgba(21, 21, 21, .2);
+}
+
+.form-floating>label{
+    left:13%
 }
 
 .form-style:focus,
@@ -323,3 +337,37 @@ h6 span:first-child{
     box-shadow: 0 8px 24px 0 rgba(16, 39, 112, .2);
 }
 
+
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+
+    filter: invert(0.8);
+    cursor: pointer;
+
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator:hover{
+
+    opacity: 0.8;
+}
+
+.addressResults{
+    border: 0.5px solid black;
+    width: fit-content;
+    border-radius: 2px;
+    cursor: pointer;
+    background-color: red;
+    position: absolute;
+    z-index: 500;
+    height: fit-content;
+    bottom: 0;
+}
+
+.suggestions{
+
+    padding: 5px;
+
+}
+.suggestions:hover{
+    background-color: rgb(204, 204, 204);
+}

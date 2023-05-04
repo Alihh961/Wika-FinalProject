@@ -9,15 +9,15 @@
             <div class="row full-height justify-content-center">
 
                 <div class="col-12 text-center align-self-center">
-                    
-                    <div class="section pb-5 pt-5 pt-sm-2 text-center">
+
+                    <div class="section pb-5 pt-5 text-center">
 
                         <input class="checkbox" type="checkbox" id="reg-log" name="reg-log"
                             (click)="changingColorOfSpan()" />
                         <label for="reg-log"></label>
                         <label for="lol"></label>
                         <h6 class="mb-0 pb-3"><span #signinspan>Sign In </span><span #signupspan>Sign Up</span></h6>
-                        <div class="card-3d-wrap mx-auto">
+                        <div class="card-3d-wrap mx-auto my-0">
                             <div class="card-3d-wrapper">
                                 <div class="card-front">
                                     <div class="center-wrap full-height">
@@ -25,9 +25,13 @@
                                             <h4 class="mb-4 pb-3">Log In</h4>
                                             <div class="form-group">
                                                 <input type="email" name="logemail" class="form-style"
-                                                    placeholder="Your Email" id="logemail" autocomplete="off">
+                                                    placeholder="Your Email" id="logemail" autocomplete="off"  >
                                                 <i class="input-icon uil uil-at"></i>
+
+                                                
                                             </div>
+
+
 
                                             <div class="form-group mt-2">
                                                 <input type="password" name="logpass" class="form-style"
@@ -43,13 +47,19 @@
                                         </div>
                                     </div>
                                 </div>
+
+
+
                                 <div class="card-back" id="targeter">
                                     <div class="center-wrap full-height">
+
+
                                         <div class="section text-center">
+
                                             <h4 class="">Sign Up</h4>
                                             <div class="form-group">
                                                 <input type="text" name="firstname" class="form-style"
-                                                    placeholder="First Name" autocomplete="off">
+                                                    placeholder="First Name" autocomplete="off" >
                                                 <i class="input-icon uil uil-user"></i>
                                             </div>
 
@@ -69,27 +79,28 @@
                                                     placeholder="Your Password" id="logpass2" autocomplete="off">
                                                 <i class="input-icon uil uil-lock-alt"></i>
                                             </div>
+
+
                                             <div class="form-group mt-2 d-flex flex-column">
-                                                <span>Date of Birth</span>
+                                                <span class="position-absolute dob">Date of Birth</span>
                                                 <input type="date" name="dateofbirth" class="form-style"
                                                     autocomplete="off">
-                                                <i class="input-icon uil uil-lock-alt"></i>
+                                                    <i class="input-icon uil uil-calendar-alt"></i>
                                             </div>
 
 
                                             <div class="form-group mt-2 d-flex align-items-start flex-column gap-2">
                                                 <span>Full Address:</span>
                                                 <div class="d-flex gap-2 ">
-                                                    <input type="text" name="buildingnumber" placeholder="St. Number"
-                                                        class="form-style p-0 text-center" id="">
                                                     <input type="text" name="streetname" placeholder="Street Name"
-                                                        class="form-style p-0 text-center" autocomplete="off">
+                                                    class="form-style p-0 text-center" autocomplete="off" (keyup)="searchingAddress($event)" >
+                                                    <div class="addressResults"></div>
+
+                                                    <input type="text" name="buildingnumber" placeholder="Bld. Number"
+                                                        class="form-style p-0 text-center" id="">
                                                 </div>
 
                                             </div>
-
-
-
 
                                             <div class="form-group d-flex justify-start gap-5 mt-2">
                                                 <label for="gender" id="gender"
@@ -117,9 +128,4 @@
         </div>
     </div>
     <hr>
-    <script>
-        let label = document.querySelector("label:before");
-        console.log(label);
-        console.log("test");
-    </script>
 </section>

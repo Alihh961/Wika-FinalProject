@@ -1,5 +1,7 @@
 function hello(){
 
-    alert("Javascript file works!");
+    console.log("Javascript file works!");
 }
-alert("Pop up");
+
+
+hello();
