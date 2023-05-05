@@ -2,6 +2,8 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Component, ElementRef, Input, InputDecorator, ViewChild } from '@angular/core';
 import { Feature, FeatureCollection } from '../Interface/AddressResults';
 import { User } from '../Interface/userdetails';
+import { forbiddenNameValidator } from '../CustomDirective/forbiddenstring.directive';
+
 import { catchError } from 'rxjs/operators';
 import { EMPTY, throwError } from 'rxjs';
 
@@ -17,6 +19,7 @@ export class LoginComponent {
   //* variables related to the view tempalte 
 
   inputValue: string = "";
+
   userinscriptiondetails: User = {
     firstname: '',
     lastname: '',

@@ -46,8 +46,8 @@ h6 span {
     font-weight: 700;
 }
 
-h6 span:first-child{
-    color: #088178 ;
+h6 span:first-child {
+    color: #088178;
 
 }
 
@@ -102,7 +102,7 @@ h6 span:first-child{
     text-align: center;
     font-size: 24px;
     transition: all 0.5s ease;
-    transform:rotate(-90deg);
+    transform: rotate(-90deg);
 
 }
 
@@ -158,12 +158,14 @@ h6 span:first-child{
     transform: rotateY(180deg);
 }
 
-.dob{ //span of date of bidrth div
+.dob {
+    //span of date of bidrth div
 
     left: 50%;
     top: 25%;
-    i{
-        z-index:0;
+
+    i {
+        z-index: 0;
     }
 
 }
@@ -184,14 +186,16 @@ h6 span:first-child{
 }
 
 
-.form-group,.form-floating {
+.form-group,
+.form-floating {
     position: relative;
     display: block;
     margin: 0;
     padding: 0;
 }
 
-.form-style,.form-control {
+.form-style,
+.form-control {
     padding: 13px 20px;
     padding-left: 55px;
     height: 48px;
@@ -210,8 +214,8 @@ h6 span:first-child{
     box-shadow: 0 4px 8px 0 rgba(21, 21, 21, .2);
 }
 
-.form-floating>label{
-    left:13%
+.form-floating>label {
+    left: 13%
 }
 
 .form-style:focus,
@@ -286,22 +290,23 @@ h6 span:first-child{
     transition: all 200ms linear;
 }
 
-.form-group input[name="buildingnumber"]{
+.form-group input[name="buildingnumber"] {
     width: 13%;
 }
-.form-group input[name="streetname"]{
+
+.form-group input[name="streetname"] {
 
     width: 45%;
 
 }
 
 
-.form-group input{
+.form-group input {
 
     font-size: 12px;
 
-    &:focus{
-        border:inset;
+    &:focus {
+        border: inset;
     }
 }
 
@@ -363,12 +368,12 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
 }
 
-input[type="date"]::-webkit-calendar-picker-indicator:hover{
+input[type="date"]::-webkit-calendar-picker-indicator:hover {
 
     opacity: 0.8;
 }
 
-.addressResults{
+.addressResults {
 
     display: none;
     width: fit-content;
@@ -383,34 +388,52 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover{
     top: 83px;
 }
 
-input:disabled{
+input:disabled {
     cursor: default;
     background-color: #ccc !important;
-    color: #757575!important;
+    color: #757575 !important;
     // border: 0.5px solid #b2b2b2!important;
-    outline: 1px solid #b2b2b2 ;
+    outline: 1px solid #b2b2b2;
 }
 
-.suggestions{
+.suggestions {
 
     padding: 5px;
     border: 0.5px solid black;
-    
+
 
 }
-.suggestions:hover{
+
+.suggestions:hover {
     background-color: rgb(204, 204, 204);
 }
 
 
-.ng-invalid{
-    border-left:5px solid #a94442;
+.ng-invalid {
+    border-left: 5px solid #a94442;
 
-    &:focus{
-        box-shadow: 0 0 0 0.25rem rgba(220,53,69,.25);
+    &:focus {
+        box-shadow: 0 0 0 0.25rem rgba(220, 53, 69, .25);
     }
 }
 
-.ng-valid{
-    border-left:5px solid #42A948;
+.ng-valid {
+    border-left: 5px solid #42A948;
+}
+
+.alert {
+
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+
+}
+
+.alert-danger {
+
+    color: #a94442;
+    background-color: #f2dede;
+    border-color: #ebccd1;
+
 }
