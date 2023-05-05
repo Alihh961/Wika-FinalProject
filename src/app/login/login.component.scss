@@ -287,12 +287,25 @@ h6 span:first-child{
 }
 
 .form-group input[name="buildingnumber"]{
-    width: 25%;
+    width: 13%;
 }
 .form-group input[name="streetname"]{
 
     width: 45%;
 
+}
+
+
+.form-group input{
+
+    font-size: 12px;
+}
+
+input[value="Reset Address"] {
+    height: fit-content;
+    padding: 5px 10px;
+    background-color: #A00;
+    font-weight: 700;
 }
 
 .btn {
@@ -353,6 +366,7 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover{
 
 .addressResults{
 
+    display: none;
     width: fit-content;
     border-radius: 2px;
     cursor: pointer;
@@ -362,7 +376,15 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover{
     z-index: 500;
     max-height: 200px;
     overflow: scroll;
-    top: 38px;
+    top: 83px;
+}
+
+input:disabled{
+    cursor: default;
+    background-color: #ccc !important;
+    color: #757575!important;
+    // border: 0.5px solid #b2b2b2!important;
+    outline: 1px solid #b2b2b2 ;
 }
 
 .suggestions{
