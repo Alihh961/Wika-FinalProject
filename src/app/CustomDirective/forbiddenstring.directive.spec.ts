@@ -8,7 +8,6 @@ export function forbiddenNameValidator(nameRe: RegExp): ValidatorFn {
     return forbidden ? { 'forbiddenName': { value: control.value } } : null;
   };
 }
-
 @Directive({
   selector: '[appForbiddenName]',
   providers: [{ provide: NG_VALIDATORS, useExisting: ForbiddenValidatorDirective, multi: true }]
