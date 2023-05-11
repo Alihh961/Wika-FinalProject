@@ -45,7 +45,9 @@
 
 
 
-                                            <a href="#" class="btn mt-4">submit</a>
+                                            <button class="btn mt-4">Log-in</button>
+
+
                                             <p class="mb-0 mt-4 text-center"><a href="#0" class="link">Forgot your
                                                     password?</a></p>
                                         </div>
@@ -55,7 +57,7 @@
 
 
                                 <!-- Registration form -->
-                                <form class="card-back" id="targeter">
+                                <form class="card-back" id="targeter" #registrationForm="ngForm">
                                     <div class="center-wrap full-height">
 
 
@@ -63,112 +65,126 @@
 
                                             <h4 class="">Sign Up</h4>
 
-
+                                            <!-- First name -->
                                             <div class="form-group">
                                                 <input type="text" name="firstname" class="form-style"
-                                                    placeholder="First Name" autocomplete="off" forbiddenName="john"
-                                                    required minlength="4" [(ngModel)]="userinscriptiondetails.firstname" #firstname="ngModel">
+                                                    placeholder="First Name" autocomplete="off" required
+                                                    [(ngModel)]="userinscriptiondetails.firstname" #firstname="ngModel">
                                                 <i class="input-icon uil uil-user"></i>
-                                                <div class="alert alert-danger" *ngIf="firstname.invalid && (firstname.dirty || firstname.touched)">
+                                                <div class="alert alert-danger"
+                                                    *ngIf="firstname.invalid && (firstname.dirty || firstname.touched)">
 
-                                                    <div  *ngIf="firstname.errors?.['required']">
-                                                        Firstname is required.
+                                                    <div *ngIf="firstname.errors?.['required']">
+                                                        First name is required.
                                                     </div>
-                                                    <div  *ngIf="firstname.errors?.['minlength']">
-                                                        Firstname must be at least 4 characters long.
+
+                                                </div>
+                                            </div>
+
+
+
+                                            <!-- Last name -->
+                                            <div class="form-group mt-2">
+                                                <input type="text" name="lastname" class="form-style"
+                                                    placeholder="Last Name" autocomplete="off"
+                                                    [(ngModel)]="userinscriptiondetails.lastname" #lastname="ngModel"
+                                                    required>
+                                                <i class="input-icon uil uil-user"></i>
+                                                <div class="alert alert-danger"
+                                                    *ngIf="lastname.invalid && (lastname.dirty || lastname.touched)">
+
+                                                    <div *ngIf="lastname.errors?.['required']">
+                                                        Last name is required.
                                                     </div>
-                                                    <div *ngIf="firstname.errors?.['forbiddenName']">
-                                                        Firstname cannot be Wika , Crypto or NFTS.
-                                                    </div>
+
+
                                                 </div>
+                                            </div>
+
+
+                                            <!-- EMail -->
+                                            <div class="form-group mt-2">
+                                                <input type="email" name="logemail" class="form-style"
+                                                    placeholder="Your Email" autocomplete="off"
+                                                    [(ngModel)]="userinscriptiondetails.email" #email="ngModel"
+                                                    required>
+                                                <i class="input-icon uil uil-at"></i>
+                                            </div>
+
+
+                                            <!-- Password -->
+                                            <div class="form-group mt-2">
+                                                <input type="password" name="logpass" class="form-style"
+                                                    placeholder="Your Password" id="logpass2" autocomplete="off">
+                                                <i class="input-icon uil uil-lock-alt"></i>
+                                            </div>
 
 
 
-                                                <div class="form-group mt-2">
-                                                    <input type="text" name="lastname" class="form-style"
-                                                        placeholder="Last Name" autocomplete="off">
-                                                    <i class="input-icon uil uil-user"></i>
-                                                </div>
+                                            <!-- Date Of Birth -->
+                                            <div class="form-group mt-2 d-flex flex-column">
+                                                <span class="position-absolute dob">Date of Birth</span>
+                                                <input type="date" name="dateofbirth" class="form-style"
+                                                    autocomplete="off">
+                                                <i class="input-icon uil uil-calendar-alt"></i>
+                                            </div>
 
 
 
-                                                <div class="form-group mt-2">
-                                                    <input type="email" name="logemail" class="form-style"
-                                                        placeholder="Your Email" id="logemail2" autocomplete="off">
-                                                    <i class="input-icon uil uil-at"></i>
-                                                </div>
+                                            <!-- Full Address -->
+                                            <div class="form-group mt-2 d-flex align-items-start flex-column gap-2">
+                                                <span>Full Address:</span>
+                                                <div class="d-flex justify-content-between align-items-center">
+                                                    <input class="form-style p-0 text-center" #input type="text"
+                                                        name="streetname" placeholder="Street Name" autocomplete="off"
+                                                        [(ngModel)]="inputValue"
+                                                        (ngModelChange)="searchingAddress(inputValue)">
+                                                    <div class="addressResults" #addressResults>
 
-
-
-                                                <div class="form-group mt-2">
-                                                    <input type="password" name="logpass" class="form-style"
-                                                        placeholder="Your Password" id="logpass2" autocomplete="off">
-                                                    <i class="input-icon uil uil-lock-alt"></i>
-                                                </div>
-
-
-
-
-                                                <div class="form-group mt-2 d-flex flex-column">
-                                                    <span class="position-absolute dob">Date of Birth</span>
-                                                    <input type="date" name="dateofbirth" class="form-style"
-                                                        autocomplete="off">
-                                                    <i class="input-icon uil uil-calendar-alt"></i>
-                                                </div>
-
-
-
-
-                                                <div class="form-group mt-2 d-flex align-items-start flex-column gap-2">
-                                                    <span>Full Address:</span>
-                                                    <div class="d-flex justify-content-between align-items-center">
-                                                        <input class="form-style p-0 text-center" #input type="text"
-                                                            name="streetname" placeholder="Street Name"
-                                                            autocomplete="off" [(ngModel)]="inputValue"
-                                                            (ngModelChange)="searchingAddress(inputValue)">
-                                                        <div class="addressResults" #addressResults>
-
-                                                            <div class="suggestions" #suggestions
-                                                                *ngFor="let address of features"
-                                                                (click)="selectaddress($event)">
-                                                                {{address.properties.name}},
-                                                                {{address.properties.city}},{{address.properties.postcode}}
-                                                            </div>
-
+                                                        <div class="suggestions" #suggestions
+                                                            *ngFor="let address of features"
+                                                            (click)="selectaddress($event)">
+                                                            {{address.properties.name}},
+                                                            {{address.properties.city}},{{address.properties.postcode}}
                                                         </div>
 
-
-                                                        <input type="text" name="buildingnumber" placeholder="Bld. №"
-                                                            class="form-style p-0 text-center" id="">
-                                                        <input type="button" value="Reset Address"
-                                                            (click)="resetInput()">
                                                     </div>
 
+
+                                                    <input type="text" name="buildingnumber" placeholder="Bld. №"
+                                                        class="form-style p-0 text-center" id="">
+
+                                                    <input type="button" value="Reset Address" (click)="resetInput()">
+                                                    
                                                 </div>
-
-
-
-
-
-                                                <div class="form-group d-flex justify-start gap-5 mt-2">
-                                                    <label for="gender" id="gender"
-                                                        class=" align-self-start">Gender:</label>
-                                                    <div>
-                                                        <input type="radio" name="gender" id="" value="male">
-                                                        <span> Male</span>
-                                                    </div>
-                                                    <div>
-                                                        <input type="radio" name="gender" id="" value="female">
-                                                        <span> Female</span>
-                                                    </div>
-                                                </div>
-
-
-                                                <a href="#" class="btn mt-4">submit</a>
 
                                             </div>
+
+
+
+                                            <!-- Gender -->
+
+                                            <div class="form-group d-flex justify-start gap-5 mt-2">
+                                                <label for="gender" id="gender"
+                                                    class=" align-self-start">Gender:</label>
+                                                <div>
+                                                    <input type="radio" name="gender" id="" value="male">
+                                                    <span> Male</span>
+                                                </div>
+                                                <div>
+                                                    <input type="radio" name="gender" id="" value="female">
+                                                    <span> Female</span>
+                                                </div>
+                                            </div>
+
+
+
+                                            <button class="btn mt-4"
+                                                [disabled]="registrationForm.invalid">Submit</button>
+
                                         </div>
                                     </div>
+
 
                                 </form>
                             </div>
