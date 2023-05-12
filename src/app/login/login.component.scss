@@ -352,8 +352,7 @@ button:disabled{
 
 }
 
-.btn:active,
-.btn:focus {
+.btn:active{
     background-color: #102770;
     color: #ffeba7;
     box-shadow: 0 8px 24px 0 rgba(16, 39, 112, .2);

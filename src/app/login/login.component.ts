@@ -7,6 +7,7 @@ import { User } from '../Interface/userdetails';
 
 import { catchError } from 'rxjs/operators';
 import { EMPTY, throwError } from 'rxjs';
+import { NgForm } from '@angular/forms';
 
 
 
@@ -114,6 +115,12 @@ export class LoginComponent {
 
   };
 
+
+  onRegFormSubmit(form :NgForm){
+
+    console.log(form);
+
+  }
 
 
 

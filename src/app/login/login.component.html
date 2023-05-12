@@ -57,7 +57,7 @@
 
 
                                 <!-- Registration form -->
-                                <form class="card-back" id="targeter" #registrationForm="ngForm">
+                                <form class="card-back" id="targeter" #registrationForm="ngForm" (ngSubmit)="onRegFormSubmit(registrationForm)">
                                     <div class="center-wrap full-height">
 
 
@@ -179,8 +179,8 @@
 
 
 
-                                            <button class="btn mt-4"
-                                                [disabled]="registrationForm.invalid">Submit</button>
+                                            <button class="btn mt-4" [disabled]=""
+                                                >Submit </button>
 
                                         </div>
                                     </div>
