@@ -2,14 +2,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Component, ElementRef, Input, InputDecorator, ViewChild } from '@angular/core';
 import { Feature, FeatureCollection } from '../Interface/AddressResults';
 import { User } from '../Interface/userdetails';
-import { isValidDate } from '../CustomDirective/datevalidator';
-
-// import {}
-// import { forbiddenNameValidator } from '../CustomDirective/forbiddenstring.directive';
-
-import { catchError } from 'rxjs/operators';
-import { EMPTY, throwError } from 'rxjs';
-import { Form, FormGroup, NgForm,FormBuilder,Validators } from '@angular/forms';
+import { NgForm } from '@angular/forms';
 
 
 
@@ -27,16 +20,18 @@ export class LoginComponent {
   userinscriptiondetails: User = {
     firstname: '',
     lastname: '',
-    logemail: '',
-    pass: '',
-    confpasssword: '',
-    dateofbirth:Date,
+    email: '',
+    password: '',
+    passwordconfirmation: '',
+    dateofbirth: null,
     street: '',
     bldingnumber: '',
     gender: ''
   };
 
-  
+  maxDay!: number ;
+  maxMonth!: number;
+  maxYear!: number;
 
 
   // * variables related to the component class file 
@@ -53,13 +48,15 @@ export class LoginComponent {
 
 
 
-  constructor(private http: HttpClient ) {
-   
+  constructor(private http: HttpClient) {
+
   }
-  
+
 
 
   ngOnInit(): void {
+
+    this.autorizedAgeOfNewUsers();
   }
 
 
@@ -96,7 +93,7 @@ export class LoginComponent {
   }
 
 
-// Reset the input to set a new address
+  // Reset the input to set a new address
   resetInput(): void {
     // undisabled the input to set a new address
     this.input.nativeElement.removeAttribute("disabled", "");
@@ -106,7 +103,7 @@ export class LoginComponent {
   }
 
 
-  
+
 
   //* changing the color of span signin and signup on click in the arrow
 
@@ -124,12 +121,26 @@ export class LoginComponent {
   };
 
 
-  onRegFormSubmit(form :NgForm){
+  onRegFormSubmit(form: NgForm) {
 
     console.log(form.value);
 
   }
 
+  autorizedAgeOfNewUsers() {
+    const currentDate: Date = new Date();
+
+    const currentYear: number = currentDate.getFullYear();
+    const currentMonth: number = currentDate.getMonth() + 1;
+    const currentDay: number = currentDate.getDate();
+
+    this.maxYear = currentYear - 18;
+    this.maxMonth = currentMonth;
+    this.maxDay = currentDay;
+    console.log(currentMonth, currentYear, currentDay);
+    console.log(this.maxMonth, this.maxYear, this.maxDay);
+
+  }
 
 
 
