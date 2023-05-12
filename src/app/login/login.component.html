@@ -134,11 +134,14 @@
                                                     <!-- Password -->
                                                     <div class="form-group mt-2">
                                                         <input type="password" name="pass" class="form-style"
-                                                            placeholder="Your Password" id="pass"
-                                                            autocomplete="off" required ngModel #pass="ngModel" pattern="^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$">
+                                                            placeholder="Your Password" id="pass" autocomplete="off"
+                                                            required ngModel #pass="ngModel"
+                                                            pattern="^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$">
                                                         <i class="input-icon uil uil-lock-alt"></i>
-                                                        <div class="alert alert-danger" *ngIf="pass.invalid && (pass.touched || pass.dirty)">
-                                                            <span>At Least one LowerCase,UpperCase,SpaecialCharacter and Number</span>
+                                                        <div class="alert alert-danger"
+                                                            *ngIf="pass.invalid && (pass.touched || pass.dirty)">
+                                                            <span>At Least one LowerCase,UpperCase,SpaecialCharacter and
+                                                                Number</span>
                                                         </div>
                                                     </div>
 
@@ -147,7 +150,8 @@
                                                     <div class="form-group mt-2">
                                                         <input type="password" name="confpass" class="form-style"
                                                             placeholder="Confirmed Password" id="confpass"
-                                                            autocomplete="off" required ngModel pattern="^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$">
+                                                            autocomplete="off" required ngModel
+                                                            pattern="^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$">
                                                         <i class="input-icon uil uil-lock-alt"></i>
                                                     </div>
 
@@ -161,8 +165,16 @@
                                                     <div class="form-group mt-2 d-flex flex-column">
                                                         <span class="position-absolute dob">Date of Birth</span>
                                                         <input type="date" name="dateofbirth" class="form-style"
-                                                            autocomplete="off" min="18">
+                                                            autocomplete="off" minAge="18" ngModel #birthdate="ngModel"
+                                                            required>
                                                         <i class="input-icon uil uil-calendar-alt"></i>
+
+                                                        <div *ngIf="birthdate.invalid">
+                                                            <div *ngIf="birthdate.errors?.['required']">Birthdate is
+                                                                required</div>
+                                                            <div *ngIf="birthdate.errors?.['minAge']">You must be at
+                                                                least 18 years old to register</div>
+                                                        </div>
                                                     </div>
 
 

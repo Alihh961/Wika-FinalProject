@@ -2,12 +2,14 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Component, ElementRef, Input, InputDecorator, ViewChild } from '@angular/core';
 import { Feature, FeatureCollection } from '../Interface/AddressResults';
 import { User } from '../Interface/userdetails';
+import { isValidDate } from '../CustomDirective/datevalidator';
+
 // import {}
 // import { forbiddenNameValidator } from '../CustomDirective/forbiddenstring.directive';
 
 import { catchError } from 'rxjs/operators';
 import { EMPTY, throwError } from 'rxjs';
-import { NgForm } from '@angular/forms';
+import { Form, FormGroup, NgForm,FormBuilder,Validators } from '@angular/forms';
 
 
 
@@ -25,14 +27,16 @@ export class LoginComponent {
   userinscriptiondetails: User = {
     firstname: '',
     lastname: '',
-    email: '',
-    password: '',
-    passwordconfirmation: '',
-    dateofbirth: new Date(),
+    logemail: '',
+    pass: '',
+    confpasssword: '',
+    dateofbirth:Date,
     street: '',
     bldingnumber: '',
     gender: ''
   };
+
+  
 
 
   // * variables related to the component class file 
@@ -45,12 +49,16 @@ export class LoginComponent {
   @ViewChild("suggestions") suggestions !: ElementRef;
   @ViewChild("addressResults") addressResults !: ElementRef;
   @ViewChild("input") input !: ElementRef;
+  // @ViewChild("registrationForm") regForm !: FormGroup;
 
 
 
-  constructor(private http: HttpClient) {
-
+  constructor(private http: HttpClient ) {
+   
   }
+  
+
+
   ngOnInit(): void {
   }
 
@@ -118,14 +126,14 @@ export class LoginComponent {
 
   onRegFormSubmit(form :NgForm){
 
-    console.log(form);
+    console.log(form.value);
 
   }
 
 
 
-}
 
+}
 
 
 
