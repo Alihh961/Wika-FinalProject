@@ -57,7 +57,7 @@
 
 
                                 <!-- Registration form -->
-                                <form class="card-back" id="targeter" #registrationForm="ngForm"
+                                <form action="" class="card-back" id="targeter" #registrationForm="ngForm"
                                     (ngSubmit)="onRegFormSubmit(registrationForm)">
                                     <div class="center-wrap full-height">
 
@@ -165,7 +165,7 @@
                                                     <div class="form-group mt-2 d-flex flex-column">
                                                         <span class="position-absolute dob">Date of Birth</span>
                                                         <input type="date" name="dateofbirth" class="form-style"
-                                                            autocomplete="off" min="2000-01-01" ngModel #birthdate="ngModel"
+                                                            autocomplete="off" max="{{maxDate}}" ngModel #birthdate="ngModel"
                                                             required>
                                                         <i class="input-icon uil uil-calendar-alt"></i>
 

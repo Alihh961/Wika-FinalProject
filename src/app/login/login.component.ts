@@ -32,6 +32,7 @@ export class LoginComponent {
   maxDay!: number ;
   maxMonth!: number;
   maxYear!: number;
+  maxDate!: string;
 
 
   // * variables related to the component class file 
@@ -131,15 +132,17 @@ export class LoginComponent {
     const currentDate: Date = new Date();
 
     const currentYear: number = currentDate.getFullYear();
-    const currentMonth: number = currentDate.getMonth() + 1;
+    const currentMonth: number = currentDate.getMonth();
     const currentDay: number = currentDate.getDate();
 
     this.maxYear = currentYear - 18;
     this.maxMonth = currentMonth;
     this.maxDay = currentDay;
-    console.log(currentMonth, currentYear, currentDay);
-    console.log(this.maxMonth, this.maxYear, this.maxDay);
 
+    const max = new Date(this.maxYear , this.maxMonth , this.maxDay);
+    this.maxDate = max.toISOString().slice(0, 10); // get "YYYY-MM-DD" format
+
+    
   }
 
 
