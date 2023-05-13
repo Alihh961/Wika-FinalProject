@@ -56,7 +56,7 @@ h6 span:first-child {
     position: relative;
     width: 100%;
     display: block;
-    margin-top: 50px;
+    margin-top: 80px;
 
 }
 
@@ -156,6 +156,12 @@ h6 span:first-child {
 
 .card-back {
     transform: rotateY(180deg);
+}
+
+.card-front .form-group {
+
+    width: 65%;
+
 }
 
 .dob {
