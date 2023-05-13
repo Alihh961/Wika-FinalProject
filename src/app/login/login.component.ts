@@ -141,7 +141,7 @@ export class LoginComponent {
 
 
   }
-
+  
   //* checking the value of address on blur
   onBlur(element: any) {
     const input = element.target as HTMLInputElement;
