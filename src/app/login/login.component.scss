@@ -57,6 +57,7 @@ h6 span:first-child {
     width: 100%;
     display: block;
     margin-top: 80px;
+    overflow-x: clip;
 
 }
 
@@ -113,7 +114,7 @@ h6 span:first-child {
 
 .card-3d-wrap {
     position: relative;
-    width: 80%;
+    width: 40%;
     // max-width: 100%;
     height: 500px;
     -webkit-transform-style: preserve-3d;
@@ -164,11 +165,31 @@ h6 span:first-child {
 
 }
 
+.face{
+
+    position: absolute;
+    width: 75%;
+
+}
+
+.firstFace {
+
+    right: 13%;
+    top: 50px;
+
+}
+
+.secondFace , .thirdFace {
+
+    transform:translateX(250%);
+
+}
+
 .dob {
     //span of date of bidrth div
 
     left: 50%;
-    top: 25%;
+    top: 20%;
 
     i {
         z-index: 0;
