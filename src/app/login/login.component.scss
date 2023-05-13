@@ -165,7 +165,7 @@ h6 span:first-child {
 
 }
 
-.face{
+.face {
 
     position: absolute;
     width: 75%;
@@ -179,9 +179,10 @@ h6 span:first-child {
 
 }
 
-.secondFace , .thirdFace {
+.secondFace,
+.thirdFace {
 
-    transform:translateX(250%);
+    transform: translateX(250%);
 
 }
 
@@ -371,14 +372,14 @@ input[value="Reset Address"] {
     box-shadow: 0 8px 24px 0 rgba(255, 235, 167, .2);
 }
 
-button:disabled{
+button:disabled {
     background-color: grey;
     color: white;
     font-size: 10px;
 
 }
 
-.btn:active{
+.btn:active {
     background-color: #102770;
     color: #ffeba7;
     box-shadow: 0 8px 24px 0 rgba(16, 39, 112, .2);
@@ -450,8 +451,9 @@ input:disabled {
 
 .ng-valid {
     border-left: 5px solid #42a948;
+
     &:focus {
-        box-shadow: 0 0 0 0.25rem rgba(66, 169, 72 , 0.25);
+        box-shadow: 0 0 0 0.25rem rgba(66, 169, 72, 0.25);
     }
 }
 
@@ -469,5 +471,19 @@ input:disabled {
     color: #a94442;
     background-color: #f2dede;
     border-color: #ebccd1;
+
+}
+
+.nextArrow,
+.previousArrow {
+
+    background-color: #088178;
+    padding: 15px 20px;
+    border-radius: 4px;
+    color: #fff;
+    width: fit-content;
+    cursor: pointer;
+    float: right;
+    margin-top: 25px;
 
 }
