@@ -66,7 +66,7 @@
 
 
                                         <!-- Start First Face  -->
-                                        <div class="firstFace face">
+                                        <div class="firstFace face" #firstFace>
 
                                             <!-- First name -->
                                             <div class="form-group">
@@ -120,9 +120,14 @@
                                                         least 18 years old to register</div>
                                                 </div>
                                             </div>
-                                            <!-- <div>Previous</div> -->
-                                            <svg class="nextArrow" (click)="toSecondFace($event)" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-                                            
+
+                                            <svg class="nextArrow toSecondFace" (click)="chaningFace($event)"
+                                                xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                                stroke-linecap="round" stroke-linejoin="round">
+                                                <path d="M5 12h14M12 5l7 7-7 7" class="nextArrow toSecondFace" (click)="chaningFace($event)"/>
+                                            </svg>
+
                                         </div>
                                         <!-- End of First Face -->
 
@@ -136,7 +141,8 @@
                                             <div class="form-group mt-2">
                                                 <input type="email" name="logemail" class="form-style"
                                                     placeholder="Your Email" autocomplete="off"
-                                                    [(ngModel)]="userinscriptiondetails.email" #email="ngModel" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" required
+                                                    [(ngModel)]="userinscriptiondetails.email" #email="ngModel"
+                                                    pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" required
                                                     email>
                                                 <i class="input-icon uil uil-at"></i>
 
@@ -179,21 +185,26 @@
                                                 <i class="input-icon uil uil-lock-alt"></i>
                                             </div>
 
-                                            <div class="previousArrow">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19L5 12l7-7"/></svg>
-                                            </div>
-                                            <div class="nextArrow"><svg> xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+                                            <svg (click)="chaningFace($event)" class='nextArrow toThirdFace'
+                                                xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                                stroke-linecap="round" stroke-linejoin="round">
+                                                <path d="M5 12h14M12 5l7 7-7 7" (click)="chaningFace($event)" class='nextArrow toThirdFace' />
+                                            </svg>
+
+                                            <svg (click)="chaningFace($event)" class="previousArrow toFirstFace"
+                                                xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                                stroke-linecap="round" stroke-linejoin="round">
+                                                <path d="M19 12H5M12 19L5 12l7-7" (click)="chaningFace($event)" class="previousArrow toFirstFace" />
+                                            </svg>
+
                                         </div>
+
                                         <!-- End of Second Face  -->
 
-
-
-                                        <!-- <span class="d-block bg-light" style="width:1px;height:inherit;"></span> -->
-
-
-
                                         <!-- Start of Third Face -->
-                                        <div class="thirdFace face">
+                                        <div class="thirdFace face" #thirdFace>
                                             <!-- Full Address -->
                                             <div class="form-group mt-2 d-flex align-items-start flex-column gap-2">
                                                 <span>Full Address:</span>
@@ -248,7 +259,13 @@
                                             <button class="btn mt-4" [disabled]="registrationForm.invalid"
                                                 #submitButton>Submit
                                             </button>
-                                            <div>Previous</div>
+                                            <svg class="previousArrow toSecondFace" (click)=" chaningFace($event)"
+                                                xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                                stroke-linecap="round" stroke-linejoin="round">
+                                                <path d="M19 12H5M12 19L5 12l7-7" class="previousArrow toSecondFace" (click)=" chaningFace($event)" />
+                                            </svg>
+
                                             <!-- <div>Next</div> -->
                                         </div>
                                         <!-- End of Third Face  -->

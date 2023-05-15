@@ -3,6 +3,7 @@ import { Component, ElementRef, Input, InputDecorator, ViewChild } from '@angula
 import { Feature, FeatureCollection } from '../Interface/AddressResults';
 import { User } from '../Interface/userdetails';
 import { FormGroup, NgForm } from '@angular/forms';
+import { connect } from 'rxjs';
 
 
 
@@ -43,7 +44,10 @@ export class LoginComponent {
   @ViewChild("addressResults") addressResults !: ElementRef;
   @ViewChild("input") input !: ElementRef; // input address
   @ViewChild("submitButton") submitbutton !: ElementRef;
+  @ViewChild("firstFace") firstFace !: ElementRef;
   @ViewChild("secondFace") secondFace !: ElementRef;
+  @ViewChild("thirdFace") thirdFace !: ElementRef;
+
 
 
   @ViewChild("registrationForm") regForm !: FormGroup;
@@ -154,31 +158,29 @@ export class LoginComponent {
 
 
   //* Switch to the second face word
-  toSecondFace(click: MouseEvent) {
+  chaningFace(click: MouseEvent) {
 
     const button = click.target as HTMLDivElement;
-    const parentButton = button.parentElement as HTMLElement;
+    // const parentButton = button.parentElement as HTMLElement;
+    console.log(button);
   
-    //* check if we are in the first Face or third Face then change the 
-    if (parentButton.classList.contains("firstFace")) {
-      parentButton.style.right = "110%";
-      this.secondFace.nativeElement.style.right = "13%";
+    if(button.classList.contains("toSecondFace")){
+      if(button.classList.contains("previousArrow")){
+        this.thirdFace.nativeElement.right="-90%";
+        this.secondFace.nativeElement.style.right="13%";
+        console.log("previousArrow");
+      }else {
+        this.firstFace.nativeElement.style.right="110%";
+        this.secondFace.nativeElement.style.right="13%";
+      }
+    }else if(button.classList.contains("toFirstFace")){
+      this.secondFace.nativeElement.style.right="-90%";
+      this.firstFace.nativeElement.style.right="13%";
     }else{
-      parentButton.style.right = "-90%";
-      this.secondFace.nativeElement.style.right = "13%";
-    }
-  }
-
-
-  //* Switch to the third face word
-  toThirdFace(click: MouseEvent) {
-
-    console.log("to third face");
-  }
-
-  toFirstFace(click: MouseEvent) {
-    console.log("To First Face");
-  }
+      this.secondFace.nativeElement.style.right="110%";
+      this.thirdFace.nativeElement.style.right="13%";
+        }
+  } 
 
 }
 
