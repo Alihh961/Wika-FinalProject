@@ -141,7 +141,7 @@ export class LoginComponent {
 
 
   }
-  
+
   //* checking the value of address on blur
   onBlur(element: any) {
     const input = element.target as HTMLInputElement;
@@ -149,9 +149,18 @@ export class LoginComponent {
       this.submitbutton.nativeElement.setAttribute("disabled", "");
 
   }
+
+
+  //*
+  toSecondFace(click :MouseEvent) {
+
+    const button = click.target as HTMLDivElement;
+    const parentButton = button.parentElement as HTMLDivElement;
+
+    parentButton.style.display= "none";
+  }
+
 }
-
-
 
 
 
