@@ -43,6 +43,8 @@ export class LoginComponent {
   @ViewChild("addressResults") addressResults !: ElementRef;
   @ViewChild("input") input !: ElementRef; // input address
   @ViewChild("submitButton") submitbutton !: ElementRef;
+  @ViewChild("secondFace") secondFace !: ElementRef;
+
 
   @ViewChild("registrationForm") regForm !: FormGroup;
 
@@ -151,13 +153,31 @@ export class LoginComponent {
   }
 
 
-  //*
-  toSecondFace(click :MouseEvent) {
+  //* Switch to the second face word
+  toSecondFace(click: MouseEvent) {
 
     const button = click.target as HTMLDivElement;
-    const parentButton = button.parentElement as HTMLDivElement;
+    const parentButton = button.parentElement as HTMLElement;
+  
+    //* check if we are in the first Face or third Face then change the 
+    if (parentButton.classList.contains("firstFace")) {
+      parentButton.style.right = "110%";
+      this.secondFace.nativeElement.style.right = "13%";
+    }else{
+      parentButton.style.right = "-90%";
+      this.secondFace.nativeElement.style.right = "13%";
+    }
+  }
 
-    parentButton.style.display= "none";
+
+  //* Switch to the third face word
+  toThirdFace(click: MouseEvent) {
+
+    console.log("to third face");
+  }
+
+  toFirstFace(click: MouseEvent) {
+    console.log("To First Face");
   }
 
 }
