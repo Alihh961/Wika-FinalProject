@@ -57,7 +57,7 @@ h6 span:first-child {
     width: 100%;
     display: block;
     margin-top: 80px;
-    // overflow-x: clip;
+    overflow-x: clip;
 
 }
 
@@ -495,6 +495,10 @@ input:disabled {
 
 svg{
     transition:fill 2s ease-in;
+}
+
+.secondFace svg{
+    margin-left: 10px;
 }
 
 .thirdFace svg{

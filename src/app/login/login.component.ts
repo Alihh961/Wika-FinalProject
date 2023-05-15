@@ -47,11 +47,7 @@ export class LoginComponent {
   @ViewChild("firstFace") firstFace !: ElementRef;
   @ViewChild("secondFace") secondFace !: ElementRef;
   @ViewChild("thirdFace") thirdFace !: ElementRef;
-
-
-
   @ViewChild("registrationForm") regForm !: FormGroup;
-
 
 
   constructor(private http: HttpClient) {
@@ -85,7 +81,7 @@ export class LoginComponent {
 
   }
 
-  // selecting the address on click event
+  //* selecting the address on click event
   selectaddress(divElement: MouseEvent): void {
 
     // targeting the click Div
@@ -104,13 +100,16 @@ export class LoginComponent {
     this.suggestions.nativeElement.innerHTML = "";
   }
 
-  // Reset the input to set a new address
+  //* Reset the input to set a new address
   resetInput(): void {
-    // undisabled the input to set a new address
+    // undisabled the address input to set a new address
     this.input.nativeElement.removeAttribute("disabled", "");
 
     // empty the value of the input 
     this.input.nativeElement.value = "";
+
+    // 
+    this.submitbutton.nativeElement.setAttribute('disabled', 'true');
   }
 
   //* changing the color of span signin and signup on click in the arrow
@@ -127,8 +126,8 @@ export class LoginComponent {
 
   };
 
-
-  onRegFormSubmit(form: NgForm) {
+  //* Submitting the form
+  onRegFormSubmit(form: NgForm):void {
 
     console.log(form.value);
 
@@ -149,33 +148,32 @@ export class LoginComponent {
   }
 
   //* checking the value of address on blur
-  onBlur(element: any) {
+  onBlur(element: any):void {
     const input = element.target as HTMLInputElement;
     if (!input.hasAttribute("disabled") && this.regForm.invalid)
       this.submitbutton.nativeElement.setAttribute("disabled", "");
 
   }
 
-
   //* Switching between The Form Faces
-  chaningFace(click: MouseEvent) {
+  chaningFace(click: MouseEvent):void {
 
     const button = click.target as HTMLDivElement;
 
     if (button.classList.contains("toSecondFace")) {
-      if (button.classList.contains("previousArrow")) {
+      if (button.classList.contains("previousArrow")) {//*From Third Face to Second Face
         this.thirdFace.nativeElement.style.right = "-90%";
         this.secondFace.nativeElement.style.right = "13%";
-      } else {
+      } else { //* From First Face to Second Face
         this.firstFace.nativeElement.style.right = "110%";
         this.secondFace.nativeElement.style.right = "13%";
 
       }
-    } else if (button.classList.contains("toFirstFace")) {
+    } else if (button.classList.contains("toFirstFace")) { //* From Second Face to First Face
       this.secondFace.nativeElement.style.right = "-90%";
       this.firstFace.nativeElement.style.right = "13%";
 
-    } else {
+    } else { //* From Second Face to Third Face
       this.secondFace.nativeElement.style.right = "110%";
       this.thirdFace.nativeElement.style.right = "13%";
     }
