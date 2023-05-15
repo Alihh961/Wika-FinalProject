@@ -56,7 +56,7 @@
 
                                 <!-- Registration form -->
                                 <form action="" class="card-back" id="targeter" #registrationForm="ngForm"
-                                    (ngSubmit)="onRegFormSubmit(registrationForm)" (ngModelChange)="onBlur($event    )">
+                                    (ngSubmit)="onRegFormSubmit(registrationForm)" (ngModelChange)="onBlur($event)">
 
                                     <!-- <h4 class="">Sign Up</h4> -->
                                     <!-- <br><br> -->
@@ -66,7 +66,7 @@
 
 
                                         <!-- Start First Face  -->
-                                        <div class="firstFace face" #firstFace>
+                                        <div class="firstFace face" #firstFace #firstFaceGroup="ngModelGroup" ngModelGroup="firstFaceGroup">
 
                                             <!-- First name -->
                                             <div class="form-group">
@@ -121,7 +121,7 @@
                                                 </div>
                                             </div>
 
-                                            <svg class="nextArrow toSecondFace" (click)="chaningFace($event)"
+                                            <svg *ngIf="firstFaceGroup.valid" class="nextArrow toSecondFace" (click)="chaningFace($event)"
                                                 xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                                 viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                                                 stroke-linecap="round" stroke-linejoin="round">
@@ -135,15 +135,14 @@
 
 
                                         <!-- Start of Second Face -->
-                                        <div class="secondFace face" #secondFace>
+                                        <div class="secondFace face" #secondFace #secondFaceGroup="ngModelGroup" ngModelGroup="secondFaceGroup">
 
                                             <!-- EMail -->
                                             <div class="form-group mt-2">
                                                 <input type="email" name="logemail" class="form-style"
                                                     placeholder="Your Email" autocomplete="off"
                                                     [(ngModel)]="userinscriptiondetails.email" #email="ngModel"
-                                                    pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" required
-                                                    email>
+                                                    pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" required>
                                                 <i class="input-icon uil uil-at"></i>
 
                                                 <div class="alert alert-danger"
@@ -152,7 +151,7 @@
                                                     <div *ngIf="email.errors?.['required']">
                                                         Email is required.
                                                     </div>
-                                                    <div *ngIf="email.errors?.['email']">
+                                                    <div *ngIf="email.errors?.['pattern'] ">
                                                         Invalid email format.
                                                     </div>
                                                 </div>
@@ -185,14 +184,14 @@
                                                 <i class="input-icon uil uil-lock-alt"></i>
                                             </div>
 
-                                            <svg (click)="chaningFace($event)" class='nextArrow toThirdFace'
+                                            <svg *ngIf="secondFaceGroup.valid" (click)="chaningFace($event)" class='nextArrow toThirdFace'
                                                 xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                                 viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                                                 stroke-linecap="round" stroke-linejoin="round">
                                                 <path d="M5 12h14M12 5l7 7-7 7" (click)="chaningFace($event)" class='nextArrow toThirdFace' />
                                             </svg>
 
-                                            <svg (click)="chaningFace($event)" class="previousArrow toFirstFace"
+                                            <svg  (click)="chaningFace($event)" class="previousArrow toFirstFace"
                                                 xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                                 viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                                                 stroke-linecap="round" stroke-linejoin="round">
@@ -200,7 +199,6 @@
                                             </svg>
 
                                         </div>
-
                                         <!-- End of Second Face  -->
 
                                         <!-- Start of Third Face -->
@@ -215,7 +213,7 @@
                                                         name="streetname" placeholder="Street Name" autocomplete="off"
                                                         [(ngModel)]="inputValue"
                                                         (ngModelChange)="searchingAddress(inputValue)"
-                                                        (blur)="onBlur($event)" required>
+                                                        (blur)="onBlur($event)" pattern="" required>
                                                     <div class="addressResults" #addressResults>
 
                                                         <div class="suggestions" #suggestions
@@ -229,7 +227,7 @@
 
 
                                                     <input type="text" name="buildingnumber" placeholder="Bld. №"
-                                                        class="form-style p-0 text-center" id="">
+                                                        class="form-style p-0 text-center">
 
                                                     <input type="button" value="Reset Address" (click)="resetInput()">
 
@@ -245,21 +243,21 @@
                                                 <label for="gender" id="gender"
                                                     class=" align-self-start">Gender:</label>
                                                 <div>
-                                                    <input type="radio" name="gender" id="" value="male">
+                                                    <input type="radio" name="gender"  value="male">
                                                     <span> Male</span>
                                                 </div>
                                                 <div>
-                                                    <input type="radio" name="gender" id="" value="female">
+                                                    <input type="radio" name="gender"  value="female">
                                                     <span> Female</span>
                                                 </div>
                                             </div>
 
 
 
-                                            <button class="btn mt-4" [disabled]="registrationForm.invalid"
+                                            <button class="btn" [disabled]="registrationForm.invalid"
                                                 #submitButton>Submit
                                             </button>
-                                            <svg class="previousArrow toSecondFace" (click)=" chaningFace($event)"
+                                            <svg class=" previousArrow toSecondFace" (click)=" chaningFace($event)"
                                                 xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                                 viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                                                 stroke-linecap="round" stroke-linejoin="round">

@@ -157,30 +157,29 @@ export class LoginComponent {
   }
 
 
-  //* Switch to the second face word
+  //* Switching between The Form Faces
   chaningFace(click: MouseEvent) {
 
     const button = click.target as HTMLDivElement;
-    // const parentButton = button.parentElement as HTMLElement;
-    console.log(button);
-  
-    if(button.classList.contains("toSecondFace")){
-      if(button.classList.contains("previousArrow")){
-        this.thirdFace.nativeElement.right="-90%";
-        this.secondFace.nativeElement.style.right="13%";
-        console.log("previousArrow");
-      }else {
-        this.firstFace.nativeElement.style.right="110%";
-        this.secondFace.nativeElement.style.right="13%";
+
+    if (button.classList.contains("toSecondFace")) {
+      if (button.classList.contains("previousArrow")) {
+        this.thirdFace.nativeElement.style.right = "-90%";
+        this.secondFace.nativeElement.style.right = "13%";
+      } else {
+        this.firstFace.nativeElement.style.right = "110%";
+        this.secondFace.nativeElement.style.right = "13%";
+
       }
-    }else if(button.classList.contains("toFirstFace")){
-      this.secondFace.nativeElement.style.right="-90%";
-      this.firstFace.nativeElement.style.right="13%";
-    }else{
-      this.secondFace.nativeElement.style.right="110%";
-      this.thirdFace.nativeElement.style.right="13%";
-        }
-  } 
+    } else if (button.classList.contains("toFirstFace")) {
+      this.secondFace.nativeElement.style.right = "-90%";
+      this.firstFace.nativeElement.style.right = "13%";
+
+    } else {
+      this.secondFace.nativeElement.style.right = "110%";
+      this.thirdFace.nativeElement.style.right = "13%";
+    }
+  }
 
 }
 

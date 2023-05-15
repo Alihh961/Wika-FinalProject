@@ -57,7 +57,7 @@ h6 span:first-child {
     width: 100%;
     display: block;
     margin-top: 80px;
-    overflow-x: clip;
+    // overflow-x: clip;
 
 }
 
@@ -354,6 +354,7 @@ input[value="Reset Address"] {
     -webkit-transition: all 200ms linear;
     transition: all 200ms linear;
     padding: 10px 15px;
+    margin-top: 100px;
     letter-spacing: 1px;
     display: -webkit-inline-flex;
     display: -ms-inline-flexbox;
@@ -372,6 +373,7 @@ input[value="Reset Address"] {
     background-color: #ffeba7;
     color: #102770;
     box-shadow: 0 8px 24px 0 rgba(255, 235, 167, .2);
+
 }
 
 button:disabled {
@@ -443,7 +445,7 @@ input:disabled {
 }
 
 
-.ng-invalid {
+.ng-invalid:not(div):not(form) {
     border-left: 5px solid #a94442;
 
     &:focus {
@@ -451,7 +453,7 @@ input:disabled {
     }
 }
 
-.ng-valid {
+.ng-valid:not(div):not(form) {
     border-left: 5px solid #42a948;
 
     &:focus {
@@ -489,4 +491,12 @@ input:disabled {
     margin-top: 30px;
     box-shadow: 0 8px 24px 0 rgba(8, 129, 120, 0.3)
 
+}
+
+svg{
+    transition:fill 2s ease-in;
+}
+
+.thirdFace svg{
+    margin-top: 100px;
 }
