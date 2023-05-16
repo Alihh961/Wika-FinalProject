@@ -142,8 +142,10 @@
                                                 <input type="email" name="inscriptionemail" class="form-style"
                                                     placeholder="Your Email" autocomplete="off"
                                                     [(ngModel)]="userinscriptiondetails.email" #email="ngModel"
-                                                    pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" required>
+                                                    
+                                                    required>
                                                 <i class="input-icon uil uil-at"></i>
+                                                <!-- pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"  -->
 
                                                 <div class="alert alert-danger"
                                                     *ngIf="email.invalid && (email.dirty || email.touched)">
@@ -164,7 +166,8 @@
                                                 <input type="password" name="pass" class="form-style"
                                                     placeholder="Your Password" id="pass" autocomplete="off" required
                                                     ngModel #pass="ngModel"
-                                                    pattern="^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$">
+                                                    >
+                                                    <!-- pattern="^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$" -->
                                                 <i class="input-icon uil uil-lock-alt"></i>
                                                 <div class="alert alert-danger"
                                                     *ngIf="pass.invalid && (pass.touched || pass.dirty)">
@@ -180,7 +183,8 @@
                                                 <input type="password" name="confpass" class="form-style"
                                                     placeholder="Confirmed Password" id="confpass" autocomplete="off"
                                                     required ngModel
-                                                    pattern="^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$">
+                                                    >
+                                                    <!-- pattern="^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$" -->
                                                 <i class="input-icon uil uil-lock-alt"></i>
                                             </div>
 
@@ -202,7 +206,7 @@
                                         <!-- End of Second Face  -->
 
                                         <!-- Start of Third Face -->
-                                        <div class="thirdFace face" #thirdFace>
+                                        <div class="thirdFace face" #thirdFace #thirdFaceGroup="ngModelGroup" ngModelGroup="thirdFaceGroup">
                                             <!-- Full Address -->
                                             <div class="form-group mt-2 d-flex align-items-start flex-column gap-2">
                                                 <span>Full Address:</span>

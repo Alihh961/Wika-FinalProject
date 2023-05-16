@@ -88,7 +88,9 @@ export class LoginComponent {
     const address = divElement.target as HTMLDivElement;
 
     // asign the value of the div address to the input value 
-    this.input.nativeElement.value = address.innerHTML;
+    // this.input.nativeElement.value = address.innerHTML;
+    this.inputValue = address.innerHTML;
+
 
     // display none of the container after selecting the address
     this.addressResults.nativeElement.style.display = "none";
@@ -128,8 +130,11 @@ export class LoginComponent {
 
   //* Submitting the form
   onRegFormSubmit(form: NgForm):void {
+    
+    console.log(form.value.firstFaceGroup);
+    console.log(form.value.secondFaceGroup);
+    console.log(form.value.thirdFaceGroup);
 
-    console.log(form.value);
 
   }
 
