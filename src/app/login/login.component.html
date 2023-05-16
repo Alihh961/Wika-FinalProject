@@ -55,7 +55,7 @@
 
 
                                 <!-- Registration form -->
-                                <form action="" class="card-back" id="targeter" #registrationForm="ngForm"
+                                <form action="http://localhost/backend/inscription.php" method="POST" class="card-back" id="targeter" #registrationForm="ngForm"
                                     (ngSubmit)="onRegFormSubmit(registrationForm)" (ngModelChange)="onBlur($event)">
 
                                     <!-- <h4 class="">Sign Up</h4> -->
@@ -139,7 +139,7 @@
 
                                             <!-- EMail -->
                                             <div class="form-group mt-2">
-                                                <input type="email" name="logemail" class="form-style"
+                                                <input type="email" name="inscriptionemail" class="form-style"
                                                     placeholder="Your Email" autocomplete="off"
                                                     [(ngModel)]="userinscriptiondetails.email" #email="ngModel"
                                                     pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" required>
