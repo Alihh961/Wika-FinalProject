@@ -14,9 +14,7 @@ import { connect } from 'rxjs';
 })
 export class LoginComponent {
 
-  //* variables related to the view tempalte 
-
-  inputValue: string = "";
+  //* variables related to the view template 
 
   userinscriptiondetails: User = {
     firstname: '',
@@ -24,7 +22,7 @@ export class LoginComponent {
     email: '',
     password: '',
     passwordconfirmation: '',
-    dateofbirth: null,
+    birthdate: null,
     street: '',
     bldingnumber: '',
     gender: ''
@@ -89,7 +87,7 @@ export class LoginComponent {
 
     // asign the value of the div address to the input value 
     // this.input.nativeElement.value = address.innerHTML;
-    this.inputValue = address.innerHTML;
+    this.userinscriptiondetails.street = address.innerHTML;
 
 
     // display none of the container after selecting the address
@@ -131,9 +129,10 @@ export class LoginComponent {
   //* Submitting the form
   onRegFormSubmit(form: NgForm):void {
     
-    console.log(form.value.firstFaceGroup);
-    console.log(form.value.secondFaceGroup);
-    console.log(form.value.thirdFaceGroup);
+    // console.log(form.value.firstFaceGroup);
+    // console.log(form.value.secondFaceGroup);
+    // console.log(form.value.thirdFaceGroup);
+    console.log(this.userinscriptiondetails);
 
 
   }
