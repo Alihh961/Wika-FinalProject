@@ -55,7 +55,8 @@
 
 
                                 <!-- Registration form -->
-                                <form action="http://localhost/backend/inscription.php" method="POST" class="card-back" id="targeter" #registrationForm="ngForm"
+                                <form action="http://localhost/backend/inscription.php" method="POST" class="card-back"
+                                    id="targeter" #registrationForm="ngForm"
                                     (ngSubmit)="onRegFormSubmit(registrationForm)" (ngModelChange)="onBlur($event)">
 
                                     <!-- <h4 class="">Sign Up</h4> -->
@@ -66,12 +67,14 @@
 
 
                                         <!-- Start First Face  -->
-                                        <div class="firstFace face" #firstFace #firstFaceGroup="ngModelGroup" ngModelGroup="firstFaceGroup">
+                                        <div class="firstFace face" #firstFace #firstFaceGroup="ngModelGroup"
+                                            ngModelGroup="firstFaceGroup">
 
                                             <!-- First name -->
                                             <div class="form-group">
                                                 <input type="text" name="firstname" class="form-style"
                                                     placeholder="First Name" autocomplete="off" required
+                                                    pattern="/^[a-zA-Z]+$/"
                                                     [(ngModel)]="userinscriptiondetails.firstname" #firstname="ngModel">
                                                 <i class="input-icon uil uil-user"></i>
                                                 <div class="alert alert-danger"
@@ -79,6 +82,9 @@
 
                                                     <div *ngIf="firstname.errors?.['required']">
                                                         First name is required.
+                                                    </div>
+                                                    <div *ngIf="firstname.errors?.['pattern']">
+                                                        Invalid format.
                                                     </div>
 
                                                 </div>
@@ -91,13 +97,16 @@
                                                 <input type="text" name="lastname" class="form-style"
                                                     placeholder="Last Name" autocomplete="off"
                                                     [(ngModel)]="userinscriptiondetails.lastname" #lastname="ngModel"
-                                                    required>
+                                                    pattern="/^[a-zA-Z]+$/" required>
                                                 <i class="input-icon uil uil-user"></i>
                                                 <div class="alert alert-danger"
                                                     *ngIf="lastname.invalid && (lastname.dirty || lastname.touched)">
 
                                                     <div *ngIf="lastname.errors?.['required']">
                                                         Last name is required.
+                                                    </div>
+                                                    <div *ngIf="lastname.errors?.['pattern']">
+                                                        Invalid format.
                                                     </div>
                                                 </div>
                                             </div>
@@ -109,8 +118,7 @@
                                                 <span class="position-absolute dob">Date of Birth</span>
                                                 <input type="date" name="dateofbirth" class="form-style"
                                                     autocomplete="off" max="{{maxDate}}" #birthdate="ngModel"
-                                                    [(ngModel)]="userinscriptiondetails.birthdate"
-                                                    required>
+                                                    [(ngModel)]="userinscriptiondetails.birthdate" required>
                                                 <i class="input-icon uil uil-calendar-alt"></i>
 
                                                 <div *ngIf="birthdate.invalid && (birthdate.touched || birthdate.dirty)"
@@ -122,11 +130,13 @@
                                                 </div>
                                             </div>
 
-                                            <svg *ngIf="firstFaceGroup.valid" class="nextArrow toSecondFace" (click)="chaningFace($event)"
-                                                xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                                stroke-linecap="round" stroke-linejoin="round">
-                                                <path d="M5 12h14M12 5l7 7-7 7" class="nextArrow toSecondFace" (click)="chaningFace($event)"/>
+                                            <svg *ngIf="firstFaceGroup.valid" class="nextArrow toSecondFace"
+                                                (click)="chaningFace($event)" xmlns="http://www.w3.org/2000/svg"
+                                                width="16" height="16" viewBox="0 0 24 24" fill="none"
+                                                stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                                stroke-linejoin="round">
+                                                <path d="M5 12h14M12 5l7 7-7 7" class="nextArrow toSecondFace"
+                                                    (click)="chaningFace($event)" />
                                             </svg>
 
                                         </div>
@@ -136,14 +146,14 @@
 
 
                                         <!-- Start of Second Face -->
-                                        <div class="secondFace face" #secondFace #secondFaceGroup="ngModelGroup" ngModelGroup="secondFaceGroup">
+                                        <div class="secondFace face" #secondFace #secondFaceGroup="ngModelGroup"
+                                            ngModelGroup="secondFaceGroup">
 
                                             <!-- EMail -->
                                             <div class="form-group mt-2">
                                                 <input type="email" name="inscriptionemail" class="form-style"
                                                     placeholder="Your Email" autocomplete="off"
                                                     [(ngModel)]="userinscriptiondetails.email" #email="ngModel"
-                                                    
                                                     required>
                                                 <i class="input-icon uil uil-at"></i>
                                                 <!-- pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"  -->
@@ -166,9 +176,10 @@
                                             <div class="form-group mt-2">
                                                 <input type="password" name="password" class="form-style"
                                                     placeholder="Your Password" id="pass" autocomplete="off" required
-                                                    [(ngModel)]="userinscriptiondetails.password" #pass="ngModel"
-                                                    >
-                                                    <!-- pattern="^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$" -->
+                                                    [(ngModel)]="userinscriptiondetails.password" #pass="ngModel">
+                                                <!-- pattern="^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$" -->
+                                                <!-- pattern="/^[a-zA-Z]+$/" -->
+
                                                 <i class="input-icon uil uil-lock-alt"></i>
                                                 <div class="alert alert-danger"
                                                     *ngIf="pass.invalid && (pass.touched || pass.dirty)">
@@ -183,31 +194,34 @@
                                             <div class="form-group mt-2">
                                                 <input type="password" name="passwordconfirmation" class="form-style"
                                                     placeholder="Confirmed Password" id="confpass" autocomplete="off"
-                                                    required [(ngModel)]="userinscriptiondetails.passwordconfirmation"
-                                                    >
-                                                    <!-- pattern="^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$" -->
+                                                    required [(ngModel)]="userinscriptiondetails.passwordconfirmation">
+                                                <!-- pattern="^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$" -->
                                                 <i class="input-icon uil uil-lock-alt"></i>
                                             </div>
 
-                                            <svg *ngIf="secondFaceGroup.valid" (click)="chaningFace($event)" class='nextArrow toThirdFace'
-                                                xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                                stroke-linecap="round" stroke-linejoin="round">
-                                                <path d="M5 12h14M12 5l7 7-7 7" (click)="chaningFace($event)" class='nextArrow toThirdFace' />
+                                            <svg *ngIf="secondFaceGroup.valid" (click)="chaningFace($event)"
+                                                class='nextArrow toThirdFace' xmlns="http://www.w3.org/2000/svg"
+                                                width="16" height="16" viewBox="0 0 24 24" fill="none"
+                                                stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                                stroke-linejoin="round">
+                                                <path d="M5 12h14M12 5l7 7-7 7" (click)="chaningFace($event)"
+                                                    class='nextArrow toThirdFace' />
                                             </svg>
 
-                                            <svg  (click)="chaningFace($event)" class="previousArrow toFirstFace"
+                                            <svg (click)="chaningFace($event)" class="previousArrow toFirstFace"
                                                 xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                                 viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                                                 stroke-linecap="round" stroke-linejoin="round">
-                                                <path d="M19 12H5M12 19L5 12l7-7" (click)="chaningFace($event)" class="previousArrow toFirstFace" />
+                                                <path d="M19 12H5M12 19L5 12l7-7" (click)="chaningFace($event)"
+                                                    class="previousArrow toFirstFace" />
                                             </svg>
 
                                         </div>
                                         <!-- End of Second Face  -->
 
                                         <!-- Start of Third Face -->
-                                        <div class="thirdFace face" #thirdFace #thirdFaceGroup="ngModelGroup" ngModelGroup="thirdFaceGroup">
+                                        <div class="thirdFace face" #thirdFace #thirdFaceGroup="ngModelGroup"
+                                            ngModelGroup="thirdFaceGroup">
                                             <!-- Full Address -->
                                             <div class="form-group mt-2 d-flex align-items-start flex-column gap-2">
                                                 <span>Full Address:</span>
@@ -232,7 +246,8 @@
 
 
                                                     <input type="text" name="buildingnumber" placeholder="Bld. №"
-                                                        class="form-style p-0 text-center" [(ngModel)]="userinscriptiondetails.buildingnumber">
+                                                        class="form-style p-0 text-center"
+                                                        [(ngModel)]="userinscriptiondetails.buildingnumber">
 
                                                     <input type="button" value="Reset Address" (click)="resetInput()">
 
@@ -248,11 +263,13 @@
                                                 <label for="gender" id="gender"
                                                     class=" align-self-start">Gender:</label>
                                                 <div>
-                                                    <input type="radio" name="gender"  value="male" [(ngModel)]="userinscriptiondetails.gender" #gender>
+                                                    <input type="radio" name="gender" value="male"
+                                                        [(ngModel)]="userinscriptiondetails.gender" #gender>
                                                     <span> Male</span>
                                                 </div>
                                                 <div>
-                                                    <input type="radio" name="gender"  value="female" [(ngModel)]="userinscriptiondetails.gender" #gender >
+                                                    <input type="radio" name="gender" value="female"
+                                                        [(ngModel)]="userinscriptiondetails.gender" #gender>
                                                     <span> Female</span>
                                                 </div>
                                             </div>
@@ -266,7 +283,8 @@
                                                 xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                                 viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                                                 stroke-linecap="round" stroke-linejoin="round">
-                                                <path d="M19 12H5M12 19L5 12l7-7" class="previousArrow toSecondFace" (click)=" chaningFace($event)" />
+                                                <path d="M19 12H5M12 19L5 12l7-7" class="previousArrow toSecondFace"
+                                                    (click)=" chaningFace($event)" />
                                             </svg>
 
                                             <!-- <div>Next</div> -->
