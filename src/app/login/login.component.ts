@@ -77,7 +77,7 @@ export class LoginComponent {
       });
 
   }
-
+  
   //* Selecting the address on click event
   selectaddress(divElement: MouseEvent): void {
 
