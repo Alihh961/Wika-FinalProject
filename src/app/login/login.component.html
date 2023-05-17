@@ -164,7 +164,7 @@
 
                                             <!-- Password -->
                                             <div class="form-group mt-2">
-                                                <input type="password" name="pass" class="form-style"
+                                                <input type="password" name="password" class="form-style"
                                                     placeholder="Your Password" id="pass" autocomplete="off" required
                                                     [(ngModel)]="userinscriptiondetails.password" #pass="ngModel"
                                                     >
@@ -181,7 +181,7 @@
 
                                             <!-- Confirmed Password -->
                                             <div class="form-group mt-2">
-                                                <input type="password" name="confpass" class="form-style"
+                                                <input type="password" name="passwordconfirmation" class="form-style"
                                                     placeholder="Confirmed Password" id="confpass" autocomplete="off"
                                                     required [(ngModel)]="userinscriptiondetails.passwordconfirmation"
                                                     >
@@ -232,7 +232,7 @@
 
 
                                                     <input type="text" name="buildingnumber" placeholder="Bld. №"
-                                                        class="form-style p-0 text-center">
+                                                        class="form-style p-0 text-center" [(ngModel)]="userinscriptiondetails.buildingnumber">
 
                                                     <input type="button" value="Reset Address" (click)="resetInput()">
 
@@ -248,11 +248,11 @@
                                                 <label for="gender" id="gender"
                                                     class=" align-self-start">Gender:</label>
                                                 <div>
-                                                    <input type="radio" name="gender"  value="male">
+                                                    <input type="radio" name="gender"  value="male" [(ngModel)]="userinscriptiondetails.gender" #gender>
                                                     <span> Male</span>
                                                 </div>
                                                 <div>
-                                                    <input type="radio" name="gender"  value="female">
+                                                    <input type="radio" name="gender"  value="female" [(ngModel)]="userinscriptiondetails.gender" #gender >
                                                     <span> Female</span>
                                                 </div>
                                             </div>

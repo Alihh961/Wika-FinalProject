@@ -7,7 +7,7 @@ export interface User {
     passwordconfirmation:string,
     birthdate:Date | null,
     street:string,
-    bldingnumber:string,
+    buildingnumber:string,
     gender:string,
 }
 

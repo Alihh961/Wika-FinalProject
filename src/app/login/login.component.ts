@@ -1,9 +1,8 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Component, ElementRef, Input, InputDecorator, ViewChild } from '@angular/core';
+import { Component , ElementRef , ViewChild } from '@angular/core';
 import { Feature, FeatureCollection } from '../Interface/AddressResults';
 import { User } from '../Interface/userdetails';
 import { FormGroup, NgForm } from '@angular/forms';
-import { connect } from 'rxjs';
 
 
 
@@ -14,7 +13,7 @@ import { connect } from 'rxjs';
 })
 export class LoginComponent {
 
-  //* variables related to the view template 
+  //* Variables related to the view template 
 
   userinscriptiondetails: User = {
     firstname: '',
@@ -24,14 +23,14 @@ export class LoginComponent {
     passwordconfirmation: '',
     birthdate: null,
     street: '',
-    bldingnumber: '',
+    buildingnumber: '',
     gender: ''
   };
 
   maxDate!: string; // maxDate for the calendar to prevent under 18 from inscrire
 
 
-  // * variables related to the component class file 
+  // * Variables related to the component class file 
   features: Feature[] = [];
 
   //* ViewChild variables
@@ -59,11 +58,11 @@ export class LoginComponent {
     this.autorizedAgeOfNewUsers();
   }
 
-  //* searching for address when a change happens
+  //* Searching for address when a change happens
   searchingAddress(value: string): object {
 
     if (!value) {
-      //* idsplay none for the previous results if the input value becomes null
+      //* Display none for the previous results if the input value becomes null
       this.addressResults.nativeElement.style.display = "none";
     }
 
@@ -79,7 +78,7 @@ export class LoginComponent {
 
   }
 
-  //* selecting the address on click event
+  //* Selecting the address on click event
   selectaddress(divElement: MouseEvent): void {
 
     // targeting the click Div
@@ -112,7 +111,7 @@ export class LoginComponent {
     this.submitbutton.nativeElement.setAttribute('disabled', 'true');
   }
 
-  //* changing the color of span signin and signup on click in the arrow
+  //* Changing the color of span signin and signup on click in the arrow
   changingColorOfSpan(): void {
     if (getComputedStyle(this.signinspan.nativeElement).color == "rgb(8, 129, 120)") {
       this.signinspan.nativeElement.style.color = "rgb(196, 195, 202)";
@@ -129,15 +128,22 @@ export class LoginComponent {
   //* Submitting the form
   onRegFormSubmit(form: NgForm):void {
     
-    // console.log(form.value.firstFaceGroup);
-    // console.log(form.value.secondFaceGroup);
-    // console.log(form.value.thirdFaceGroup);
-    console.log(this.userinscriptiondetails);
+    const url ="http://localhost/backend/inscription.php";
 
+    this.http.post<any>( url , this.userinscriptiondetails).subscribe(
+      (response) => {
+        // Handle success response
+        console.log(response);
+      },
+      (error) => {
+        // Handle error response
+        console.error(error);
+      }
+    );
 
   }
 
-  //* displaying only the valid date of people over than 18 years old
+  //* Displaying only the valid date of people over than 18 years old
   autorizedAgeOfNewUsers(): void {
     const currentDate: Date = new Date();
 
@@ -151,7 +157,7 @@ export class LoginComponent {
 
   }
 
-  //* checking the value of address on blur
+  //* Checking the value of address on blur
   onBlur(element: any):void {
     const input = element.target as HTMLInputElement;
     if (!input.hasAttribute("disabled") && this.regForm.invalid)
