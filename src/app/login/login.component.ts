@@ -1,5 +1,5 @@
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Component , ElementRef , ViewChild } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { Feature, FeatureCollection } from '../Interface/AddressResults';
 import { User } from '../Interface/userdetails';
 import { FormGroup, NgForm } from '@angular/forms';
@@ -77,7 +77,7 @@ export class LoginComponent {
       });
 
   }
-  
+
   //* Selecting the address on click event
   selectaddress(divElement: MouseEvent): void {
 
@@ -126,11 +126,11 @@ export class LoginComponent {
   };
 
   //* Submitting the form
-  onRegFormSubmit(form: NgForm):void {
-    
-    const url ="http://localhost/backend/inscription.php";
+  onRegFormSubmit(form: NgForm): void {
 
-    this.http.post<any>( url , this.userinscriptiondetails).subscribe(
+    const url = "http://localhost/backend/inscription.php";
+
+    this.http.post<any>(url, this.userinscriptiondetails).subscribe(
       (response) => {
         // Handle success response
         console.log(response);
@@ -158,7 +158,7 @@ export class LoginComponent {
   }
 
   //* Checking the value of address on blur
-  onBlur(element: any):void {
+  onBlur(element: any): void {
     const input = element.target as HTMLInputElement;
     if (!input.hasAttribute("disabled") && this.regForm.invalid)
       this.submitbutton.nativeElement.setAttribute("disabled", "");
@@ -166,7 +166,7 @@ export class LoginComponent {
   }
 
   //* Switching between The Form Faces
-  chaningFace(click: MouseEvent):void {
+  chaningFace(click: MouseEvent): void {
 
     const button = click.target as HTMLDivElement;
 
