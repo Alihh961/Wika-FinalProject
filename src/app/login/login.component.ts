@@ -14,6 +14,8 @@ import { FormGroup, NgForm } from '@angular/forms';
 export class LoginComponent {
 
   //* Variables related to the view template 
+  
+  displayingWelcomeMessage :boolean = false ;
 
   userinscriptiondetails: User = {
     firstname: '',
