@@ -1,4 +1,5 @@
 import { HttpClient } from '@angular/common/http';
+import Swal from 'sweetalert2';
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { Feature, FeatureCollection } from '../Interface/AddressResults';
 import { User } from '../Interface/userdetails';
@@ -136,6 +137,11 @@ export class LoginComponent {
       (response) => {
         // Handle success response
         console.log(response);
+        Swal.fire(
+          'Good job!',
+          'You clicked the button!',
+          'success'
+        )
       },
       (error) => {
         // Handle error response
