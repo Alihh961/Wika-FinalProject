@@ -176,8 +176,9 @@
                                                     placeholder="Your Password" id="pass" autocomplete="off" required
                                                     [(ngModel)]="userinscriptiondetails.password" #pass="ngModel"
                                                     pattern="^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$"
-                                                    (ngModelChange)="checkPasswordMatch()">
-
+                                                    (ngModelChange)="checkPasswordMatch();passwordIsValid($event)"
+                                                    >
+                                                    <!-- [ngClass]="{'ng-invalid': !passwordMatch && !patternRespected}" -->
 
                                                 <i class="input-icon uil uil-lock-alt"></i>
                                                 <div class="alert alert-danger"
@@ -199,13 +200,14 @@
                                                 <input type="password" name="passwordconfirmation" class="form-style"
                                                     placeholder="Confirmed Password" id="confpass" autocomplete="off"
                                                     required [(ngModel)]="userinscriptiondetails.passwordconfirmation"
-                                                    (ngModelChange)="checkPasswordMatch()"
-                                                    pattern="^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$">
-
+                                                    (ngModelChange)="checkPasswordMatch();passwordIsValid($event)"
+                                                    pattern="^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$"
+                                                    >
+                                                    <!-- [ngClass]="{'ng-invalid': !passwordMatch && !patternRespected}" -->
                                                 <i class="input-icon uil uil-lock-alt"></i>
                                             </div>
 
-                                            <svg *ngIf="secondFaceGroup.valid" (click)="changingFace($event)"
+                                            <svg *ngIf="secondFaceGroup.valid && passwordMatch" (click)="changingFace($event)"
                                                 class='nextArrow toThirdFace' xmlns="http://www.w3.org/2000/svg"
                                                 width="16" height="16" viewBox="0 0 24 24" fill="none"
                                                 stroke="currentColor" stroke-width="2" stroke-linecap="round"

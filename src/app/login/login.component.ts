@@ -16,7 +16,9 @@ export class LoginComponent {
 
   //* Variables related to the view template 
 
-  passwordMatch !:boolean ;
+  passwordMatch !: boolean;
+  patternRespected !: boolean ;
+  pattern: any = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/;
 
 
   userinscriptiondetails: User = {
@@ -151,7 +153,7 @@ export class LoginComponent {
             response[0],
             'success'
           )
-        }else {
+        } else {
           Swal.fire({
             title: 'Error!',
             text: response[0],
@@ -221,16 +223,29 @@ export class LoginComponent {
   }
 
   //* Check the password match using ngModelChange 
-  checkPasswordMatch(){
+  checkPasswordMatch(): void {
 
-    if(this.userinscriptiondetails.password == this.userinscriptiondetails.passwordconfirmation){
+    if (this.userinscriptiondetails.password == this.userinscriptiondetails.passwordconfirmation) {
       console.log("Passwords are equal");
-      this.passwordMatch = true ;
-    }else {
+      this.passwordMatch = true;
+    } else {
       console.log("Passwords are not equal");
       this.passwordMatch = false;
     }
   }
+
+  passwordIsValid(event: Event): void {
+    const input = event.target as HTMLInputElement;
+
+    if (this.passwordMatch && this.pattern.test(input.value)) {
+      this.patternRespected == true;
+    } else {
+      this.patternRespected = false;
+
+    }
+
+  }
+
 
 }
 
