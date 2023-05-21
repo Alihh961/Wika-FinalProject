@@ -108,8 +108,9 @@ export class LoginComponent {
     // undisabled the address input to set a new address
     this.input.nativeElement.removeAttribute("disabled", "");
 
-    // empty the value of the input 
-    this.input.nativeElement.value = "";
+    // empty the value of the inputs
+    this.userinscriptiondetails.street = "";
+    this.userinscriptiondetails.buildingnumber = "";
 
     // 
     this.submitbutton.nativeElement.setAttribute('disabled', 'true');

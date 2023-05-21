@@ -253,7 +253,7 @@
 
                                                     <input type="text" name="buildingnumber" placeholder="Bld. №"
                                                         class="form-style p-0 text-center"
-                                                        [(ngModel)]="userinscriptiondetails.buildingnumber">
+                                                        [(ngModel)]="userinscriptiondetails.buildingnumber" required>
 
                                                     <input type="button" value="Reset Address" (click)="resetInput()">
 
@@ -270,7 +270,7 @@
                                                     class=" align-self-start">Gender:</label>
                                                 <div>
                                                     <input type="radio" name="gender" value="male"
-                                                        [(ngModel)]="userinscriptiondetails.gender" #gender>
+                                                        [(ngModel)]="userinscriptiondetails.gender" #gender required>
                                                     <span> Male</span>
                                                 </div>
                                                 <div>
