@@ -15,8 +15,8 @@ import { FormGroup, NgForm } from '@angular/forms';
 export class LoginComponent {
 
   //* Variables related to the view template 
-  
-  displayingWelcomeMessage :boolean = false ;
+
+  displayingWelcomeMessage: boolean = false;
 
   userinscriptiondetails: User = {
     firstname: '',
@@ -133,19 +133,40 @@ export class LoginComponent {
 
     const url = "http://localhost/backend/inscription.php";
 
-    this.http.post<any>(url, this.userinscriptiondetails).subscribe(
+    this.http.post<any[]>(url, this.userinscriptiondetails).subscribe(
       (response) => {
         // Handle success response
-        console.log(response);
-        Swal.fire(
-          'Good job!',
-          'You clicked the button!',
-          'success'
-        )
+        console.log(response[0]);
+        if (response[0] === "An account associated to this email!") {
+          Swal.fire(
+            'Ops',
+            response[0],
+            'error'
+          )
+        } else if (response[0] === "Account has been successfully registered") {
+          Swal.fire(
+            'Good job!',
+            response[0],
+            'success'
+          )
+        }else {
+          Swal.fire({
+            title: 'Error!',
+            text: response[0],
+            icon: 'error',
+            confirmButtonText: 'Try Again'
+          })
+        }
+
       },
       (error) => {
         // Handle error response
-        console.error(error);
+        Swal.fire({
+          title: 'Error!',
+          text: error,
+          icon: 'error',
+          confirmButtonText: 'Cool'
+        })
       }
     );
 
