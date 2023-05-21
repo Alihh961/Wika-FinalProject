@@ -25,7 +25,7 @@
                                 <form class="card-front">
                                     <div class="center-wrap full-height">
                                         <div class="section text-center">
-                                            <!-- <h4 class="mb-4 pb-3">Log In</h4> -->
+                                            <h4 class="mb-4 pb-3">Log In</h4>
                                             <div class="form-group m-auto">
                                                 <input type="email" name="logemail" class="form-style"
                                                     placeholder="Your Email" id="logemail" autocomplete="off">
@@ -59,8 +59,8 @@
                                     id="targeter" #registrationForm="ngForm"
                                     (ngSubmit)="onRegFormSubmit(registrationForm)" (ngModelChange)="onBlur($event)">
 
-                                    <!-- <h4 class="">Sign Up</h4> -->
-                                    <!-- <br><br> -->
+                                    <br><br>
+                                    <h4 class="">Sign Up</h4>
 
 
                                     <div class="center-wrap full-height section text-center d-flex gap-5 px-5">
@@ -130,12 +130,12 @@
                                             </div>
 
                                             <svg *ngIf="firstFaceGroup.valid" class="nextArrow toSecondFace"
-                                                (click)="chaningFace($event)" xmlns="http://www.w3.org/2000/svg"
+                                                (click)="changingFace($event)" xmlns="http://www.w3.org/2000/svg"
                                                 width="16" height="16" viewBox="0 0 24 24" fill="none"
                                                 stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                                 stroke-linejoin="round">
                                                 <path d="M5 12h14M12 5l7 7-7 7" class="nextArrow toSecondFace"
-                                                    (click)="chaningFace($event)" />
+                                                    (click)="changingFace($event)" />
                                             </svg>
 
                                         </div>
@@ -153,9 +153,8 @@
                                                 <input type="email" name="inscriptionemail" class="form-style"
                                                     placeholder="Your Email" autocomplete="off"
                                                     [(ngModel)]="userinscriptiondetails.email" #email="ngModel"
-                                                    required>
+                                                    pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" required>
                                                 <i class="input-icon uil uil-at"></i>
-                                                <!-- pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"  -->
 
                                                 <div class="alert alert-danger"
                                                     *ngIf="email.invalid && (email.dirty || email.touched)">
@@ -175,17 +174,23 @@
                                             <div class="form-group mt-2">
                                                 <input type="password" name="password" class="form-style"
                                                     placeholder="Your Password" id="pass" autocomplete="off" required
-                                                    [(ngModel)]="userinscriptiondetails.password" #pass="ngModel">
-                                                <!-- pattern="^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$" -->
-                                                <!-- pattern="/^[a-zA-Z]+$/" -->
+                                                    [(ngModel)]="userinscriptiondetails.password" #pass="ngModel"
+                                                    pattern="^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$"
+                                                    (ngModelChange)="checkPasswordMatch()">
+
 
                                                 <i class="input-icon uil uil-lock-alt"></i>
                                                 <div class="alert alert-danger"
                                                     *ngIf="pass.invalid && (pass.touched || pass.dirty)">
                                                     <span>At Least one LowerCase,UpperCase,SpaecialCharacter
-                                                        and
-                                                        Number</span>
+                                                        ,Number (total of 8 characters)</span>
                                                 </div>
+
+                                                <div class="alert alert-danger" *ngIf="!passwordMatch && pass.dirty">
+                                                    <span>Password doesn't match!</span>
+                                                </div>
+
+
                                             </div>
 
 
@@ -193,25 +198,27 @@
                                             <div class="form-group mt-2">
                                                 <input type="password" name="passwordconfirmation" class="form-style"
                                                     placeholder="Confirmed Password" id="confpass" autocomplete="off"
-                                                    required [(ngModel)]="userinscriptiondetails.passwordconfirmation">
-                                                <!-- pattern="^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$" -->
+                                                    required [(ngModel)]="userinscriptiondetails.passwordconfirmation"
+                                                    (ngModelChange)="checkPasswordMatch()"
+                                                    pattern="^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$">
+
                                                 <i class="input-icon uil uil-lock-alt"></i>
                                             </div>
 
-                                            <svg *ngIf="secondFaceGroup.valid" (click)="chaningFace($event)"
+                                            <svg *ngIf="secondFaceGroup.valid" (click)="changingFace($event)"
                                                 class='nextArrow toThirdFace' xmlns="http://www.w3.org/2000/svg"
                                                 width="16" height="16" viewBox="0 0 24 24" fill="none"
                                                 stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                                 stroke-linejoin="round">
-                                                <path d="M5 12h14M12 5l7 7-7 7" (click)="chaningFace($event)"
+                                                <path d="M5 12h14M12 5l7 7-7 7" (click)="changingFace($event)"
                                                     class='nextArrow toThirdFace' />
                                             </svg>
 
-                                            <svg (click)="chaningFace($event)" class="previousArrow toFirstFace"
+                                            <svg (click)="changingFace($event)" class="previousArrow toFirstFace"
                                                 xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                                 viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                                                 stroke-linecap="round" stroke-linejoin="round">
-                                                <path d="M19 12H5M12 19L5 12l7-7" (click)="chaningFace($event)"
+                                                <path d="M19 12H5M12 19L5 12l7-7" (click)="changingFace($event)"
                                                     class="previousArrow toFirstFace" />
                                             </svg>
 
@@ -278,15 +285,14 @@
                                             <button class="btn" [disabled]="registrationForm.invalid"
                                                 #submitButton>Submit
                                             </button>
-                                            <svg class=" previousArrow toSecondFace" (click)=" chaningFace($event)"
+                                            <svg class=" previousArrow toSecondFace" (click)=" changingFace($event)"
                                                 xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                                 viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                                                 stroke-linecap="round" stroke-linejoin="round">
                                                 <path d="M19 12H5M12 19L5 12l7-7" class="previousArrow toSecondFace"
-                                                    (click)=" chaningFace($event)" />
+                                                    (click)=" changingFace($event)" />
                                             </svg>
 
-                                            <!-- <div>Next</div> -->
                                         </div>
                                         <!-- End of Third Face  -->
 

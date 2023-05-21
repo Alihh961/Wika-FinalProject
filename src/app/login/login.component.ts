@@ -16,7 +16,8 @@ export class LoginComponent {
 
   //* Variables related to the view template 
 
-  displayingWelcomeMessage: boolean = false;
+  passwordMatch !:boolean ;
+
 
   userinscriptiondetails: User = {
     firstname: '',
@@ -133,7 +134,7 @@ export class LoginComponent {
 
     const url = "http://localhost/backend/inscription.php";
 
-    this.http.post<any[]>(url, this.userinscriptiondetails).subscribe(
+    this.http.post<string[]>(url, this.userinscriptiondetails).subscribe(
       (response) => {
         // Handle success response
         console.log(response[0]);
@@ -195,7 +196,7 @@ export class LoginComponent {
   }
 
   //* Switching between The Form Faces
-  chaningFace(click: MouseEvent): void {
+  changingFace(click: MouseEvent): void {
 
     const button = click.target as HTMLDivElement;
 
@@ -215,6 +216,18 @@ export class LoginComponent {
     } else { //* From Second Face to Third Face
       this.secondFace.nativeElement.style.right = "110%";
       this.thirdFace.nativeElement.style.right = "13%";
+    }
+  }
+
+  //* Check the password match using ngModelChange 
+  checkPasswordMatch(){
+
+    if(this.userinscriptiondetails.password == this.userinscriptiondetails.passwordconfirmation){
+      console.log("Passwords are equal");
+      this.passwordMatch = true ;
+    }else {
+      console.log("Passwords are not equal");
+      this.passwordMatch = false;
     }
   }
 
