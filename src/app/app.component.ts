@@ -8,6 +8,11 @@ import { Component, Renderer2 } from '@angular/core';
 })
 export class AppComponent {
   constructor() { }
+  logState:boolean = false;
 
+  loggedIn(value :boolean){
+
+    this.logState = true;
+  }
 
   }

@@ -21,7 +21,6 @@ import { HeaderComponent } from './header/header.component';
 import { PopularcreatorsComponent } from './popularcreators/popularcreators.component';
 import { FooterComponent } from './footer/footer.component';
 import { LoginComponent } from './login/login.component';
-import { MessagebootstrapComponent } from './messagebootstrap/messagebootstrap.component';
 
 const appRoutes: Routes = [
     // { path: '' ,redirectTo: 'home' , pathMatch: 'full'},
@@ -51,7 +50,6 @@ const appRoutes: Routes = [
     PopularcreatorsComponent,
     FooterComponent,
     LoginComponent,
-    MessagebootstrapComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,4 +1,4 @@
-export interface User {
+export interface UserInscription {
 
     firstname: string,
     lastname:string,
@@ -11,3 +11,15 @@ export interface User {
     gender:string,
 }
 
+export interface UserInfo {
+
+    firstname :string ,
+    lastname :string,
+
+}
+
+export interface Cathe {
+
+    email:string,
+    password:string
+}

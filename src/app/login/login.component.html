@@ -22,13 +22,15 @@
 
 
                                 <!-- Login form  -->
-                                <form class="card-front">
+                                <form class="card-front" (ngSubmit)="loginMethod($event)">
                                     <div class="center-wrap full-height">
                                         <div class="section text-center">
                                             <h4 class="mb-4 pb-3">Log In</h4>
                                             <div class="form-group m-auto">
                                                 <input type="email" name="logemail" class="form-style"
-                                                    placeholder="Your Email" id="logemail" autocomplete="off">
+                                                    placeholder="Your Email" id="logemail" autocomplete="off"  
+                                                    [(ngModel)]="emailPass.email"
+                                                    required>
                                                 <i class="input-icon uil uil-at"></i>
                                             </div>
 
@@ -37,7 +39,8 @@
 
                                             <div class="form-group m-auto mt-2">
                                                 <input type="password" name="logpass" class="form-style"
-                                                    placeholder="Your Password" id="logpass" autocomplete="off">
+                                                    placeholder="Your Password" id="logpass" autocomplete="off"
+                                                    [(ngModel)]="emailPass.password" required>
                                                 <i class="input-icon uil uil-lock-alt"></i>
                                             </div>
 
@@ -177,8 +180,7 @@
                                                     [(ngModel)]="userinscriptiondetails.password" #pass="ngModel"
                                                     pattern="^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$"
                                                     (ngModelChange)="checkPasswordMatch();passwordIsValid($event)"
-                                                    >
-                                                    <!-- [ngClass]="{'ng-invalid': !passwordMatch && !patternRespected}" -->
+                                                    [ngClass]="{'ng-invalid': !passwordMatch || !patternRespected}">
 
                                                 <i class="input-icon uil uil-lock-alt"></i>
                                                 <div class="alert alert-danger"
@@ -202,16 +204,15 @@
                                                     required [(ngModel)]="userinscriptiondetails.passwordconfirmation"
                                                     (ngModelChange)="checkPasswordMatch();passwordIsValid($event)"
                                                     pattern="^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$"
-                                                    >
-                                                    <!-- [ngClass]="{'ng-invalid': !passwordMatch && !patternRespected}" -->
+                                                    [ngClass]="{'ng-invalid': !passwordMatch || !patternRespected}">
                                                 <i class="input-icon uil uil-lock-alt"></i>
                                             </div>
 
-                                            <svg *ngIf="secondFaceGroup.valid && passwordMatch" (click)="changingFace($event)"
-                                                class='nextArrow toThirdFace' xmlns="http://www.w3.org/2000/svg"
-                                                width="16" height="16" viewBox="0 0 24 24" fill="none"
-                                                stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                                stroke-linejoin="round">
+                                            <svg *ngIf="secondFaceGroup.valid && passwordMatch"
+                                                (click)="changingFace($event)" class='nextArrow toThirdFace'
+                                                xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                                stroke-linecap="round" stroke-linejoin="round">
                                                 <path d="M5 12h14M12 5l7 7-7 7" (click)="changingFace($event)"
                                                     class='nextArrow toThirdFace' />
                                             </svg>
@@ -312,4 +313,3 @@
     <hr>
 </section>
 
-<!-- <app-messagebootstrap></app-messagebootstrap> -->

@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild, AfterViewInit, asNativeElements, HostListener } from '@angular/core';
+import { Component, ElementRef, ViewChild, AfterViewInit, asNativeElements, HostListener, Input, AfterViewChecked } from '@angular/core';
 
 
 @Component({
@@ -7,7 +7,7 @@ import { Component, ElementRef, ViewChild, AfterViewInit, asNativeElements, Host
   styleUrls: ['./header.component.scss'],
 
 })
-export class HeaderComponent implements AfterViewInit {
+export class HeaderComponent implements AfterViewChecked {
 
   constructor() { }
   // @ViewChild('menuburgericon', { static: false }) menuburgericon: ElementRef | undefined;
@@ -17,12 +17,14 @@ export class HeaderComponent implements AfterViewInit {
 
   logoSource: string = './assets/imgs/WIKA_Logo.png';
   isOpened: boolean = false;
+  @Input() loggedIn: boolean = false;
 
-  ngAfterViewInit(): void {
-    
-  }
 
-  ngOnInit() {}
+
+  ngAfterViewChecked() {
+    console.log("the value is " + this.loggedIn);
+
+   }
 
   @HostListener('window:scroll')// listen to the scroll event;
 
@@ -32,7 +34,7 @@ export class HeaderComponent implements AfterViewInit {
 
       headerElement.classList.add("onScroll");
 
-    } else{
+    } else {
       headerElement.classList.remove("onScroll");
     }
   }

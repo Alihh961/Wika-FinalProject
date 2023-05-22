@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import Swal from 'sweetalert2';
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Output, ViewChild } from '@angular/core';
 import { Feature, FeatureCollection } from '../Interface/AddressResults';
-import { User } from '../Interface/userdetails';
+import { UserInscription, UserInfo, Cathe } from '../Interface/userdetails';
 import { FormGroup, NgForm } from '@angular/forms';
 
 
@@ -17,11 +17,13 @@ export class LoginComponent {
   //* Variables related to the view template 
 
   passwordMatch !: boolean;
-  patternRespected !: boolean ;
+  patternRespected: boolean = false;
   pattern: any = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/;
+  loggedin: boolean = false;
 
+  @Output() emitValue: EventEmitter<boolean> = new EventEmitter<boolean>();
 
-  userinscriptiondetails: User = {
+  userinscriptiondetails: UserInscription = {
     firstname: '',
     lastname: '',
     email: '',
@@ -32,6 +34,16 @@ export class LoginComponent {
     buildingnumber: '',
     gender: ''
   };
+
+  userLogged: UserInfo = {
+    firstname: "",
+    lastname: ""
+  }
+
+  emailPass: Cathe = {
+    email: "",
+    password: ""
+  }
 
   maxDate!: string; // maxDate for the calendar to prevent under 18 from inscrire
 
@@ -62,6 +74,7 @@ export class LoginComponent {
   ngOnInit(): void {
 
     this.autorizedAgeOfNewUsers();
+    console.log(this.loggedin);
   }
 
   //* Searching for address when a change happens
@@ -246,7 +259,26 @@ export class LoginComponent {
 
   }
 
+  loginMethod(event: Event) {
+    event.preventDefault();
 
+    const form = (event.target as unknown) as NgForm;
+    const url = "http://localhost/backend/login.php?email=" + this.emailPass.email + "&password=" + this.emailPass.password;
+
+    this.http.get<any>(url).subscribe(data => {
+      this.userLogged.firstname = data.firstname;
+      this.userLogged.lastname = data.lastname;
+      this.loggedin = true;
+      this.isLoggedIn();
+      console.log(this.loggedin);
+    }, error => {
+      console.log(error);
+    })
+    // console.log(email.logemail);
+  }
+  isLoggedIn(){
+    this.emitValue.emit(this.loggedin);
+  }
 }
 
 
