@@ -1,4 +1,5 @@
 import { Component, ElementRef, ViewChild, AfterViewInit, asNativeElements, HostListener, Input, AfterViewChecked } from '@angular/core';
+import { LoginBooleanService } from '../services/login-boolean.service';
 
 
 @Component({
@@ -9,20 +10,26 @@ import { Component, ElementRef, ViewChild, AfterViewInit, asNativeElements, Host
 })
 export class HeaderComponent implements AfterViewChecked {
 
-  constructor() { }
-  // @ViewChild('menuburgericon', { static: false }) menuburgericon: ElementRef | undefined;
-  // @ViewChild('menuList', { static: false }) menuList: ElementRef | undefined;
+  constructor(private loginServiceInstance :LoginBooleanService) { }
+
 
   @ViewChild('header') header!: ElementRef; // getting header tag from view template
 
   logoSource: string = './assets/imgs/WIKA_Logo.png';
   isOpened: boolean = false;
-  @Input() loggedIn: boolean = false;
+  receivedLoginStatus !:boolean;
 
+  ngOnInit(){
+    this.loginServiceInstance.getValue().subscribe(
+      (data=>{
+        this.receivedLoginStatus = data;
+        console.log(data+"header component loginstatus");
+      })
+    )
+  }
 
 
   ngAfterViewChecked() {
-    console.log("the value is " + this.loggedIn);
 
    }
 

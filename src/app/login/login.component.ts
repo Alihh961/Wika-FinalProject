@@ -4,6 +4,7 @@ import { Component, ElementRef, EventEmitter, Output, ViewChild } from '@angular
 import { Feature, FeatureCollection } from '../Interface/AddressResults';
 import { UserInscription, UserInfo, Cathe } from '../Interface/userdetails';
 import { FormGroup, NgForm } from '@angular/forms';
+import { LoginBooleanService } from '../services/login-boolean.service';
 
 
 
@@ -65,7 +66,7 @@ export class LoginComponent {
   @ViewChild("registrationForm") regForm !: FormGroup;
 
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private loginBooleanInstance: LoginBooleanService) {
 
   }
 
@@ -268,16 +269,19 @@ export class LoginComponent {
     this.http.get<any>(url).subscribe(data => {
       this.userLogged.firstname = data.firstname;
       this.userLogged.lastname = data.lastname;
-      this.loggedin = true;
-      this.isLoggedIn();
-      console.log(this.loggedin);
+      console.log(data);
+      if (data.firstname && data.lastname) {
+        this.loggedin = true;
+        this.sendValue();
+      }
+
     }, error => {
       console.log(error);
     })
     // console.log(email.logemail);
   }
-  isLoggedIn(){
-    this.emitValue.emit(this.loggedin);
+  sendValue() {
+    this.loginBooleanInstance.setValue(this.loggedin);
   }
 }
 
