@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import Swal from 'sweetalert2';
-import { Component, ElementRef, EventEmitter, Output, ViewChild } from '@angular/core';
+import { Component, ElementRef,ViewChild } from '@angular/core';
 import { Feature, FeatureCollection } from '../Interface/AddressResults';
 import { UserInscription, UserInfo, Cathe } from '../Interface/userdetails';
 import { FormGroup, NgForm } from '@angular/forms';
@@ -22,7 +22,6 @@ export class LoginComponent {
   pattern: any = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/;
   loggedin: boolean = false;
 
-  @Output() emitValue: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   userinscriptiondetails: UserInscription = {
     firstname: '',
@@ -263,7 +262,7 @@ export class LoginComponent {
   loginMethod(event: Event) {
     event.preventDefault();
 
-    const form = (event.target as unknown) as NgForm;
+    // const form = (event.target as unknown) as NgForm;
     const url = "http://localhost/backend/login.php?email=" + this.emailPass.email + "&password=" + this.emailPass.password;
 
     this.http.get<any>(url).subscribe(data => {
