@@ -11,15 +11,3 @@ export interface UserInscription {
     gender:string,
 }
 
-export interface UserInfo {
-
-    firstname :string ,
-    lastname :string,
-
-}
-
-export interface Cathe {
-
-    email:string,
-    password:string
-}

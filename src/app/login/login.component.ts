@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import Swal from 'sweetalert2';
-import { Component, ElementRef,ViewChild } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { Feature, FeatureCollection } from '../Interface/AddressResults';
-import { UserInscription, UserInfo, Cathe } from '../Interface/userdetails';
+import { UserInscription } from '../Interface/userdetails';
 import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 import { LoginBooleanService } from '../services/login-boolean.service';
 import { AuthenticationService } from '../services/authentication.service';
@@ -22,7 +22,7 @@ export class LoginComponent {
   patternRespected: boolean = false;
   pattern: any = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/;
   loggedin: boolean = false;
-  token :string ="";
+  token: string = "";
 
 
   userinscriptiondetails: UserInscription = {
@@ -37,19 +37,10 @@ export class LoginComponent {
     gender: ''
   };
 
-  userLogged: UserInfo = {
-    firstname: "",
-    lastname: ""
-  }
 
-  emailPass: Cathe = {
-    email: "",
-    password: ""
-  }
-  loginFormInfo !:FormGroup;
-  faceOneGroup !:FormGroup;
-  faceTwoGroup !:FormGroup;
-  faceThreeGroup !:FormGroup;
+  loginFormInfo !: FormGroup;
+  registrationFormGroup !: FormGroup;
+
 
   maxDate!: string; // maxDate for the calendar to prevent under 18 from inscrire
 
@@ -71,7 +62,7 @@ export class LoginComponent {
   @ViewChild("registrationForm") regForm !: FormGroup;
 
 
-  constructor(private http: HttpClient, private loginBooleanInstance: LoginBooleanService , private authService:AuthenticationService) {
+  constructor(private http: HttpClient, private loginBooleanInstance: LoginBooleanService, private authService: AuthenticationService) {
 
   }
 
@@ -80,9 +71,9 @@ export class LoginComponent {
   ngOnInit(): void {
 
     this.autorizedAgeOfNewUsers();
-   
-
-    console.log(this.loggedin);
+    this.initLogForm();
+    this.initRegistrationForm();
+    // console.log(this.loggedin);
   }
 
   //* Searching for address when a change happens
@@ -154,7 +145,7 @@ export class LoginComponent {
   };
 
   //* Submitting the form
-  onRegFormSubmit(form: NgForm): void {
+  onRegFormSubmit(): void {
 
     const url = "http://localhost/backend/inscription.php";
 
@@ -205,11 +196,24 @@ export class LoginComponent {
     const currentMonth: number = currentDate.getMonth();
     const currentDay: number = currentDate.getDate();
 
-    const max = new Date(currentYear - 18, currentMonth, currentDay);
-    this.maxDate = max.toISOString().slice(0, 10); // get "YYYY-MM-DD" format
+    // this.maxDate = new Date(currentYear - 18, currentMonth, currentDay);
+    // this.maxDate = max.toISOString().slice(0, 10); // get "YYYY-MM-DD" format
 
 
   }
+  ageValidator(control: FormControl) {
+
+    const userAge = control.value;
+    const currentDate = new Date();
+    const minDate = new Date(currentDate.getFullYear() - 18, currentDate.getMonth(), currentDate.getDate());
+
+    if (userAge && userAge > minDate) {
+      return null; // Valid age
+    }
+
+    return { ageInvalid: true }; // Age is less than 18
+  }
+
 
   //* Checking the value of address on blur
   onBlur(element: any): void {
@@ -267,31 +271,76 @@ export class LoginComponent {
 
   }
 
- initForm(){
+  initLogForm() {
     this.loginFormInfo = new FormGroup({
-      logemail : new FormControl ("",[Validators.required]),
-      logpassword : new FormControl ("",[Validators.required])
+      logemail: new FormControl("", [
+        Validators.required,
+        Validators.pattern("[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$")
+      ]),
+      logpassword: new FormControl("", [Validators.required])
 
-    })};
-  loginMethod(event: Event) {
-    event.preventDefault();
+    })
+    // console.log(this.loginFormInfo);
+  };
+  get logemail() {
+    return this.loginFormInfo.get("logemail");
+  }
+  get logPassword() {
+    return this.loginFormInfo.get("logPassword");
+  }
 
-    this.authService.login(this.emailPass).subscribe(data => {
+  initRegistrationForm() {
+    this.registrationFormGroup = new FormGroup({
+      firstFaceGroup: new FormGroup({
+        firstName: new FormControl(null, [
+          Validators.required,
+          Validators.pattern("^[a-zA-Z]+$")
+        ]),
+        lastName: new FormControl(null, [
+          Validators.required,
+          Validators.pattern("^[a-zA-Z\s]+$")
+        ]),
+        birthdate: new FormControl(null, [
+          Validators.required,
+    
+        ])
+      }),
 
-      if(this.loginFormInfo.valid){
-      console.log(data);
-}else{
-  alert("Both email and password are required");
-}
+      secondFaceGroup: new FormGroup({
+        email: new FormControl(null, [
+          Validators.required,
+          Validators.pattern("[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$")
+        ]),
+        password: new FormControl(null, [Validators.required]),
+        confPassword: new FormControl(null, [Validators.required])
+      }),
+
+      thirdFaceGroup: new FormGroup({
+        street: new FormControl(null, Validators.required),
+        buildingnumber: new FormControl(null, Validators.required),
+        gender: new FormControl(null, Validators.required)
+      })
+    })
+  }
+
+
+
+  loginMethod() {
+
+    this.authService.login(this.loginFormInfo).subscribe(data => {
+
+      if (this.loginFormInfo.valid) {
+        console.log(data);
+      } else {
+        alert("Both email and password are required");
+      }
 
     }, error => {
       console.log(error);
     })
     // console.log(email.logemail);
   }
-  sendValue() {
-    this.loginBooleanInstance.setValue(this.loggedin);
-  }
+
 }
 
 

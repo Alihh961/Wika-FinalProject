@@ -22,31 +22,39 @@
 
 
                                 <!-- Login form  -->
-                                <form class="card-front" (ngSubmit)="loginMethod($event)" [formGroup]="loginFormInfo">
+                                <form class="card-front" (ngSubmit)="loginMethod()" [formGroup]="loginFormInfo">
                                     <div class="center-wrap full-height">
                                         <div class="section text-center">
                                             <h4 class="mb-4 pb-3">Log In</h4>
                                             <div class="form-group m-auto">
-                                                <input type="email" name="logemail" class="form-style"
-                                                    placeholder="Your Email" id="logemail" autocomplete="off"  
-                                                    [(ngModel)]="emailPass.email" formControlName="logemail"
-                                                    required>
+                                                <input type="email" class="form-style" placeholder="Your Email"
+                                                    autocomplete="off" formControlName="logemail">
                                                 <i class="input-icon uil uil-at"></i>
+                                                <small
+                                                    *ngIf="loginFormInfo.get('logemail')?.errors?.['required'] && logemail?.touched ">Email
+                                                    is Required!</small>
+                                                <small
+                                                    *ngIf="logemail?.errors?.['pattern'] && (logemail?.touched || logemail?.dirty)">
+                                                    Invalid email format!
+                                                </small>
                                             </div>
 
 
 
 
                                             <div class="form-group m-auto mt-2">
-                                                <input type="password" name="logpass" class="form-style"
-                                                    placeholder="Your Password" id="logpass" autocomplete="off"
-                                                    [(ngModel)]="emailPass.password" formControlName="logpassword" required>
+                                                <input type="password" class="form-style" placeholder="Your Password"
+                                                    autocomplete="off" formControlName="logpassword">
                                                 <i class="input-icon uil uil-lock-alt"></i>
+                                                <small *ngIf="logPassword?.invalid &&
+                                                (logPassword?.touched || logPassword?.dirty)">Password is
+                                                    Required!</small>
+
                                             </div>
 
 
 
-                                            <button class="btn mt-4">Log-in</button>
+                                            <button [disabled]="loginFormInfo.invalid" class="btn mt-4">Log-in</button>
 
 
                                             <p class="mb-0 mt-4 text-center"><a href="#0" class="link">Forgot your
@@ -58,9 +66,8 @@
 
 
                                 <!-- Registration form -->
-                                <form action="http://localhost/backend/inscription.php" method="POST" class="card-back"
-                                    id="targeter" #registrationForm="ngForm"
-                                    (ngSubmit)="onRegFormSubmit(registrationForm)" (ngModelChange)="onBlur($event)">
+                                <form class="card-back" [formGroup]="registrationFormGroup"
+                                    (ngSubmit)="onRegFormSubmit()" (ngModelChange)="onBlur($event)">
 
                                     <br><br>
                                     <h4 class="">Sign Up</h4>
@@ -70,47 +77,43 @@
 
 
                                         <!-- Start First Face  -->
-                                        <div class="firstFace face" #firstFace #firstFaceGroup="ngModelGroup"
-                                            ngModelGroup="firstFaceGroup" [formGroup]="faceOneGroup">
+                                        <div class="firstFace face" #firstFace formGroupName="firstFaceGroup">
 
                                             <!-- First name -->
                                             <div class="form-group">
-                                                <input type="text" name="firstname" class="form-style"
-                                                    placeholder="First Name" autocomplete="off" required
-                                                    pattern="^[a-zA-Z]+$" [(ngModel)]="userinscriptiondetails.firstname"
-                                                    #firstname="ngModel">
+                                                <input type="text" class="form-style" placeholder="First Name"
+                                                    autocomplete="off" formControlName="firstName">
                                                 <i class="input-icon uil uil-user"></i>
-                                                <div class="alert alert-danger"
-                                                    *ngIf="firstname.invalid && (firstname.dirty || firstname.touched)">
 
-                                                    <div *ngIf="firstname.errors?.['required']">
-                                                        First name is required.
-                                                    </div>
-                                                    <div *ngIf="firstname.errors?.['pattern']">
-                                                        Invalid format.
-                                                    </div>
+                                                <small class="alert alert-danger" *ngIf="registrationFormGroup.get('firstFaceGroup.firstName')?.errors?.['required']
+                                                    && (registrationFormGroup.get('firstFaceGroup.firstName')?.touched ||
+                                                    registrationFormGroup.get('firstFaceGroup.firstName')?.dirty)">
+                                                    First name is required!
+                                                </small>
+                                                <small class="alert alert-danger" *ngIf="registrationFormGroup.get('firstFaceGroup.firstName')?.errors?.['pattern']
+                                                    && (registrationFormGroup.get('firstFaceGroup.firstName')?.touched ||
+                                                    registrationFormGroup.get('firstFaceGroup.firstName')?.dirty)">
+                                                    Only letters are allowed!
+                                                </small>
 
-                                                </div>
                                             </div>
 
 
                                             <!-- Last name -->
                                             <div class="form-group mt-2">
-                                                <input type="text" name="lastname" class="form-style"
-                                                    placeholder="Last Name" autocomplete="off"
-                                                    [(ngModel)]="userinscriptiondetails.lastname" #lastname="ngModel"
-                                                    pattern="^[a-zA-Z\s]+$" required>
+                                                <input type="text" class="form-style" placeholder="Last Name"
+                                                    autocomplete="off" formControlName="lastName">
                                                 <i class="input-icon uil uil-user"></i>
-                                                <div class="alert alert-danger"
-                                                    *ngIf="lastname.invalid && (lastname.dirty || lastname.touched)">
-
-                                                    <div *ngIf="lastname.errors?.['required']">
-                                                        Last name is required.
-                                                    </div>
-                                                    <div *ngIf="lastname.errors?.['pattern']">
-                                                        Invalid format.
-                                                    </div>
-                                                </div>
+                                                <small class="alert alert-danger" *ngIf="registrationFormGroup.get('firstFaceGroup.lastName')?.errors?.['required']
+                                                    && (registrationFormGroup.get('firstFaceGroup.lastName')?.touched ||
+                                                    registrationFormGroup.get('firstFaceGroup.lastName')?.dirty)">
+                                                    Lastname is required!
+                                                </small>
+                                                <small class="alert alert-danger" *ngIf="registrationFormGroup.get('firstFaceGroup.lastName')?.errors?.['pattern']
+                                                    && (registrationFormGroup.get('firstFaceGroup.lastName')?.touched ||
+                                                    registrationFormGroup.get('firstFaceGroup.lastName')?.dirty)">
+                                                    Only letters are allowed!
+                                                </small>
                                             </div>
 
 
@@ -118,25 +121,22 @@
                                             <!-- Date Of Birth -->
                                             <div class="form-group mt-2 d-flex flex-column">
                                                 <span class="position-absolute dob">Date of Birth</span>
-                                                <input type="date" name="dateofbirth" class="form-style"
-                                                    autocomplete="off" max="{{maxDate}}" #birthdate="ngModel"
-                                                    [(ngModel)]="userinscriptiondetails.birthdate" required>
+                                                <input type="date" class="form-style"
+                                                    autocomplete="off" max="{{maxDate}}" formControlName="birthdate">
                                                 <i class="input-icon uil uil-calendar-alt"></i>
 
-                                                <div *ngIf="birthdate.invalid && (birthdate.touched || birthdate.dirty)"
-                                                    class="alert alert-danger">
-                                                    <div *ngIf="birthdate.errors?.['required']">Birthdate is
+                                                <div class="alert alert-danger">
+                                                    <div>Birthdate is
                                                         required</div>
-                                                    <div *ngIf="birthdate.errors?.['minAge']">You must be at
+                                                    <div>You must be at
                                                         least 18 years old to register</div>
                                                 </div>
                                             </div>
 
-                                            <svg *ngIf="firstFaceGroup.valid" class="nextArrow toSecondFace"
-                                                (click)="changingFace($event)" xmlns="http://www.w3.org/2000/svg"
-                                                width="16" height="16" viewBox="0 0 24 24" fill="none"
-                                                stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                                stroke-linejoin="round">
+                                            <svg class="nextArrow toSecondFace" (click)="changingFace($event)"
+                                                xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                                stroke-linecap="round" stroke-linejoin="round">
                                                 <path d="M5 12h14M12 5l7 7-7 7" class="nextArrow toSecondFace"
                                                     (click)="changingFace($event)" />
                                             </svg>
@@ -148,24 +148,20 @@
 
 
                                         <!-- Start of Second Face -->
-                                        <div class="secondFace face" #secondFace #secondFaceGroup="ngModelGroup"
-                                            ngModelGroup="secondFaceGroup" [formGroup]="faceTwoGroup">
+                                        <div class="secondFace face" #secondFace formGroupName="secondFaceGroup">
 
                                             <!-- EMail -->
                                             <div class="form-group mt-2">
-                                                <input type="email" name="inscriptionemail" class="form-style"
-                                                    placeholder="Your Email" autocomplete="off"
-                                                    [(ngModel)]="userinscriptiondetails.email" #email="ngModel"
-                                                    pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" required>
+                                                <input type="email" class="form-style" placeholder="Your Email"
+                                                    autocomplete="off" formControlName="email">
                                                 <i class="input-icon uil uil-at"></i>
 
-                                                <div class="alert alert-danger"
-                                                    *ngIf="email.invalid && (email.dirty || email.touched)">
+                                                <div class="alert alert-danger">
 
-                                                    <div *ngIf="email.errors?.['required']">
+                                                    <div>
                                                         Email is required.
                                                     </div>
-                                                    <div *ngIf="email.errors?.['pattern'] ">
+                                                    <div>
                                                         Invalid email format.
                                                     </div>
                                                 </div>
@@ -175,21 +171,18 @@
 
                                             <!-- Password -->
                                             <div class="form-group mt-2">
-                                                <input type="password" name="password" class="form-style"
-                                                    placeholder="Your Password" id="pass" autocomplete="off" required
-                                                    [(ngModel)]="userinscriptiondetails.password" #pass="ngModel"
-                                                    pattern="^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$"
-                                                    (ngModelChange)="checkPasswordMatch();passwordIsValid($event)"
-                                                    [ngClass]="{'ng-invalid': !passwordMatch || !patternRespected}">
+                                                <input type="password" class="form-style" placeholder="Your Password"
+                                                    autocomplete="off" formControlName="password"
+                                                    pattern="^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$">
 
+                                                <!-- (ngModelChange)="checkPasswordMatch();passwordIsValid($event)" -->
                                                 <i class="input-icon uil uil-lock-alt"></i>
-                                                <div class="alert alert-danger"
-                                                    *ngIf="pass.invalid && (pass.touched || pass.dirty)">
+                                                <div class="alert alert-danger">
                                                     <span>At Least one LowerCase,UpperCase,SpaecialCharacter
                                                         ,Number (total of 8 characters)</span>
                                                 </div>
 
-                                                <div class="alert alert-danger" *ngIf="!passwordMatch && pass.dirty">
+                                                <div class="alert alert-danger">
                                                     <span>Password doesn't match!</span>
                                                 </div>
 
@@ -201,15 +194,13 @@
                                             <div class="form-group mt-2">
                                                 <input type="password" name="passwordconfirmation" class="form-style"
                                                     placeholder="Confirmed Password" id="confpass" autocomplete="off"
-                                                    required [(ngModel)]="userinscriptiondetails.passwordconfirmation"
-                                                    (ngModelChange)="checkPasswordMatch();passwordIsValid($event)"
-                                                    pattern="^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$"
-                                                    [ngClass]="{'ng-invalid': !passwordMatch || !patternRespected}">
+                                                    required formControlName="confPassword"
+                                                    pattern="^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$">
                                                 <i class="input-icon uil uil-lock-alt"></i>
+                                                <!-- (ngModelChange)="checkPasswordMatch();passwordIsValid($event)" -->
                                             </div>
 
-                                            <svg *ngIf="secondFaceGroup.valid && passwordMatch"
-                                                (click)="changingFace($event)" class='nextArrow toThirdFace'
+                                            <svg (click)="changingFace($event)" class='nextArrow toThirdFace'
                                                 xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                                 viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                                                 stroke-linecap="round" stroke-linejoin="round">
@@ -229,8 +220,7 @@
                                         <!-- End of Second Face  -->
 
                                         <!-- Start of Third Face -->
-                                        <div class="thirdFace face" #thirdFace #thirdFaceGroup="ngModelGroup"
-                                            ngModelGroup="thirdFaceGroup" [formGroup]="faceThreeGroup">
+                                        <div class="thirdFace face" #thirdFace formGroupName="thirdFaceGroup">
                                             <!-- Full Address -->
                                             <div class="form-group mt-2 d-flex align-items-start flex-column gap-2">
                                                 <span>Full Address:</span>
@@ -239,11 +229,11 @@
                                                 <div class="d-flex justify-content-between align-items-center">
                                                     <input class="form-style p-0 text-center" #input type="text"
                                                         name="street" placeholder="Street Name" autocomplete="off"
-                                                        [(ngModel)]="userinscriptiondetails.street"
-                                                        (ngModelChange)="searchingAddress(userinscriptiondetails.street)"
-                                                        (blur)="onBlur($event)" pattern="" required>
+                                                        formControlName="street" (blur)="onBlur($event)" pattern=""
+                                                        required>
                                                     <div class="addressResults" #addressResults>
 
+                                                        <!-- (ngModelChange)="searchingAddress(userinscriptiondetails.street)" -->
                                                         <div class="suggestions" #suggestions
                                                             *ngFor="let address of features"
                                                             (click)="selectaddress($event)">
@@ -256,7 +246,7 @@
 
                                                     <input type="text" name="buildingnumber" placeholder="Bld. №"
                                                         class="form-style p-0 text-center"
-                                                        [(ngModel)]="userinscriptiondetails.buildingnumber" required>
+                                                        formControlName="buildingnumber" required>
 
                                                     <input type="button" value="Reset Address" (click)="resetInput()">
 
@@ -273,20 +263,19 @@
                                                     class=" align-self-start">Gender:</label>
                                                 <div>
                                                     <input type="radio" name="gender" value="male"
-                                                        [(ngModel)]="userinscriptiondetails.gender" #gender required>
+                                                        formControlName="gender" #gender required>
                                                     <span> Male</span>
                                                 </div>
                                                 <div>
                                                     <input type="radio" name="gender" value="female"
-                                                        [(ngModel)]="userinscriptiondetails.gender" #gender>
+                                                        formControlName="gender" #gender>
                                                     <span> Female</span>
                                                 </div>
                                             </div>
 
 
 
-                                            <button class="btn" [disabled]="registrationForm.invalid"
-                                                #submitButton>Submit
+                                            <button class="btn" [disabled]="" #submitButton>Submit
                                             </button>
                                             <svg class=" previousArrow toSecondFace" (click)=" changingFace($event)"
                                                 xmlns="http://www.w3.org/2000/svg" width="16" height="16"
@@ -312,4 +301,3 @@
     </div>
     <hr>
 </section>
-
