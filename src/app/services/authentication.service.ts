@@ -13,7 +13,7 @@ export class AuthenticationService {
 
   login(credentials :any):Observable<any>{
 
-    const url = `${baseURL}login.php?email=${credentials.email}&password=${credentials.password}`;
+    const url = `${baseURL}login.php?email=${credentials.logemail}&password=${credentials.logpassword}`;
 
     return this.http.post(url,credentials);
   }

@@ -3,9 +3,10 @@ import Swal from 'sweetalert2';
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { Feature, FeatureCollection } from '../Interface/AddressResults';
 import { UserInscription } from '../Interface/userdetails';
-import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
+import { FormControl, FormGroup, NgForm, ValidationErrors, Validators } from '@angular/forms';
 import { LoginBooleanService } from '../services/login-boolean.service';
 import { AuthenticationService } from '../services/authentication.service';
+import { InputvalidationsService } from '../services/inputvalidations.service';
 
 
 
@@ -62,15 +63,14 @@ export class LoginComponent {
   @ViewChild("registrationForm") regForm !: FormGroup;
 
 
-  constructor(private http: HttpClient, private loginBooleanInstance: LoginBooleanService, private authService: AuthenticationService) {
+  constructor(private http: HttpClient, private loginBooleanInstance: LoginBooleanService, private authService: AuthenticationService,
+    private ageIsValid: InputvalidationsService) {
 
   }
 
 
 
   ngOnInit(): void {
-
-    this.autorizedAgeOfNewUsers();
     this.initLogForm();
     this.initRegistrationForm();
     // console.log(this.loggedin);
@@ -189,31 +189,16 @@ export class LoginComponent {
   }
 
   //* Displaying only the valid date of people over than 18 years old
-  autorizedAgeOfNewUsers(): void {
-    const currentDate: Date = new Date();
-
-    const currentYear: number = currentDate.getFullYear();
-    const currentMonth: number = currentDate.getMonth();
-    const currentDay: number = currentDate.getDate();
-
-    // this.maxDate = new Date(currentYear - 18, currentMonth, currentDay);
-    // this.maxDate = max.toISOString().slice(0, 10); // get "YYYY-MM-DD" format
+  ageValidator(control: FormControl): ValidationErrors | null {
 
 
-  }
-  ageValidator(control: FormControl) {
-
-    const userAge = control.value;
-    const currentDate = new Date();
-    const minDate = new Date(currentDate.getFullYear() - 18, currentDate.getMonth(), currentDate.getDate());
-
-    if (userAge && userAge > minDate) {
+    if (this.ageIsValid.ageIsValid(control)) {
       return null; // Valid age
+    } else {
+
+      return { ageInvalid: true }; // Age is less than 18
     }
-
-    return { ageInvalid: true }; // Age is less than 18
   }
-
 
   //* Checking the value of address on blur
   onBlur(element: any): void {
@@ -298,11 +283,11 @@ export class LoginComponent {
         ]),
         lastName: new FormControl(null, [
           Validators.required,
-          Validators.pattern("^[a-zA-Z\s]+$")
+          Validators.pattern("^[a-zA-Z]+( [a-zA-Z]+)?$")
         ]),
         birthdate: new FormControl(null, [
           Validators.required,
-    
+          this.ageValidator?.bind(this)
         ])
       }),
 
@@ -311,37 +296,73 @@ export class LoginComponent {
           Validators.required,
           Validators.pattern("[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$")
         ]),
-        password: new FormControl(null, [Validators.required]),
-        confPassword: new FormControl(null, [Validators.required])
+        password: new FormControl(null, [
+          Validators.required,
+          Validators.pattern("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$")  
+        ]),
+        confPassword: new FormControl(null, [
+          Validators.required,
+          Validators.pattern("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$")])
       }),
 
       thirdFaceGroup: new FormGroup({
         street: new FormControl(null, Validators.required),
-        buildingnumber: new FormControl(null, Validators.required),
+        buildingNumber: new FormControl(null, Validators.required),
         gender: new FormControl(null, Validators.required)
       })
     })
   }
-
+  get firstName(){
+    return this.registrationFormGroup.get('firstFaceGroup.firstName');
+  }
+  get lastName(){
+    return this.registrationFormGroup.get('firstFaceGroup.lastName');
+  }
+  get birthdate(){
+    return this.registrationFormGroup.get('firstFaceGroup.birthdate');
+  }
+  get password(){
+    return this.registrationFormGroup.get('secondFaceGroup.password');
+  }
+  get confPassword(){
+    return this.registrationFormGroup.get('secondFaceGroup.confPassword');
+  }
+  get email(){
+    return this.registrationFormGroup.get('secondFaceGroup.email'); 
+  }
+  get street(){
+    return this.registrationFormGroup.get('thirdFaceGroup.street');
+  }
+  get buildingNumber(){
+    return this.registrationFormGroup.get('thirdFaceGroup.buildingNumber');
+  }
+  get gender(){
+    return this.registrationFormGroup.get('thirdFaceGroup.gender');
+  }
 
 
   loginMethod() {
+if (this.loginFormInfo.valid) {
 
-    this.authService.login(this.loginFormInfo).subscribe(data => {
+      this.authService.login(this.loginFormInfo.value).subscribe( 
+        reponse => {
 
-      if (this.loginFormInfo.valid) {
-        console.log(data);
-      } else {
-        alert("Both email and password are required");
-      }
+          console.log(this.loginFormInfo.value);
+          console.log(reponse);
+        },
+        error => {
+          console.log(error.error);
+          // console.log(this.loginFormInfo.value);
 
-    }, error => {
-      console.log(error);
-    })
-    // console.log(email.logemail);
+        }
+      )
+
+    }else{
+      Swal.fire({
+        icon: 'error',
+        title: 'Error...',
+        text: 'Something went wrong, refresh the page and try again!',
+      })
+    } 
   }
-
 }
-
-
-

@@ -31,7 +31,7 @@
                                                     autocomplete="off" formControlName="logemail">
                                                 <i class="input-icon uil uil-at"></i>
                                                 <small
-                                                    *ngIf="loginFormInfo.get('logemail')?.errors?.['required'] && logemail?.touched ">Email
+                                                    *ngIf="logemail?.errors?.['required'] && logemail?.touched ">Email
                                                     is Required!</small>
                                                 <small
                                                     *ngIf="logemail?.errors?.['pattern'] && (logemail?.touched || logemail?.dirty)">
@@ -85,14 +85,14 @@
                                                     autocomplete="off" formControlName="firstName">
                                                 <i class="input-icon uil uil-user"></i>
 
-                                                <small class="alert alert-danger" *ngIf="registrationFormGroup.get('firstFaceGroup.firstName')?.errors?.['required']
-                                                    && (registrationFormGroup.get('firstFaceGroup.firstName')?.touched ||
-                                                    registrationFormGroup.get('firstFaceGroup.firstName')?.dirty)">
+                                                <small class="alert alert-danger" *ngIf="firstName?.errors?.['required']
+                                                    && (firstName?.touched ||
+                                                    firstName?.dirty)">
                                                     First name is required!
                                                 </small>
-                                                <small class="alert alert-danger" *ngIf="registrationFormGroup.get('firstFaceGroup.firstName')?.errors?.['pattern']
-                                                    && (registrationFormGroup.get('firstFaceGroup.firstName')?.touched ||
-                                                    registrationFormGroup.get('firstFaceGroup.firstName')?.dirty)">
+                                                <small class="alert alert-danger" *ngIf="firstName?.errors?.['pattern']
+                                                    && (firstName?.touched ||
+                                                    firstName?.dirty)">
                                                     Only letters are allowed!
                                                 </small>
 
@@ -104,15 +104,15 @@
                                                 <input type="text" class="form-style" placeholder="Last Name"
                                                     autocomplete="off" formControlName="lastName">
                                                 <i class="input-icon uil uil-user"></i>
-                                                <small class="alert alert-danger" *ngIf="registrationFormGroup.get('firstFaceGroup.lastName')?.errors?.['required']
-                                                    && (registrationFormGroup.get('firstFaceGroup.lastName')?.touched ||
-                                                    registrationFormGroup.get('firstFaceGroup.lastName')?.dirty)">
+                                                <small class="alert alert-danger" *ngIf="lastName?.errors?.['required']
+                                                    && (lastName?.touched ||
+                                                    lastName?.dirty)">
                                                     Lastname is required!
                                                 </small>
-                                                <small class="alert alert-danger" *ngIf="registrationFormGroup.get('firstFaceGroup.lastName')?.errors?.['pattern']
-                                                    && (registrationFormGroup.get('firstFaceGroup.lastName')?.touched ||
-                                                    registrationFormGroup.get('firstFaceGroup.lastName')?.dirty)">
-                                                    Only letters are allowed!
+                                                <small class="alert alert-danger" *ngIf="lastName?.errors?.['pattern']
+                                                    && (lastName?.touched ||
+                                                    lastName?.dirty)">
+                                                    Only letters are allowed and one white space Max!
                                                 </small>
                                             </div>
 
@@ -121,16 +121,20 @@
                                             <!-- Date Of Birth -->
                                             <div class="form-group mt-2 d-flex flex-column">
                                                 <span class="position-absolute dob">Date of Birth</span>
-                                                <input type="date" class="form-style"
-                                                    autocomplete="off" max="{{maxDate}}" formControlName="birthdate">
+                                                <input type="date" class="form-style" autocomplete="off"
+                                                    formControlName="birthdate">
                                                 <i class="input-icon uil uil-calendar-alt"></i>
 
-                                                <div class="alert alert-danger">
-                                                    <div>Birthdate is
-                                                        required</div>
-                                                    <div>You must be at
-                                                        least 18 years old to register</div>
-                                                </div>
+                                                <small class="alert alert-danger" *ngIf="birthdate?.errors?.['required']
+                                                    && (birthdate?.touched ||
+                                                    birthdate?.dirty)">
+                                                    Birthdate is required!
+                                                </small>
+                                                <small class="alert alert-danger" *ngIf="birthdate?.hasError('ageInvalid')
+  && (birthdate?.touched || birthdate?.dirty)">
+                                                    Sorry, you must be at least 18 years old!
+                                                </small>
+
                                             </div>
 
                                             <svg class="nextArrow toSecondFace" (click)="changingFace($event)"
@@ -155,16 +159,13 @@
                                                 <input type="email" class="form-style" placeholder="Your Email"
                                                     autocomplete="off" formControlName="email">
                                                 <i class="input-icon uil uil-at"></i>
-
-                                                <div class="alert alert-danger">
-
-                                                    <div>
-                                                        Email is required.
-                                                    </div>
-                                                    <div>
-                                                        Invalid email format.
-                                                    </div>
-                                                </div>
+                                                <small class="alert alert-danger"
+                                                    *ngIf="email?.errors?.['required'] && email?.touched ">Email
+                                                    is Required!</small>
+                                                <small class="alert alert-danger"
+                                                    *ngIf="email?.errors?.['pattern'] && (email?.touched || email?.dirty)">
+                                                    Invalid email format!
+                                                </small>
                                             </div>
 
 
@@ -172,19 +173,23 @@
                                             <!-- Password -->
                                             <div class="form-group mt-2">
                                                 <input type="password" class="form-style" placeholder="Your Password"
-                                                    autocomplete="off" formControlName="password"
-                                                    pattern="^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$">
+                                                    autocomplete="off" formControlName="password">
 
                                                 <!-- (ngModelChange)="checkPasswordMatch();passwordIsValid($event)" -->
                                                 <i class="input-icon uil uil-lock-alt"></i>
-                                                <div class="alert alert-danger">
-                                                    <span>At Least one LowerCase,UpperCase,SpaecialCharacter
-                                                        ,Number (total of 8 characters)</span>
-                                                </div>
+                                                <small class="alert alert-danger"
+                                                    *ngIf="password?.errors?.['pattern'] && (password?.touched || password?.dirty)">
+                                                    At Least one LowerCase,UpperCase,SpaecialCharacter
+                                                    ,Number(total of 8 characters)
+                                                </small>
+                                                <small class="alert alert-danger"
+                                                    *ngIf="password?.errors?.['required'] && password?.touched">
+                                                    Password Required!
+                                                </small>
 
-                                                <div class="alert alert-danger">
-                                                    <span>Password doesn't match!</span>
-                                                </div>
+                                                <small class="alert alert-danger">
+                                                    Password doesn't match!
+                                                </small>
 
 
                                             </div>
@@ -192,13 +197,21 @@
 
                                             <!-- Confirmed Password -->
                                             <div class="form-group mt-2">
-                                                <input type="password" name="passwordconfirmation" class="form-style"
-                                                    placeholder="Confirmed Password" id="confpass" autocomplete="off"
-                                                    required formControlName="confPassword"
-                                                    pattern="^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$">
+                                                <input type="password" class="form-style"
+                                                    placeholder="Confirmed Password" autocomplete="off"
+                                                    formControlName="confPassword">
                                                 <i class="input-icon uil uil-lock-alt"></i>
                                                 <!-- (ngModelChange)="checkPasswordMatch();passwordIsValid($event)" -->
                                             </div>
+                                            <small class="alert alert-danger"
+                                                *ngIf="confPassword?.errors?.['pattern'] && (confPassword?.touched || confPassword?.dirty)">
+                                                At Least one LowerCase,UpperCase,SpaecialCharacter
+                                                ,Number(total of 8 characters)
+                                            </small>
+                                            <small class="alert alert-danger"
+                                                *ngIf="confPassword?.errors?.['required'] && (confPassword?.touched || confPassword?.dirty)">
+                                                Password Required!
+                                            </small>
 
                                             <svg (click)="changingFace($event)" class='nextArrow toThirdFace'
                                                 xmlns="http://www.w3.org/2000/svg" width="16" height="16"
@@ -228,9 +241,8 @@
 
                                                 <div class="d-flex justify-content-between align-items-center">
                                                     <input class="form-style p-0 text-center" #input type="text"
-                                                        name="street" placeholder="Street Name" autocomplete="off"
-                                                        formControlName="street" (blur)="onBlur($event)" pattern=""
-                                                        required>
+                                                        placeholder="Street Name" autocomplete="off"
+                                                        formControlName="street" (blur)="onBlur($event)" required>
                                                     <div class="addressResults" #addressResults>
 
                                                         <!-- (ngModelChange)="searchingAddress(userinscriptiondetails.street)" -->
@@ -246,7 +258,7 @@
 
                                                     <input type="text" name="buildingnumber" placeholder="Bld. №"
                                                         class="form-style p-0 text-center"
-                                                        formControlName="buildingnumber" required>
+                                                        formControlName="buildingNumber" required>
 
                                                     <input type="button" value="Reset Address" (click)="resetInput()">
 
