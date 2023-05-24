@@ -11,3 +11,7 @@ export interface UserInscription {
     gender:string,
 }
 
+export interface loginDataType {
+    logemail: string,
+    logpassword: string
+}

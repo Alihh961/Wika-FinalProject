@@ -21,6 +21,7 @@ import { HeaderComponent } from './header/header.component';
 import { PopularcreatorsComponent } from './popularcreators/popularcreators.component';
 import { FooterComponent } from './footer/footer.component';
 import { LoginComponent } from './login/login.component';
+import { CookieService } from 'ngx-cookie-service';
 
 const appRoutes: Routes = [
     // { path: '' ,redirectTo: 'home' , pathMatch: 'full'},
@@ -59,7 +60,9 @@ const appRoutes: Routes = [
     HttpClientModule,
     RouterModule.forRoot(appRoutes, { useHash: true })
   ],
-  providers: [],
+  providers: [
+    CookieService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

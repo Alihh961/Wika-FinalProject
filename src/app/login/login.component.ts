@@ -7,6 +7,7 @@ import { FormControl, FormGroup, NgForm, ValidationErrors, Validators } from '@a
 import { LoginBooleanService } from '../services/login-boolean.service';
 import { AuthenticationService } from '../services/authentication.service';
 import { InputvalidationsService } from '../services/inputvalidations.service';
+import { CookieService } from 'ngx-cookie-service';
 
 
 
@@ -64,7 +65,7 @@ export class LoginComponent {
 
 
   constructor(private http: HttpClient, private loginBooleanInstance: LoginBooleanService, private authService: AuthenticationService,
-    private ageIsValid: InputvalidationsService) {
+    private ageIsValid: InputvalidationsService,private cookeService :CookieService) {
 
   }
 
@@ -298,7 +299,7 @@ export class LoginComponent {
         ]),
         password: new FormControl(null, [
           Validators.required,
-          Validators.pattern("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$")  
+          Validators.pattern("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$")
         ]),
         confPassword: new FormControl(null, [
           Validators.required,
@@ -312,57 +313,66 @@ export class LoginComponent {
       })
     })
   }
-  get firstName(){
+  get firstName() {
     return this.registrationFormGroup.get('firstFaceGroup.firstName');
   }
-  get lastName(){
+  get lastName() {
     return this.registrationFormGroup.get('firstFaceGroup.lastName');
   }
-  get birthdate(){
+  get birthdate() {
     return this.registrationFormGroup.get('firstFaceGroup.birthdate');
   }
-  get password(){
+  get password() {
     return this.registrationFormGroup.get('secondFaceGroup.password');
   }
-  get confPassword(){
+  get confPassword() {
     return this.registrationFormGroup.get('secondFaceGroup.confPassword');
   }
-  get email(){
-    return this.registrationFormGroup.get('secondFaceGroup.email'); 
+  get email() {
+    return this.registrationFormGroup.get('secondFaceGroup.email');
   }
-  get street(){
+  get street() {
     return this.registrationFormGroup.get('thirdFaceGroup.street');
   }
-  get buildingNumber(){
+  get buildingNumber() {
     return this.registrationFormGroup.get('thirdFaceGroup.buildingNumber');
   }
-  get gender(){
+  get gender() {
     return this.registrationFormGroup.get('thirdFaceGroup.gender');
   }
 
 
   loginMethod() {
-if (this.loginFormInfo.valid) {
+    if (this.loginFormInfo.valid) {
 
-      this.authService.login(this.loginFormInfo.value).subscribe( 
+      this.authService.login({"logemail" : `${this.loginFormInfo.value.logemail}` , "logpassword" :`${this.loginFormInfo.value.logpassword}`}).subscribe( 
         reponse => {
-
+          // console.log({"logemail" : `${this.loginFormInfo.value.logemail}` , "logpassword" :`${this.loginFormInfo.value.logpassword}`});
           console.log(this.loginFormInfo.value);
-          console.log(reponse);
+          if(reponse == "Please Check your email and password."){
+            Swal.fire({
+              icon: 'error',
+              title: 'Failed to connect',
+              text: 'Invalid email or password!',
+            })
+          }else{
+            const token = reponse.token;
+            console.log(token);
+            this.cookeService.set('token',token);
+  
+          }
         },
         error => {
-          console.log(error.error);
-          // console.log(this.loginFormInfo.value);
-
+          console.log(error);
         }
-      )
+      ) 
 
-    }else{
+    } else {
       Swal.fire({
         icon: 'error',
         title: 'Error...',
         text: 'Something went wrong, refresh the page and try again!',
       })
-    } 
+    }
   }
 }
