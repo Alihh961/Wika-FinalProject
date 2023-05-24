@@ -46,7 +46,11 @@ export class LoginComponent {
     email: "",
     password: ""
   }
-  loginFormInfo :FormGroup;
+  loginFormInfo !:FormGroup;
+  faceOneGroup !:FormGroup;
+  faceTwoGroup !:FormGroup;
+  faceThreeGroup !:FormGroup;
+
   maxDate!: string; // maxDate for the calendar to prevent under 18 from inscrire
 
 
@@ -76,11 +80,8 @@ export class LoginComponent {
   ngOnInit(): void {
 
     this.autorizedAgeOfNewUsers();
-    initForm(){
-    this.loginFormInfo ={
-      email :new FormControl ("",Validators.required) 
-    }}
-    
+   
+
     console.log(this.loggedin);
   }
 
@@ -266,21 +267,22 @@ export class LoginComponent {
 
   }
 
+ initForm(){
+    this.loginFormInfo = new FormGroup({
+      logemail : new FormControl ("",[Validators.required]),
+      logpassword : new FormControl ("",[Validators.required])
+
+    })};
   loginMethod(event: Event) {
     event.preventDefault();
 
-    // const form = (event.target as unknown) as NgForm;
-    // const url = "http://localhost/backend/login.php?email=" + this.emailPass.email + "&password=" + this.emailPass.password;
-
     this.authService.login(this.emailPass).subscribe(data => {
-      // this.userLogged.firstname = data.firstname;
-      // this.userLogged.lastname = data.lastname;
+
+      if(this.loginFormInfo.valid){
       console.log(data);
-      // if (data.firstname && data.lastname) {
-      //   this.loggedin = true;
-      //   this.sendValue();
-      //   // this.token = data.token;
-      // }
+}else{
+  alert("Both email and password are required");
+}
 
     }, error => {
       console.log(error);

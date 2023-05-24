@@ -71,7 +71,7 @@
 
                                         <!-- Start First Face  -->
                                         <div class="firstFace face" #firstFace #firstFaceGroup="ngModelGroup"
-                                            ngModelGroup="firstFaceGroup">
+                                            ngModelGroup="firstFaceGroup" [formGroup]="faceOneGroup">
 
                                             <!-- First name -->
                                             <div class="form-group">
@@ -149,7 +149,7 @@
 
                                         <!-- Start of Second Face -->
                                         <div class="secondFace face" #secondFace #secondFaceGroup="ngModelGroup"
-                                            ngModelGroup="secondFaceGroup">
+                                            ngModelGroup="secondFaceGroup" [formGroup]="faceTwoGroup">
 
                                             <!-- EMail -->
                                             <div class="form-group mt-2">
@@ -230,7 +230,7 @@
 
                                         <!-- Start of Third Face -->
                                         <div class="thirdFace face" #thirdFace #thirdFaceGroup="ngModelGroup"
-                                            ngModelGroup="thirdFaceGroup">
+                                            ngModelGroup="thirdFaceGroup" [formGroup]="faceThreeGroup">
                                             <!-- Full Address -->
                                             <div class="form-group mt-2 d-flex align-items-start flex-column gap-2">
                                                 <span>Full Address:</span>
