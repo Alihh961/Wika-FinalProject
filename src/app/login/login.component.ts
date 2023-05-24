@@ -3,8 +3,9 @@ import Swal from 'sweetalert2';
 import { Component, ElementRef,ViewChild } from '@angular/core';
 import { Feature, FeatureCollection } from '../Interface/AddressResults';
 import { UserInscription, UserInfo, Cathe } from '../Interface/userdetails';
-import { FormGroup, NgForm } from '@angular/forms';
+import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 import { LoginBooleanService } from '../services/login-boolean.service';
+import { AuthenticationService } from '../services/authentication.service';
 
 
 
@@ -21,6 +22,7 @@ export class LoginComponent {
   patternRespected: boolean = false;
   pattern: any = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/;
   loggedin: boolean = false;
+  token :string ="";
 
 
   userinscriptiondetails: UserInscription = {
@@ -44,7 +46,7 @@ export class LoginComponent {
     email: "",
     password: ""
   }
-
+  loginFormInfo :FormGroup;
   maxDate!: string; // maxDate for the calendar to prevent under 18 from inscrire
 
 
@@ -65,7 +67,7 @@ export class LoginComponent {
   @ViewChild("registrationForm") regForm !: FormGroup;
 
 
-  constructor(private http: HttpClient, private loginBooleanInstance: LoginBooleanService) {
+  constructor(private http: HttpClient, private loginBooleanInstance: LoginBooleanService , private authService:AuthenticationService) {
 
   }
 
@@ -74,6 +76,11 @@ export class LoginComponent {
   ngOnInit(): void {
 
     this.autorizedAgeOfNewUsers();
+    initForm(){
+    this.loginFormInfo ={
+      email :new FormControl ("",Validators.required) 
+    }}
+    
     console.log(this.loggedin);
   }
 
@@ -263,16 +270,17 @@ export class LoginComponent {
     event.preventDefault();
 
     // const form = (event.target as unknown) as NgForm;
-    const url = "http://localhost/backend/login.php?email=" + this.emailPass.email + "&password=" + this.emailPass.password;
+    // const url = "http://localhost/backend/login.php?email=" + this.emailPass.email + "&password=" + this.emailPass.password;
 
-    this.http.get<any>(url).subscribe(data => {
-      this.userLogged.firstname = data.firstname;
-      this.userLogged.lastname = data.lastname;
+    this.authService.login(this.emailPass).subscribe(data => {
+      // this.userLogged.firstname = data.firstname;
+      // this.userLogged.lastname = data.lastname;
       console.log(data);
-      if (data.firstname && data.lastname) {
-        this.loggedin = true;
-        this.sendValue();
-      }
+      // if (data.firstname && data.lastname) {
+      //   this.loggedin = true;
+      //   this.sendValue();
+      //   // this.token = data.token;
+      // }
 
     }, error => {
       console.log(error);
