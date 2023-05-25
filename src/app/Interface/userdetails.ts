@@ -15,3 +15,16 @@ export interface loginDataType {
     logemail: string,
     logpassword: string
 }
+
+export interface loggedinUser{
+
+    firstname: string,
+    lastname:string,
+    email:string,
+    password:string,
+    birthdate:Date | null,
+    street:string,
+    buildingnumber:string,
+    gender:string,
+
+}

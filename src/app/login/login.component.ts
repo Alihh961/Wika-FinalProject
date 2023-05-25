@@ -2,8 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import Swal from 'sweetalert2';
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { Feature, FeatureCollection } from '../Interface/AddressResults';
-import { UserInscription } from '../Interface/userdetails';
-import { FormControl, FormGroup, NgForm, ValidationErrors, Validators } from '@angular/forms';
+import { UserInscription , loggedinUser } from '../Interface/userdetails';
+import { FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { LoginBooleanService } from '../services/login-boolean.service';
 import { AuthenticationService } from '../services/authentication.service';
 import { InputvalidationsService } from '../services/inputvalidations.service';
@@ -39,7 +39,16 @@ export class LoginComponent {
     gender: ''
   };
 
-
+  loggedinUser : loggedinUser= {
+    firstname: "",
+    lastname: "",
+    email: "",
+    password: "",
+    birthdate: null,
+    street: "",
+    buildingnumber: "",
+    gender: "",
+  }
   loginFormInfo !: FormGroup;
   registrationFormGroup !: FormGroup;
 
@@ -65,7 +74,7 @@ export class LoginComponent {
 
 
   constructor(private http: HttpClient, private loginBooleanInstance: LoginBooleanService, private authService: AuthenticationService,
-    private ageIsValid: InputvalidationsService,private cookeService :CookieService) {
+    private ageIsValid: InputvalidationsService,private cookieService :CookieService) {
 
   }
 
@@ -347,8 +356,7 @@ export class LoginComponent {
 
       this.authService.login({"logemail" : `${this.loginFormInfo.value.logemail}` , "logpassword" :`${this.loginFormInfo.value.logpassword}`}).subscribe( 
         reponse => {
-          // console.log({"logemail" : `${this.loginFormInfo.value.logemail}` , "logpassword" :`${this.loginFormInfo.value.logpassword}`});
-          console.log(this.loginFormInfo.value);
+          this.loggedinUser = reponse.user;
           if(reponse == "Please Check your email and password."){
             Swal.fire({
               icon: 'error',
@@ -357,9 +365,13 @@ export class LoginComponent {
             })
           }else{
             const token = reponse.token;
-            console.log(token);
-            this.cookeService.set('token',token);
-  
+            this.cookieService.set('token',token);
+            Swal.fire({
+              icon: 'success',
+              title: 'Welcome',
+              text: `${this.loggedinUser.firstname}`,
+            })
+
           }
         },
         error => {
@@ -375,4 +387,13 @@ export class LoginComponent {
       })
     }
   }
+
+  getToken():string{
+    return this.cookieService.get('token');
+  }
+
+  logout():void{
+    this.cookieService.delete('token');
+  }
+
 }
