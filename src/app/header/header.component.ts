@@ -1,5 +1,6 @@
 import { Component, ElementRef, ViewChild, AfterViewInit, asNativeElements, HostListener, Input, AfterViewChecked } from '@angular/core';
 import { LoginBooleanService } from '../services/login-boolean.service';
+import { observableToBeFn } from 'rxjs/internal/testing/TestScheduler';
 
 
 @Component({
@@ -17,13 +18,12 @@ export class HeaderComponent implements AfterViewChecked {
 
   logoSource: string = './assets/imgs/WIKA_Logo.png';
   isOpened: boolean = false;
-  receivedLoginStatus !:boolean;
+  isLoggedIn !:boolean;
 
-  ngOnInit(){
+  ngOnInit():void{
     this.loginServiceInstance.getValue().subscribe(
       (data=>{
-        this.receivedLoginStatus = data;
-        console.log(data+"header component loginstatus");
+        this.isLoggedIn = data;
       })
     )
   }
@@ -51,6 +51,9 @@ export class HeaderComponent implements AfterViewChecked {
 
   }
 
+  logOut():void{
+    this.loginServiceInstance.setValue(false);
+  }
 
 
 

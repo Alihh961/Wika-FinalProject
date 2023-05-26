@@ -77,6 +77,7 @@ export class LoginComponent {
     private ageIsValid: InputvalidationsService,private cookieService :CookieService) {
 
   }
+  loginStatus !:LoginBooleanService;
 
 
 
@@ -366,6 +367,9 @@ export class LoginComponent {
           }else{
             const token = reponse.token;
             this.cookieService.set('token',token);
+            this.loginBooleanInstance.setValue(true);
+            this.loginStatus.setValue(true);
+
             Swal.fire({
               icon: 'success',
               title: 'Welcome',
