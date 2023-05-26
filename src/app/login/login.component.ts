@@ -4,7 +4,6 @@ import { Component, ElementRef, ViewChild } from '@angular/core';
 import { Feature, FeatureCollection } from '../Interface/AddressResults';
 import { UserInscription , loggedinUser } from '../Interface/userdetails';
 import { FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
-import { LoginBooleanService } from '../services/login-boolean.service';
 import { AuthenticationService } from '../services/authentication.service';
 import { InputvalidationsService } from '../services/inputvalidations.service';
 import { CookieService } from 'ngx-cookie-service';
@@ -73,18 +72,17 @@ export class LoginComponent {
   @ViewChild("registrationForm") regForm !: FormGroup;
 
 
-  constructor(private http: HttpClient, private loginBooleanInstance: LoginBooleanService, private authService: AuthenticationService,
+  constructor(private http: HttpClient, private authService: AuthenticationService,
     private ageIsValid: InputvalidationsService,private cookieService :CookieService) {
 
   }
-  loginStatus !:LoginBooleanService;
 
 
 
   ngOnInit(): void {
     this.initLogForm();
     this.initRegistrationForm();
-    // console.log(this.loggedin);
+    
   }
 
   //* Searching for address when a change happens
@@ -367,8 +365,6 @@ export class LoginComponent {
           }else{
             const token = reponse.token;
             this.cookieService.set('token',token);
-            this.loginBooleanInstance.setValue(true);
-            this.loginStatus.setValue(true);
 
             Swal.fire({
               icon: 'success',

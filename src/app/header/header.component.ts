@@ -1,5 +1,5 @@
 import { Component, ElementRef, ViewChild, AfterViewInit, asNativeElements, HostListener, Input, AfterViewChecked } from '@angular/core';
-import { LoginBooleanService } from '../services/login-boolean.service';
+
 import { observableToBeFn } from 'rxjs/internal/testing/TestScheduler';
 
 
@@ -11,27 +11,23 @@ import { observableToBeFn } from 'rxjs/internal/testing/TestScheduler';
 })
 export class HeaderComponent implements AfterViewChecked {
 
-  constructor(private loginServiceInstance :LoginBooleanService) { }
+  constructor() { }
 
 
   @ViewChild('header') header!: ElementRef; // getting header tag from view template
 
   logoSource: string = './assets/imgs/WIKA_Logo.png';
   isOpened: boolean = false;
-  isLoggedIn !:boolean;
+  isLoggedIn !: boolean;
 
-  ngOnInit():void{
-    this.loginServiceInstance.getValue().subscribe(
-      (data=>{
-        this.isLoggedIn = data;
-      })
-    )
+  ngOnInit(): void {
+
   }
 
 
   ngAfterViewChecked() {
 
-   }
+  }
 
   @HostListener('window:scroll')// listen to the scroll event;
 
@@ -51,9 +47,7 @@ export class HeaderComponent implements AfterViewChecked {
 
   }
 
-  logOut():void{
-    this.loginServiceInstance.setValue(false);
-  }
+
 
 
 

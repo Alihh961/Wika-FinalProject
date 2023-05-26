@@ -18,7 +18,7 @@ export class AuthenticationService {
 
   login(credentials :loginDataType ):Observable<any>{
 
-    // const url = `${baseURL}login.php?email=${credentials.logemail}&password=${credentials.logpassword}`;
+
 
     return this.http.post<any>(`${baseURL}login.php`,credentials);
 }
