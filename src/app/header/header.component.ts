@@ -44,7 +44,7 @@ export class HeaderComponent implements AfterViewChecked {
       if(data){
         console.log(data.firstname);
       }
-      
+
     })
 
   }
