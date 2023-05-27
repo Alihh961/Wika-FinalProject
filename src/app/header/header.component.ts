@@ -1,9 +1,6 @@
 import { Component, ElementRef, ViewChild, AfterViewInit, asNativeElements, HostListener, Input, AfterViewChecked } from '@angular/core';
-
-import { observableToBeFn } from 'rxjs/internal/testing/TestScheduler';
 import { LoggedInUserService } from '../services/logged-in-user.service';
 import { loggedInUserInfo } from '../Interface/userdetails';
-import { Observable } from 'rxjs';
 
 
 @Component({
