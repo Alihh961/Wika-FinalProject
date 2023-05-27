@@ -16,15 +16,14 @@ export interface loginDataType {
     logpassword: string
 }
 
-export interface loggedinUser{
+export interface loggedInUserInfo{
 
-    firstname: string,
-    lastname:string,
-    email:string,
-    password:string,
-    birthdate:Date | null,
-    street:string,
-    buildingnumber:string,
-    gender:string,
-
+  firstname: string;
+  lastname: string;
+  email: string;
+  password: string;
+  birthdate: Date | null;
+  street: string;
+  buildingnumber: string;
+  gender: string;
 }

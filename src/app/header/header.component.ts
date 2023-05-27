@@ -1,6 +1,9 @@
 import { Component, ElementRef, ViewChild, AfterViewInit, asNativeElements, HostListener, Input, AfterViewChecked } from '@angular/core';
 
 import { observableToBeFn } from 'rxjs/internal/testing/TestScheduler';
+import { LoggedInUserService } from '../services/logged-in-user.service';
+import { loggedInUserInfo } from '../Interface/userdetails';
+import { Observable } from 'rxjs';
 
 
 @Component({
@@ -11,7 +14,7 @@ import { observableToBeFn } from 'rxjs/internal/testing/TestScheduler';
 })
 export class HeaderComponent implements AfterViewChecked {
 
-  constructor() { }
+  constructor(private loggedInUserInstance: LoggedInUserService) { }
 
 
   @ViewChild('header') header!: ElementRef; // getting header tag from view template
@@ -19,8 +22,30 @@ export class HeaderComponent implements AfterViewChecked {
   logoSource: string = './assets/imgs/WIKA_Logo.png';
   isOpened: boolean = false;
   isLoggedIn !: boolean;
+  loggedInUserInfo: loggedInUserInfo = {
+    firstname: "",
+    lastname: "",
+    email: "",
+    password: "",
+    birthdate : null,
+    street: "",
+    buildingnumber: "",
+    gender: "",
+  }
 
   ngOnInit(): void {
+
+
+    this.loggedInUserInstance.loggedin$.subscribe((value: boolean):void => {
+      this.isLoggedIn = value;
+    })
+
+    this.loggedInUserInstance.loggedInUserInfo$.subscribe((data :loggedInUserInfo | null):void =>{
+      if(data){
+        console.log(data.firstname);
+      }
+      
+    })
 
   }
 

@@ -2,11 +2,12 @@ import { HttpClient } from '@angular/common/http';
 import Swal from 'sweetalert2';
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { Feature, FeatureCollection } from '../Interface/AddressResults';
-import { UserInscription , loggedinUser } from '../Interface/userdetails';
+import { UserInscription, loggedInUserInfo } from '../Interface/userdetails';
 import { FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { AuthenticationService } from '../services/authentication.service';
 import { InputvalidationsService } from '../services/inputvalidations.service';
 import { CookieService } from 'ngx-cookie-service';
+import { LoggedInUserService } from '../services/logged-in-user.service';
 
 
 
@@ -22,7 +23,7 @@ export class LoginComponent {
   passwordMatch !: boolean;
   patternRespected: boolean = false;
   pattern: any = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/;
-  loggedin: boolean = false;
+  isLoggedIn !:boolean ;
   token: string = "";
 
 
@@ -38,16 +39,7 @@ export class LoginComponent {
     gender: ''
   };
 
-  loggedinUser : loggedinUser= {
-    firstname: "",
-    lastname: "",
-    email: "",
-    password: "",
-    birthdate: null,
-    street: "",
-    buildingnumber: "",
-    gender: "",
-  }
+  loggedInUser!: loggedInUserInfo ;
   loginFormInfo !: FormGroup;
   registrationFormGroup !: FormGroup;
 
@@ -73,7 +65,8 @@ export class LoginComponent {
 
 
   constructor(private http: HttpClient, private authService: AuthenticationService,
-    private ageIsValid: InputvalidationsService,private cookieService :CookieService) {
+    private ageIsValid: InputvalidationsService, private cookieService: CookieService,
+    private loggedInUserInstance : LoggedInUserService) {
 
   }
 
@@ -82,7 +75,7 @@ export class LoginComponent {
   ngOnInit(): void {
     this.initLogForm();
     this.initRegistrationForm();
-    
+
   }
 
   //* Searching for address when a change happens
@@ -353,23 +346,29 @@ export class LoginComponent {
   loginMethod() {
     if (this.loginFormInfo.valid) {
 
-      this.authService.login({"logemail" : `${this.loginFormInfo.value.logemail}` , "logpassword" :`${this.loginFormInfo.value.logpassword}`}).subscribe( 
+      this.authService.login({ "logemail": `${this.loginFormInfo.value.logemail}`, "logpassword": `${this.loginFormInfo.value.logpassword}` }).subscribe(
         reponse => {
-          this.loggedinUser = reponse.user;
-          if(reponse == "Please Check your email and password."){
+
+          
+          if (reponse == "Please Check your email and password.") {
             Swal.fire({
               icon: 'error',
               title: 'Failed to connect',
               text: 'Invalid email or password!',
             })
-          }else{
+          } else {
+
+            this.loggedInUserInstance.setLoggedInUserInfo(reponse.user);
+
+            this.loggedInUserInstance.setLoggedStatus(true);
+
             const token = reponse.token;
-            this.cookieService.set('token',token);
+            this.cookieService.set('token', token);
 
             Swal.fire({
               icon: 'success',
               title: 'Welcome',
-              text: `${this.loggedinUser.firstname}`,
+              text: `${this.loggedInUser.firstname}`,
             })
 
           }
@@ -377,7 +376,7 @@ export class LoginComponent {
         error => {
           console.log(error);
         }
-      ) 
+      )
 
     } else {
       Swal.fire({
@@ -388,11 +387,11 @@ export class LoginComponent {
     }
   }
 
-  getToken():string{
+  getToken(): string {
     return this.cookieService.get('token');
   }
 
-  logout():void{
+  logout(): void {
     this.cookieService.delete('token');
   }
 

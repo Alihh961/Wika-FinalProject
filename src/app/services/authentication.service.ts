@@ -17,9 +17,6 @@ export class AuthenticationService {
   constructor(private http :HttpClient ) {  }
 
   login(credentials :loginDataType ):Observable<any>{
-
-
-
     return this.http.post<any>(`${baseURL}login.php`,credentials);
 }
 
