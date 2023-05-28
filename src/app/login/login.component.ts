@@ -84,9 +84,15 @@ export class LoginComponent {
     this.loggedInUserInstance.getLoggedInStatus().subscribe(value => {
       this.isLoggedIn = value;
     });
+
+    this.setter();
     
   }
-
+  setter(){
+    if(this.cookieService.check("token"))
+    this.loggedInUserInstance.setLoggedInStatus(true);
+  };
+  
   //* Searching for address when a change happens
   searchingAddress(value: string): object {
 
@@ -395,20 +401,18 @@ export class LoginComponent {
     }
   }
 
-  // getToken(): string {
-  //   return this.cookieService.get('token');
-  // }
-
-  // logout(): void {
-  //   this.cookieService.delete('token');
-  // }
+  logout(): void {
+    this.cookieService.delete('token');
+    // this.loggedInUserInstance.setLoggedInStatus(false);
+  }
 
   lol(){
 
     console.log(this.cookieService.get("token"));
+    console.log(this.isLoggedIn);
   }
   del(){
-    this.cookieService.deleteAll();
+    this.cookieService.delete("token");
   }
 
 }
