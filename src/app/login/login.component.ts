@@ -8,7 +8,7 @@ import { AuthenticationService } from '../services/authentication.service';
 import { InputvalidationsService } from '../services/inputvalidations.service';
 import { CookieService } from 'ngx-cookie-service';
 import { LoggedInUserService } from '../services/logged-in-user.service';
-import {CookieServiceService } from '../services/cookie-service.service';
+import { CookieServiceService } from '../services/cookie-service.service';
 import { Token } from '@angular/compiler';
 
 
@@ -22,7 +22,7 @@ export class LoginComponent {
 
   constructor(private http: HttpClient, private authService: AuthenticationService,
     private ageIsValid: InputvalidationsService, private cookieService: CookieService,
-    private loggedInUserInstance : LoggedInUserService) {
+    private loggedInUserInstance: LoggedInUserService) {
 
   }
   //* Variables related to the view template 
@@ -30,7 +30,7 @@ export class LoginComponent {
   passwordMatch !: boolean;
   patternRespected: boolean = false;
   pattern: any = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/;
-  isLoggedIn :boolean  = false;
+  isLoggedIn: boolean = false;
 
 
   userinscriptiondetails: UserInscription = {
@@ -45,7 +45,7 @@ export class LoginComponent {
     gender: ''
   };
 
-  loggedInUserInfo !: loggedInUserInfo ;
+  loggedInUserInfo !: loggedInUserInfo;
 
   loginFormInfo !: FormGroup;
   registrationFormGroup !: FormGroup;
@@ -78,7 +78,7 @@ export class LoginComponent {
     this.initLogForm();
     this.initRegistrationForm();
 
-    this.loggedInUserInstance.getLoggedInUserInfo().subscribe(value =>{
+    this.loggedInUserInstance.getLoggedInUserInfo().subscribe(value => {
       this.loggedInUserInfo = value;
     });
     this.loggedInUserInstance.getLoggedInStatus().subscribe(value => {
@@ -86,13 +86,14 @@ export class LoginComponent {
     });
 
     this.setter();
-    
+
+    const token = this.cookieService.get("token");
+    if(token){
+      this.auth
+    }
+
   }
-  setter(){
-    if(this.cookieService.check("token"))
-    this.loggedInUserInstance.setLoggedInStatus(true);
-  };
-  
+
   //* Searching for address when a change happens
   searchingAddress(value: string): object {
 
@@ -357,14 +358,14 @@ export class LoginComponent {
     return this.registrationFormGroup.get('thirdFaceGroup.gender');
   }
 
-
+  //* Logging in method
   loginMethod() {
     if (this.loginFormInfo.valid) {
 
       this.authService.login({ "logemail": `${this.loginFormInfo.value.logemail}`, "logpassword": `${this.loginFormInfo.value.logpassword}` }).subscribe(
         reponse => {
 
-          
+
           if (reponse == "Please Check your email and password.") {
             Swal.fire({
               icon: 'error',
@@ -401,17 +402,24 @@ export class LoginComponent {
     }
   }
 
+  //* Setting the isLoggedInStatus to true if token exists
+  setter() {
+    if (this.cookieService.check("token")) {
+      this.loggedInUserInstance.setLoggedInStatus(true);
+    }
+  }
+
   logout(): void {
     this.cookieService.delete('token');
     // this.loggedInUserInstance.setLoggedInStatus(false);
   }
 
-  lol(){
+  lol() {
 
     console.log(this.cookieService.get("token"));
     console.log(this.isLoggedIn);
   }
-  del(){
+  del() {
     this.cookieService.delete("token");
   }
 
