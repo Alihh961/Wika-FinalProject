@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { loggedInUserInfo } from '../Interface/userdetails';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { observableToBeFn } from 'rxjs/internal/testing/TestScheduler';
 
 
 @Injectable({
@@ -11,25 +10,33 @@ export class LoggedInUserService {
 
   constructor() { }
 
-  private loggedInUserInfo:BehaviorSubject<loggedInUserInfo | null> =new BehaviorSubject<loggedInUserInfo | null>( null);
-
-  public loggedInUserInfo$ : Observable<loggedInUserInfo | null > =this.loggedInUserInfo.asObservable();
-
+  private loggedInUserInfo: BehaviorSubject<loggedInUserInfo> = new BehaviorSubject<loggedInUserInfo>(  {firstname: '',
+  lastname: '',
+  email: '',
+  password: '',
+  birthdate: new Date(),
+  street: '',
+  buildingnumber: '',
+  gender: ''
+});
 
   private isLoggedIn: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
-  public loggedin$: Observable<boolean> = this.isLoggedIn.asObservable();
 
-  // addLoggedInUserInfo(data :loggedInUser):void{
-  //   this.loggedInUser = data;
-  //   this.isLoggedIn = true;
-  // }
 
-  setLoggedInUserInfo(data :loggedInUserInfo):void{
+  setLoggedInUserInfo(data: loggedInUserInfo): void {
     this.loggedInUserInfo.next(data);
   }
 
-  setLoggedStatus(value :boolean):void{
+  getLoggedInUserInfo(): Observable<loggedInUserInfo> {
+    return this.loggedInUserInfo.asObservable();
+  }
+
+  setLoggedInStatus(value: boolean): void {
     this.isLoggedIn.next(value);
+  }
+
+  getLoggedInStatus(): Observable<boolean> {
+    return this.isLoggedIn.asObservable();
   }
 
 }

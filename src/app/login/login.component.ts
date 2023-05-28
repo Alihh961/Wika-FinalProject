@@ -8,6 +8,8 @@ import { AuthenticationService } from '../services/authentication.service';
 import { InputvalidationsService } from '../services/inputvalidations.service';
 import { CookieService } from 'ngx-cookie-service';
 import { LoggedInUserService } from '../services/logged-in-user.service';
+import {CookieServiceService } from '../services/cookie-service.service';
+import { Token } from '@angular/compiler';
 
 
 
@@ -18,13 +20,17 @@ import { LoggedInUserService } from '../services/logged-in-user.service';
 })
 export class LoginComponent {
 
+  constructor(private http: HttpClient, private authService: AuthenticationService,
+    private ageIsValid: InputvalidationsService, private cookieService: CookieService,
+    private loggedInUserInstance : LoggedInUserService) {
+
+  }
   //* Variables related to the view template 
 
   passwordMatch !: boolean;
   patternRespected: boolean = false;
   pattern: any = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/;
-  isLoggedIn !:boolean ;
-  token: string = "";
+  isLoggedIn :boolean  = false;
 
 
   userinscriptiondetails: UserInscription = {
@@ -39,7 +45,8 @@ export class LoginComponent {
     gender: ''
   };
 
-  loggedInUser!: loggedInUserInfo ;
+  loggedInUserInfo !: loggedInUserInfo ;
+
   loginFormInfo !: FormGroup;
   registrationFormGroup !: FormGroup;
 
@@ -64,11 +71,6 @@ export class LoginComponent {
   @ViewChild("registrationForm") regForm !: FormGroup;
 
 
-  constructor(private http: HttpClient, private authService: AuthenticationService,
-    private ageIsValid: InputvalidationsService, private cookieService: CookieService,
-    private loggedInUserInstance : LoggedInUserService) {
-
-  }
 
 
 
@@ -76,6 +78,13 @@ export class LoginComponent {
     this.initLogForm();
     this.initRegistrationForm();
 
+    this.loggedInUserInstance.getLoggedInUserInfo().subscribe(value =>{
+      this.loggedInUserInfo = value;
+    });
+    this.loggedInUserInstance.getLoggedInStatus().subscribe(value => {
+      this.isLoggedIn = value;
+    });
+    
   }
 
   //* Searching for address when a change happens
@@ -359,8 +368,7 @@ export class LoginComponent {
           } else {
 
             this.loggedInUserInstance.setLoggedInUserInfo(reponse.user);
-
-            this.loggedInUserInstance.setLoggedStatus(true);
+            this.loggedInUserInstance.setLoggedInStatus(true);
 
             const token = reponse.token;
             this.cookieService.set('token', token);
@@ -368,7 +376,7 @@ export class LoginComponent {
             Swal.fire({
               icon: 'success',
               title: 'Welcome',
-              text: `${this.loggedInUser.firstname}`,
+              text: `${this.loggedInUserInfo.firstname}`,
             })
 
           }
@@ -387,12 +395,20 @@ export class LoginComponent {
     }
   }
 
-  getToken(): string {
-    return this.cookieService.get('token');
-  }
+  // getToken(): string {
+  //   return this.cookieService.get('token');
+  // }
 
-  logout(): void {
-    this.cookieService.delete('token');
+  // logout(): void {
+  //   this.cookieService.delete('token');
+  // }
+
+  lol(){
+
+    console.log(this.cookieService.get("token"));
+  }
+  del(){
+    this.cookieService.deleteAll();
   }
 
 }

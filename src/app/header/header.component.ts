@@ -18,30 +18,17 @@ export class HeaderComponent implements AfterViewChecked {
 
   logoSource: string = './assets/imgs/WIKA_Logo.png';
   isOpened: boolean = false;
-  isLoggedIn !: boolean;
-  loggedInUserInfo: loggedInUserInfo = {
-    firstname: "",
-    lastname: "",
-    email: "",
-    password: "",
-    birthdate : null,
-    street: "",
-    buildingnumber: "",
-    gender: "",
-  }
-
+  isLoggedIn : boolean = false;
+  loggedInUserInfo!: loggedInUserInfo;
   ngOnInit(): void {
 
 
-    this.loggedInUserInstance.loggedin$.subscribe((value: boolean):void => {
-      this.isLoggedIn = value;
+    this.loggedInUserInstance.getLoggedInStatus().subscribe(booleanValue =>{
+      this.isLoggedIn = booleanValue;
     })
-
-    this.loggedInUserInstance.loggedInUserInfo$.subscribe((data :loggedInUserInfo | null):void =>{
-      if(data){
-        console.log(data.firstname);
-      }
-
+    
+    this.loggedInUserInstance.getLoggedInUserInfo().subscribe(userInfo =>{
+      this.loggedInUserInfo = userInfo;
     })
 
   }
@@ -70,7 +57,10 @@ export class HeaderComponent implements AfterViewChecked {
   }
 
 
-
+  lolheader(){
+    console.log("the value of loggedin staus in header com is " + this.isLoggedIn);
+    console.log("the value of userinfo in header component is " , this.loggedInUserInfo);
+  }
 
 
 }
