@@ -20,11 +20,11 @@ export class AuthenticationService {
     return this.http.post<any>(`${baseURL}login.php`,credentials);
 }
 
-  getDataOfUser(token:string){
+  getDataOfUser(token:string):Observable<any>{
     const headers = {
       Authorization: `Bearer ${token}`
     };
-    return this.http.get<any>(`${baseURL}getUserData.php?token=${token}`,{ headers });
+    return this.http.get<any>(`${baseURL}loggedInUserData.php?token=${token}`, { headers });
   }
 
 }

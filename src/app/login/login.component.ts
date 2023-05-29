@@ -89,7 +89,10 @@ export class LoginComponent {
 
     const token = this.cookieService.get("token");
     if(token){
-      this.auth
+      this.authService.getDataOfUser(token).subscribe(data =>{
+        this.loggedInUserInstance.setLoggedInUserInfo(data);
+        console.log(data);
+      });
     }
 
   }
