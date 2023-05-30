@@ -24,7 +24,7 @@ export class AuthenticationService {
     const headers = {
       Authorization: `Bearer ${token}`
     };
-    return this.http.get<any>(`${baseURL}loggedInUserData.php?token=${token}`, { headers });
+    return this.http.get<any>(`${baseURL}loggedInUserData.php`, { headers });
   }
 
 }
