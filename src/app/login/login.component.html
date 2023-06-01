@@ -242,10 +242,10 @@
                                                 <div class="d-flex justify-content-between align-items-center">
                                                     <input class="form-style p-0 text-center" #input type="text"
                                                         placeholder="Street Name" autocomplete="off"
-                                                        formControlName="street" (blur)="onBlur($event)" required>
-                                                    <div class="addressResults" #addressResults>
-
-                                                        <!-- (ngModelChange)="searchingAddress(userinscriptiondetails.street)" -->
+                                                        formControlName="street" required>
+                                                        <div class="addressResults" #addressResults>
+                                                            <!-- (blur)="onBlur($event)" -->
+                                                            <!-- (ngModelChange)="searchingAddress(userinscriptiondetails.street)" -->
                                                         <div class="suggestions" #suggestions
                                                             *ngFor="let address of features"
                                                             (click)="selectaddress($event)">
