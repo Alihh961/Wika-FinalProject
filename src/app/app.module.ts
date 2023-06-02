@@ -12,8 +12,6 @@ import { CookiesNotificationComponent } from './cookies-notification/cookies-not
 import { Error404Component } from './error404/error404.component';
 import { FilterComponent } from './filter/filter.component';
 import { GalleryComponent } from './gallery/gallery.component';
-import { backgroundColorDirective } from './CustomDirective/background.directive';
-import { HighlightDirective } from './CustomDirective/highlight.directive';
 import { SearchComponent } from './search/search.component';
 import { NftsComponent } from './nfts/nfts.component';
 import { HomeComponent } from './home/home.component';
@@ -22,6 +20,7 @@ import { PopularcreatorsComponent } from './popularcreators/popularcreators.comp
 import { FooterComponent } from './footer/footer.component';
 import { LoginComponent } from './login/login.component';
 import { CookieService } from 'ngx-cookie-service';
+import { GuardGuard } from './services/guard.guard';
 
 const appRoutes: Routes = [
     // { path: '' ,redirectTo: 'home' , pathMatch: 'full'},
@@ -29,7 +28,7 @@ const appRoutes: Routes = [
     { path: 'home', component: HomeComponent, pathMatch: 'full' },
     { path: 'nfts', component: NftsComponent, pathMatch: 'full' },
     { path: 'popularcreators', component: PopularcreatorsComponent, pathMatch: 'full' },
-    { path: 'contact', component: ContactComponent, pathMatch: 'full' },
+    { path: 'contact', component: ContactComponent, pathMatch: 'full' , canActivate : [GuardGuard] },
     { path: 'login', component: LoginComponent, pathMatch: 'full' },
     { path: '**', component: Error404Component, pathMatch: 'full' },
     
@@ -62,6 +61,9 @@ const appRoutes: Routes = [
   ],
   providers: [
     CookieService
+  ],
+  exports: [
+    RouterModule
   ],
   bootstrap: [AppComponent]
 })
