@@ -20,7 +20,7 @@
                         <div class="card-3d-wrap mx-auto my-0">
                             <div class="card-3d-wrapper">
 
-                               
+
                                 <!-- Login form  -->
                                 <form class="card-front" (ngSubmit)="loginMethod()" [formGroup]="loginFormInfo">
                                     <div class="center-wrap full-height">
@@ -243,9 +243,9 @@
                                                     <input class="form-style p-0 text-center" #input type="text"
                                                         placeholder="Street Name" autocomplete="off"
                                                         formControlName="street" required>
-                                                        <div class="addressResults" #addressResults>
-                                                            <!-- (blur)="onBlur($event)" -->
-                                                            <!-- (ngModelChange)="searchingAddress(userinscriptiondetails.street)" -->
+                                                    <div class="addressResults" #addressResults>
+                                                        <!-- (blur)="onBlur($event)" -->
+                                                        <!-- (ngModelChange)="searchingAddress(userinscriptiondetails.street)" -->
                                                         <div class="suggestions" #suggestions
                                                             *ngFor="let address of features"
                                                             (click)="selectaddress($event)">
@@ -313,7 +313,5 @@
         </div>
     </div>
     <hr>
-    <button (click)="lol()">clickhere</button>
-    <button (click)="del()">clickhere</button>
 
 </section>

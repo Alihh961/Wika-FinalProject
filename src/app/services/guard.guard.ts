@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot, UrlTree, Router, Route } from '@angular/router';
+import { CanActivate, Router } from '@angular/router';
 import { LoggedInUserService } from './logged-in-user.service';
-import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -9,21 +8,16 @@ import { Observable } from 'rxjs';
 export class GuardGuard implements CanActivate {
   constructor(private loggedInUserServiceInstance: LoggedInUserService, private router: Router) { }
 
-  isLoggedIn: boolean = false;
-  ngOnInit() {
-    this.loggedInUserServiceInstance.getLoggedInStatus().subscribe(value => {
-      this.isLoggedIn = value;
-    })
-  }
-  canActivate(
-    route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    if (this.isLoggedIn === true) {
-      this.router.navigate(["home"]);
-      return true;
-    } else {
+  canActivate(): boolean {
+    var isLoggedIn = false ;
+    this.loggedInUserServiceInstance.getLoggedInStatus().subscribe(value =>{
+      isLoggedIn = value;
+    });
+    if (isLoggedIn) {
+      this.router.navigate(['/home']);
       return false;
+    } else {
+      return true;
     }
   }
-
 }

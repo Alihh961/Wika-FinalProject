@@ -8,7 +8,6 @@ import { AuthenticationService } from '../services/authentication.service';
 import { InputvalidationsService } from '../services/inputvalidations.service';
 import { CookieService } from 'ngx-cookie-service';
 import { LoggedInUserService } from '../services/logged-in-user.service';
-import { CookieServiceService } from '../services/cookie-service.service';
 import { baseURL } from 'src/environment/environment';
 
 
@@ -84,16 +83,6 @@ export class LoginComponent {
     this.loggedInUserInstance.getLoggedInStatus().subscribe(value => {
       this.isLoggedIn = value;
     });
-
-    this.setter();
-
-    const token = this.cookieService.get("token");
-    if(token){
-      this.authService.getDataOfUser(token).subscribe(data =>{
-        this.loggedInUserInstance.setLoggedInUserInfo(data);
-        console.log(data);
-      });
-    }
 
   }
 
@@ -412,19 +401,4 @@ export class LoginComponent {
       this.loggedInUserInstance.setLoggedInStatus(true);
     }
   }
-
-  logout(): void {
-    this.cookieService.delete('token');
-    // this.loggedInUserInstance.setLoggedInStatus(false);
-  }
-
-  lol() {
-
-    console.log(this.cookieService.get("token"));
-    console.log(this.isLoggedIn);
-  }
-  del() {
-    this.cookieService.delete("token");
-  }
-
 }
