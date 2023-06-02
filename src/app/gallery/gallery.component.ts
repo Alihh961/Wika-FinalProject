@@ -22,7 +22,7 @@ export class GalleryComponent implements OnInit {
 
   ngOnInit() {
 
-    this.http.get<any[]>('http://localhost/backend/gallerytokens.php?order=' + this.selectedRadioButton ).subscribe(
+    this.http.get<any[]>('http://localhost/test/gallerytokens.php?order=' + this.selectedRadioButton ).subscribe(
       data => {
         this.tokens = data;
       },

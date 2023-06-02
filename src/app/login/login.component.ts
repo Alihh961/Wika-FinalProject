@@ -9,7 +9,7 @@ import { InputvalidationsService } from '../services/inputvalidations.service';
 import { CookieService } from 'ngx-cookie-service';
 import { LoggedInUserService } from '../services/logged-in-user.service';
 import { CookieServiceService } from '../services/cookie-service.service';
-import { Token } from '@angular/compiler';
+import { baseURL } from 'src/environment/environment';
 
 
 
@@ -168,9 +168,9 @@ export class LoginComponent {
   //* Submitting the form
   onRegFormSubmit(): void {
 
-    const url = "http://localhost/backend/inscription.php";
+    // const url = "http://localhost/backend/inscription.php";
 
-    this.http.post<string[]>(url, this.userinscriptiondetails).subscribe(
+    this.http.post<string[]>(`${baseURL}/inscription.php`, this.userinscriptiondetails).subscribe(
       (response) => {
         // Handle success response
         console.log(response[0]);
@@ -377,10 +377,11 @@ export class LoginComponent {
             })
           } else {
 
-            this.loggedInUserInstance.setLoggedInUserInfo(reponse.user);
+            this.loggedInUserInstance.setLoggedInUserInfo(reponse);
             this.loggedInUserInstance.setLoggedInStatus(true);
 
-            const token = reponse.token;
+            const token = reponse.email;
+            console.log(reponse);
             this.cookieService.set('token', token);
 
             Swal.fire({

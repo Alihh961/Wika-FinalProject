@@ -2,4 +2,4 @@ export const environment ={
     production: false
 };
 
-export const baseURL = "http://localhost/backend/";
+export const baseURL = "http://localhost/test/";
