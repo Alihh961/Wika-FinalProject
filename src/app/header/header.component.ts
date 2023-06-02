@@ -1,6 +1,8 @@
 import { Component, ElementRef, ViewChild, AfterViewInit, asNativeElements, HostListener, Input, AfterViewChecked } from '@angular/core';
 import { LoggedInUserService } from '../services/logged-in-user.service';
 import { loggedInUserInfo } from '../Interface/userdetails';
+import { CookieServiceService } from '../services/cookie-service.service';
+
 
 
 @Component({
@@ -11,7 +13,7 @@ import { loggedInUserInfo } from '../Interface/userdetails';
 })
 export class HeaderComponent implements AfterViewChecked {
 
-  constructor(private loggedInUserInstance: LoggedInUserService) { }
+  constructor(private loggedInUserInstance: LoggedInUserService , private cookieService: CookieServiceService) { }
 
 
   @ViewChild('header') header!: ElementRef; // getting header tag from view template
@@ -56,6 +58,11 @@ export class HeaderComponent implements AfterViewChecked {
 
   }
 
+  logout(){
+    this.loggedInUserInstance.setLoggedInStatus(false);
+    this.cookieService.deleteValue("token");
+
+  }
 
   lolheader(){
     console.log("the value of loggedin staus in header com is " + this.isLoggedIn);

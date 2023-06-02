@@ -20,5 +20,8 @@ export class CookieServiceService {
   getAllValues():{ [key: string]: string }{
     return this.cookieService.getAll();
   }
+  deleteValue(value: string){
+    this.cookieService.delete(value);
+  }
   
 }
