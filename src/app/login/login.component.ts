@@ -9,6 +9,7 @@ import { InputvalidationsService } from '../services/inputvalidations.service';
 import { CookieService } from 'ngx-cookie-service';
 import { LoggedInUserService } from '../services/logged-in-user.service';
 import { baseURL } from 'src/environment/environment';
+import { Router } from '@angular/router';
 
 
 
@@ -21,7 +22,7 @@ export class LoginComponent {
 
   constructor(private http: HttpClient, private authService: AuthenticationService,
     private ageIsValid: InputvalidationsService, private cookieService: CookieService,
-    private loggedInUserInstance: LoggedInUserService) {
+    private loggedInUserInstance: LoggedInUserService,private router :Router) {
 
   }
   //* Variables related to the view template 
@@ -377,7 +378,9 @@ export class LoginComponent {
               icon: 'success',
               title: 'Welcome',
               text: `${this.loggedInUserInfo.firstname}`,
-            })
+            });
+
+            this.router.navigate(['/home']);
 
           }
         },
