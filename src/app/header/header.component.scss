@@ -3,7 +3,7 @@
 header {
 
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: center;
     padding: 25px 35px;
     transition: all 0.5s ease 0s;
@@ -12,15 +12,147 @@ header {
     top: 0;
     z-index: 100;
 
-    a {
-        text-decoration: none;
-        color: white;
-        cursor: pointer;
+    .logo {
+        max-width: 7%;
+
+
+
+        img {
+
+            width: 100%;
+            min-width: 75px;
+
+        }
+    }
+
+    #menuList{  
+
+        flex:1;
+        padding: 0 100px;
+    }
+
+    .linksList {
+        // navbar list
+
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin: 0;
+
+        li {
+            list-style-type: none;
+            font-weight: bold;
+
+            &:hover a {
+                color: $hoverLinkedColor;
+
+                &::before {
+                    transform: scaleX(1);
+                    transform-origin: left;
+                }
+            }
+        }
+
+        .activeLink a {
+
+            color: $hoverLinkedColor;
+
+            &::before {
+                transform: scaleX(1);
+                transform-origin: left;
+            }
+        }
+
+
+        a {
+            text-decoration: none;
+            color: white;
+            cursor: pointer;
+            position: relative;
+            padding-bottom: 5px;
+
+            &::before {
+                content: "";
+                position: absolute;
+                width: 100%;
+                height: 5px;
+                border-radius: 5px;
+                background-color: $hoverLinkedColor;
+                bottom: 0;
+                transform: scaleX(0);
+                transform-origin: right;
+                transition: transform 0.5s ease-in-out;
+            }
+        }
+
+    }
+
+    .dropDownMenu {
+        position: relative;
+        background-color: #398177;
+
+        ul {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: antiquewhite;
+            width: 200px;
+            padding: 0;
+            margin: 0;
+            position: absolute;
+            top: 44px;
+            left: -28px;
+            height: 0;
+            overflow: hidden;
+            transition: height 1s ease ;
+
+            li{
+
+                text-decoration: none;
+                list-style-type: none;
+                padding: 10px 20px;
+
+            }
+
+        }
+
+        .openedMenu{
+            height: 132px;
+        }
+
+        
+
+        .userDiv {
+            width: 170px;
+            position: relative;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: #398177;
+            padding:10px;
+
+        }
+
+        .dropDownArrow {
+            height: 0;
+            width: 0;
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            border-top: 10px solid #333;
+            transform: rotate(0deg);    
+            transition: transform 1s ease;
+        }
+        .toUP{
+            animation: arrowChangeUp 1s ease forwards;
+        }
+        .toDOWN{
+            animation: arrowChangeDown 1s ease forwards;
+        }
     }
 }
 
 .onScroll {
-
 
     background: $bgGlass !important;
     padding: 10px 15px;
@@ -28,37 +160,24 @@ header {
 
 }
 
-
-ul li a {
-
-    position: relative;
-    padding-bottom: 5px;
+@keyframes arrowChangeUp {
+    
+    From {
+        transform: rotate(0deg);
+    }
+    To {
+        transform:rotate(180deg);
+    }
 
 }
 
-ul li:hover a,
-ul li.activeLink a {
-
-    color: $hoverLinkedColor;
-}
-
-ul li a::before {
-    content: "";
-    position: absolute;
-    width: 100%;
-    height: 5px;
-    border-radius: 5px;
-    background-color: $hoverLinkedColor;
-    bottom: 0;
-    transform: scaleX(0);
-    transform-origin: right;
-    transition: transform 0.5s ease-in-out;
-}
-
-ul li:hover a::before,
-ul li.activeLink a::before {
-    transform: scaleX(1);
-    transform-origin: left;
+@keyframes arrowChangeDown {
+    From {
+        transform: rotate(180deg);
+    }
+    To {
+        transform:rotate(0deg);
+    }
 }
 
 
@@ -70,46 +189,6 @@ ul li.activeLink a::before {
     To {
         width: 100%;
     }
-}
-
-header a:first-child {
-
-    max-width: 7%;
-
-
-}
-
-header a img[alt='Logo'] {
-
-    width: 100%;
-    min-width: 75px;
-
-}
-
-header div {
-
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-basis: 80%;
-
-}
-
-header div ul {
-
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-basis: 66%;
-    margin: 0;
-
-}
-
-header div ul li {
-
-    list-style-type: none;
-    font-weight: bold;
-
 }
 
 
@@ -128,16 +207,15 @@ header .menuburger-icon {
     padding: 5px;
     z-index: 5;
 
-}
+    span {
 
-header .menuburger-icon span {
-
-    display: inline-block;
-    width: 25px;
-    height: 3px;
-    background-color: white;
-    border-radius: 5px;
-    transition: 2s;
+        display: inline-block;
+        width: 25px;
+        height: 3px;
+        background-color: white;
+        border-radius: 5px;
+        transition: 2s;
+    }
 }
 
 
@@ -146,32 +224,31 @@ header .menuburger-icon span {
     right: 0% !important;
     top: 0%;
 
-}
+    span {
 
-.openedMenu span {
+        background-color: red !important;
+        position: absolute;
 
-    background-color: red !important;
-    position: absolute;
+    }
 
-}
+    span:first-of-type {
 
-.openedMenu span:first-of-type {
-
-    rotate: 45deg !important;
+        rotate: 45deg !important;
 
 
-}
+    }
 
-.openedMenu span:nth-of-type(2) {
+    span:nth-of-type(2) {
 
-    opacity: 0;
-}
+        opacity: 0;
+    }
 
-.openedMenu span:nth-of-type(3) {
-    rotate: -45deg !important;
+    span:nth-of-type(3) {
+        rotate: -45deg !important;
 
 
 
+    }
 }
 
 @media all and (max-width:925px) {

@@ -16,15 +16,20 @@ import { Router } from '@angular/router';
 export class HeaderComponent implements AfterViewChecked {
 
   constructor(private loggedInUserInstance: LoggedInUserService, private cookieService: CookieService,
-    private authService: AuthenticationService , private router :Router) { }
+    private authService: AuthenticationService, private router: Router) { }
 
 
   @ViewChild('header') header!: ElementRef; // getting header tag from view template
+  @ViewChild('dropDownMenu') dropDownMenu!: ElementRef;
+
 
   logoSource: string = './assets/imgs/WIKA_Logo.png';
   isOpened: boolean = false;
   isLoggedIn: boolean = false;
   loggedInUserInfo!: loggedInUserInfo;
+  dropDownMenuStatus: boolean = false;
+  arrowDown!: boolean;
+
 
 
 
@@ -75,12 +80,21 @@ export class HeaderComponent implements AfterViewChecked {
       headerElement.classList.remove("onScroll");
     }
   }
+  //toggle menuburger
   openAndCloseMenuBurger() {
 
     this.isOpened = !this.isOpened;
 
   }
 
+  //toggle dropdown menu
+  toggleDropMenu() {
+    this.dropDownMenuStatus = !this.dropDownMenuStatus;
+    this.arrowDown = !this.arrowDown;
+  }
+
+
+  //logging out process 
   logout() {
     this.loggedInUserInstance.setLoggedInStatus(false);
     this.cookieService.delete("token");
