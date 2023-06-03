@@ -17,10 +17,14 @@ export class IsAdminGuard implements CanActivate {
     });
     if (isAdmin) {
       this.router.navigate(['/home']);
+
       return true;
     } else {
+
+
       return false;
     } 
   
 }
+
 }
