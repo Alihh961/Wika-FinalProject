@@ -26,4 +26,5 @@ export interface loggedInUserInfo{
   street: string;
   buildingnumber: string;
   gender: string;
+  isAdmin: boolean;
 }

@@ -17,11 +17,13 @@ export class LoggedInUserService {
   birthdate: new Date(),
   street: '',
   buildingnumber: '',
-  gender: ''
+  gender: '',
+  isAdmin: false ,
 });
 
   private isLoggedIn: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
+  private isAdmin: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
   setLoggedInUserInfo(data: loggedInUserInfo): void {
     this.loggedInUserInfo.next(data);
@@ -37,6 +39,14 @@ export class LoggedInUserService {
 
   getLoggedInStatus(): Observable<boolean> {
     return this.isLoggedIn.asObservable();
+  }
+
+  setLoggedInUserIsAdmin(value: boolean):void{
+    this.isAdmin.next(value);
+  }
+
+  getLoggedIsUserIsAdmin():Observable<boolean>{
+    return this.isAdmin.asObservable();
   }
 
 }

@@ -2,9 +2,6 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { baseURL } from 'src/environment/environment';
-import { CookieService } from 'ngx-cookie-service';
-import { FormGroup } from '@angular/forms';
-import Swal from 'sweetalert2';
 import { loginDataType } from '../Interface/userdetails';//creating an interface to handle logemail and logpassword
 
 

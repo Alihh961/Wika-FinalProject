@@ -20,7 +20,8 @@ import { PopularcreatorsComponent } from './popularcreators/popularcreators.comp
 import { FooterComponent } from './footer/footer.component';
 import { LoginComponent } from './login/login.component';
 import { CookieService } from 'ngx-cookie-service';
-import { GuardGuard } from './services/guard.guard';
+import { GuardGuard } from './guards/guard.guard';
+import { IsAdminGuard } from './guards/is-admin.guard';
 
 const appRoutes: Routes = [
     // { path: '' ,redirectTo: 'home' , pathMatch: 'full'},
@@ -28,7 +29,7 @@ const appRoutes: Routes = [
     { path: 'home', component: HomeComponent, pathMatch: 'full' },
     { path: 'nfts', component: NftsComponent, pathMatch: 'full' },
     { path: 'popularcreators', component: PopularcreatorsComponent, pathMatch: 'full' },
-    { path: 'contact', component: ContactComponent, pathMatch: 'full'  },
+    { path: 'contact', component: ContactComponent, pathMatch: 'full' ,canActivate : [IsAdminGuard]  },
     { path: 'login', component: LoginComponent, pathMatch: 'full', canActivate : [GuardGuard] },
     { path: '**', component: Error404Component, pathMatch: 'full' },
     

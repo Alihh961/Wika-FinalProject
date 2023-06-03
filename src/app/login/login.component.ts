@@ -370,8 +370,15 @@ export class LoginComponent {
             this.loggedInUserInstance.setLoggedInUserInfo(reponse);
             this.loggedInUserInstance.setLoggedInStatus(true);
 
+            if(reponse.isAdmin == 1){
+              this.loggedInUserInstance.setLoggedInUserIsAdmin(true);
+              console.log("isAdmin");
+            }else{
+              console.log("not an admin");
+            }
+            // console.log(reponse);
+
             const token = reponse.email;
-            console.log(reponse);
             this.cookieService.set('token', token);
 
             Swal.fire({
