@@ -25,9 +25,9 @@ header {
         }
     }
 
-    #menuList{  
+    #menuList {
 
-        flex:1;
+        flex: 1;
         padding: 0 100px;
     }
 
@@ -95,7 +95,7 @@ header {
             display: flex;
             flex-direction: column;
             align-items: center;
-            background-color: antiquewhite;
+            background-color: white;
             width: 200px;
             padding: 0;
             margin: 0;
@@ -104,23 +104,45 @@ header {
             left: -28px;
             height: 0;
             overflow: hidden;
-            transition: height 1s ease ;
+            transition: height 1s ease;
+            max-height: fit-content;
 
-            li{
+            li {
 
-                text-decoration: none;
                 list-style-type: none;
-                padding: 10px 20px;
+                width: 100%;
 
+
+                a {
+                    text-decoration: none;
+                    font-weight: 500;
+                    color: black;
+                    width: 100%;
+                    height: 40px;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+
+                    &:hover {
+
+                        background-color: grey;
+
+                    }
+                }
             }
 
         }
 
-        .openedMenu{
-            height: 132px;
+        .openedMenuList {
+            // if he is not an admin ( large height for the drop down menu list )
+            height: 120px;
+
         }
 
-        
+        .openedMenuListIsAdmin {
+            //if he is not an admin (small height for the dropdown menu list )
+            height: 40px !important;
+        }
 
         .userDiv {
             width: 170px;
@@ -130,7 +152,7 @@ header {
             align-items: center;
             justify-content: space-between;
             background-color: #398177;
-            padding:10px;
+            padding: 10px;
 
         }
 
@@ -140,13 +162,15 @@ header {
             border-left: 10px solid transparent;
             border-right: 10px solid transparent;
             border-top: 10px solid #333;
-            transform: rotate(0deg);    
+            transform: rotate(0deg);
             transition: transform 1s ease;
         }
-        .toUP{
+
+        .toUP {
             animation: arrowChangeUp 1s ease forwards;
         }
-        .toDOWN{
+
+        .toDOWN {
             animation: arrowChangeDown 1s ease forwards;
         }
     }
@@ -161,12 +185,13 @@ header {
 }
 
 @keyframes arrowChangeUp {
-    
+
     From {
         transform: rotate(0deg);
     }
+
     To {
-        transform:rotate(180deg);
+        transform: rotate(180deg);
     }
 
 }
@@ -175,8 +200,9 @@ header {
     From {
         transform: rotate(180deg);
     }
+
     To {
-        transform:rotate(0deg);
+        transform: rotate(0deg);
     }
 }
 
