@@ -28,7 +28,7 @@ export class HeaderComponent implements AfterViewChecked {
   isLoggedIn: boolean = false;
   loggedInUserInfo!: loggedInUserInfo;
   dropDownMenuStatus: boolean = false;
-  arrowDown!: boolean;
+  arrowDown: boolean = false;
   isAdmin!: boolean;
 
 
@@ -54,12 +54,10 @@ export class HeaderComponent implements AfterViewChecked {
         console.log(data);
       });
     }
-    // console.log(this.loggedInUserInstance.getLoggedInStatus());
   }
 
+  
   //* Setting the isLoggedInStatus to true if token exists
-
-
   setLoggedInValue(): void {
     if (this.cookieService.check("token")) {
       this.loggedInUserInstance.setLoggedInStatus(true);
@@ -100,6 +98,9 @@ export class HeaderComponent implements AfterViewChecked {
     this.loggedInUserInstance.setLoggedInStatus(false);
     this.cookieService.delete("token");
     this.router.navigate(["/home"]);
+    this.dropDownMenuStatus = false;
+    this.arrowDown = false;
+
 
   }
 

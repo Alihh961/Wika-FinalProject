@@ -11,19 +11,13 @@
 
     <ng-container *ngFor="let token of tokens">
         <ng-container *ngIf="selectedRadioButton === 'all' || selectedRadioButton === token.type ">
-            <div class="product-accueil" (mouseenter)="hovered=true" (mouseleave)="hovered=false" appHighlight
+            <div class="product-accueil" appHighlight
                 *ngIf="searchInputValue === '' || token.title.toLowerCase().includes(searchInputValue.toLowerCase())">
+                <div *ngIf="isAdmin" class="deleteNFT">X</div>
                 <img [src]="token.source">
 
                 <h3>{{token.title}}</h3>
                 <h5>Product created by {{token.creatorname}}</h5>
-
-                <!-- <p>{{token.discription}}</p> -->
-
-                <!-- <div class="quantity-div">
-                    <h5>Quantity: </h5>
-                    <input type="number" placeholder="Qty" name="quantity" max="2">
-                </div> -->
                 <div class="info">
                     <div class="price">
                         <h4>{{token.price}}</h4>
@@ -31,7 +25,7 @@
                     </div>
                     <h5>{{token.creationdate}}</h5>
                 </div>
-                <div class="buttons">
+                <div class="buttons" *ngIf="!isAdmin">
                     <a href=""><input type="button" value="Add To Carte"></a>
                     <a href=""><input type="button" value="View"></a>
                 </div>

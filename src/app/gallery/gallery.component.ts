@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Itoken } from '../Interface/Itoken';
 import { HttpClient } from '@angular/common/http';
+import { LoggedInUserService } from '../services/logged-in-user.service';
 
 // import { HttpClientModule } from '@angular/common/http';
 
@@ -13,12 +14,15 @@ import { HttpClient } from '@angular/common/http';
 })
 export class GalleryComponent implements OnInit {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient , private loggedInUserServiceInstance: LoggedInUserService) { }
 
 
   //* Calling tokens to display in Gallery view template 
 
   tokens: Array<Itoken> = [];
+  scalable: boolean = false;
+  searchInputValue: string = '';
+  isAdmin: boolean = false;
 
   ngOnInit() {
 
@@ -29,17 +33,21 @@ export class GalleryComponent implements OnInit {
       error => {
         console.error(error);
       }
-    )
+    );
+
+    this.loggedInUserServiceInstance.getLoggedInUserInfo().subscribe(info =>{
+      this.isAdmin = info.isAdmin;
+    });
+
 
   }
 
-  searchInputValue: string = '';
+
 
   onSearchTextEntered(searchValue: string) {
     this.searchInputValue = searchValue;
   }
 
-  hovered: boolean = false;
 
 
   // displaying the qty of each filter option
