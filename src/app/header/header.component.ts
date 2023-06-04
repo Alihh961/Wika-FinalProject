@@ -29,6 +29,7 @@ export class HeaderComponent implements AfterViewChecked {
   loggedInUserInfo!: loggedInUserInfo;
   dropDownMenuStatus: boolean = false;
   arrowDown!: boolean;
+  isAdmin!: boolean;
 
 
 
@@ -53,7 +54,7 @@ export class HeaderComponent implements AfterViewChecked {
         console.log(data);
       });
     }
-    console.log(this.loggedInUserInstance.getLoggedInStatus());
+    // console.log(this.loggedInUserInstance.getLoggedInStatus());
   }
 
   //* Setting the isLoggedInStatus to true if token exists
