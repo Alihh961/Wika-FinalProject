@@ -20,7 +20,6 @@ export class GalleryComponent implements OnInit {
   //* Calling tokens to display in Gallery view template 
 
   tokens: Array<Itoken> = [];
-  scalable: boolean = false;
   searchInputValue: string = '';
   isAdmin: boolean = false;
 
@@ -38,7 +37,6 @@ export class GalleryComponent implements OnInit {
     this.loggedInUserServiceInstance.getLoggedInUserInfo().subscribe(info =>{
       this.isAdmin = info.isAdmin;
     });
-
 
   }
 
@@ -71,8 +69,7 @@ export class GalleryComponent implements OnInit {
   onFilterSelectionChanged(data: string) {
 
     this.selectedRadioButton = data;
-    console.log(this.selectedRadioButton);
-    console.log('http://localhost/backend/alltokens.php?order=' + this.selectedRadioButton );
+
   }
 
 
