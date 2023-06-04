@@ -2,8 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Itoken } from '../Interface/Itoken';
 import { HttpClient } from '@angular/common/http';
 import { LoggedInUserService } from '../services/logged-in-user.service';
-
-// import { HttpClientModule } from '@angular/common/http';
+import { ETHService } from '../services/eth.service';
 
 
 
@@ -14,7 +13,8 @@ import { LoggedInUserService } from '../services/logged-in-user.service';
 })
 export class GalleryComponent implements OnInit {
 
-  constructor(private http: HttpClient , private loggedInUserServiceInstance: LoggedInUserService) { }
+  constructor(private http: HttpClient, private loggedInUserServiceInstance: LoggedInUserService,
+    private ETHServiceInstance: ETHService) { }
 
 
   //* Calling tokens to display in Gallery view template 
@@ -23,9 +23,12 @@ export class GalleryComponent implements OnInit {
   searchInputValue: string = '';
   isAdmin: boolean = false;
 
+  // checked radio button is all by default
+  selectedRadioButton: string = "all";
+
   ngOnInit() {
 
-    this.http.get<any[]>('http://localhost/test/gallerytokens.php?order=' + this.selectedRadioButton ).subscribe(
+    this.http.get<any[]>('http://localhost/test/gallerytokens.php?order=' + this.selectedRadioButton).subscribe(
       data => {
         this.tokens = data;
       },
@@ -34,10 +37,10 @@ export class GalleryComponent implements OnInit {
       }
     );
 
-    this.loggedInUserServiceInstance.getLoggedInUserInfo().subscribe(info =>{
+    this.loggedInUserServiceInstance.getLoggedInUserInfo().subscribe(info => {
       this.isAdmin = info.isAdmin;
     });
-
+    this.setETHPrice();
   }
 
 
@@ -45,6 +48,7 @@ export class GalleryComponent implements OnInit {
   onSearchTextEntered(searchValue: string) {
     this.searchInputValue = searchValue;
   }
+
 
 
 
@@ -62,9 +66,6 @@ export class GalleryComponent implements OnInit {
   }
 
 
-  // checked radio button is all by default
-  selectedRadioButton: string = "all";
-
   // filtering results when the radio button is changed
   onFilterSelectionChanged(data: string) {
 
@@ -72,8 +73,11 @@ export class GalleryComponent implements OnInit {
 
   }
 
-
-
-
+  setETHPrice() {
+    this.ETHServiceInstance.getETHPrice().subscribe(data => {
+      this.ETHServiceInstance.setETHPrice(data["EUR"]);
+      // console.log(this.ETHServiceInstance.ETHPrice);
+    })
+  }
 
 }
