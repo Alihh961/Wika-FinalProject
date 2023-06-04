@@ -22,6 +22,7 @@ export class GalleryComponent implements OnInit {
   tokens: Array<Itoken> = [];
   searchInputValue: string = '';
   isAdmin: boolean = false;
+  ETHPrice!: number;
 
   // checked radio button is all by default
   selectedRadioButton: string = "all";
@@ -41,6 +42,7 @@ export class GalleryComponent implements OnInit {
       this.isAdmin = info.isAdmin;
     });
     this.setETHPrice();
+    // this.ETHPrice = this.ETHServiceInstance.ETHPrice;
   }
 
 
@@ -76,7 +78,7 @@ export class GalleryComponent implements OnInit {
   setETHPrice() {
     this.ETHServiceInstance.getETHPrice().subscribe(data => {
       this.ETHServiceInstance.setETHPrice(data["EUR"]);
-      // console.log(this.ETHServiceInstance.ETHPrice);
+      this.ETHPrice = data["EUR"];
     })
   }
 

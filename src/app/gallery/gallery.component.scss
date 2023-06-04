@@ -145,6 +145,10 @@ app-filter {
             justify-content: space-between;
             align-items: center;
 
+            h5{
+                font-size: 16px;
+            }
+
         }
 
         .price {
@@ -247,6 +251,7 @@ app-filter {
         >h5:first-of-type {
 
             color: #ff0000;
+            font-size:16px;
 
         }
 
