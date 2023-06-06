@@ -10,6 +10,8 @@ import { CookieService } from 'ngx-cookie-service';
 import { LoggedInUserService } from '../services/logged-in-user.service';
 import { baseURL } from 'src/environment/environment';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
+
 
 
 
@@ -20,11 +22,6 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent {
 
-  constructor(private http: HttpClient, private authService: AuthenticationService,
-    private ageIsValid: InputvalidationsService, private cookieService: CookieService,
-    private loggedInUserInstance: LoggedInUserService,private router :Router) {
-
-  }
   //* Variables related to the view template 
 
   passwordMatch !: boolean;
@@ -49,6 +46,7 @@ export class LoginComponent {
 
   loginFormInfo !: FormGroup;
   registrationFormGroup !: FormGroup;
+  valueChangesSubscription: Subscription | undefined;
 
 
   maxDate!: string; // maxDate for the calendar to prevent under 18 from inscrire
@@ -69,6 +67,20 @@ export class LoginComponent {
   @ViewChild("secondFace") secondFace !: ElementRef;
   @ViewChild("thirdFace") thirdFace !: ElementRef;
   @ViewChild("registrationForm") regForm !: FormGroup;
+
+
+
+
+  constructor(private http: HttpClient, private authService: AuthenticationService,
+    private ageIsValid: InputvalidationsService, private cookieService: CookieService,
+    private loggedInUserInstance: LoggedInUserService, private router: Router) {
+
+
+      this.valueChangesSubscription = this.registrationFormGroup.get('thirdFaceGroup.street')?.valueChanges.subscribe((value: string) => {
+        this.searchingAddress(value);
+    })
+
+  }
 
 
 
@@ -99,6 +111,7 @@ export class LoginComponent {
 
     return this.http.get<FeatureCollection>(url)
       .subscribe(reponse => {
+        console.log(reponse);
 
         this.features = reponse.features;
         this.addressResults.nativeElement.style.display = "block";
@@ -157,8 +170,6 @@ export class LoginComponent {
 
   //* Submitting the form
   onRegFormSubmit(): void {
-
-    // const url = "http://localhost/backend/inscription.php";
 
     this.http.post<string[]>(`${baseURL}/inscription.php`, this.userinscriptiondetails).subscribe(
       (response) => {
@@ -254,7 +265,7 @@ export class LoginComponent {
       this.passwordMatch = false;
     }
   }
-
+  //* Check the match of passwords
   passwordIsValid(event: Event): void {
     const input = event.target as HTMLInputElement;
 
@@ -266,7 +277,7 @@ export class LoginComponent {
     }
 
   }
-
+  //* Init login form
   initLogForm() {
     this.loginFormInfo = new FormGroup({
       logemail: new FormControl("", [
@@ -284,7 +295,7 @@ export class LoginComponent {
   get logPassword() {
     return this.loginFormInfo.get("logPassword");
   }
-
+  //* Init Registeration form
   initRegistrationForm() {
     this.registrationFormGroup = new FormGroup({
       firstFaceGroup: new FormGroup({
@@ -294,7 +305,7 @@ export class LoginComponent {
         ]),
         lastName: new FormControl(null, [
           Validators.required,
-          Validators.pattern("^[a-zA-Z]+( [a-zA-Z]+)?$")
+          Validators.pattern("^[a-zA-Z]+( [a-zA-Z]+( [a-zA-Z]+)?)?$")
         ]),
         birthdate: new FormControl(null, [
           Validators.required,
@@ -370,10 +381,10 @@ export class LoginComponent {
             this.loggedInUserInstance.setLoggedInUserInfo(reponse);
             this.loggedInUserInstance.setLoggedInStatus(true);
 
-            if(reponse.isAdmin == 1){
+            if (reponse.isAdmin == 1) {
               this.loggedInUserInstance.setLoggedInUserIsAdmin(true);
               console.log("isAdmin");
-            }else{
+            } else {
               console.log("not an admin");
             }
             // console.log(reponse);
