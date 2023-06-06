@@ -64,6 +64,7 @@ export class LoginComponent {
   @ViewChild("input") input !: ElementRef; // input address
   @ViewChild("submitButton") submitbutton !: ElementRef;
   @ViewChild("firstFace") firstFace !: ElementRef;
+
   @ViewChild("secondFace") secondFace !: ElementRef;
   @ViewChild("thirdFace") thirdFace !: ElementRef;
   @ViewChild("registrationForm") regForm !: FormGroup;
