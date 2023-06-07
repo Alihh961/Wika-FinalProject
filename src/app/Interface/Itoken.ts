@@ -1,13 +1,13 @@
-export interface Itoken{
-    tokenid: number,
-    title: string,
-    description: string,
-    type: string,
+export interface NFTs{
+    IdNFT: number,
+    IdMedia : string,
+    NFT_name: string,
+    category: string,
     price: number,
     creatorname: string,
-    creatorid: number,
     creationdate: Date,
-    source: string
+    quantityAvailable: number,
+    url: string
 }
 
 
