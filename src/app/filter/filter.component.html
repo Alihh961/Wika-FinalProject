@@ -7,13 +7,23 @@
     </div>
 
     <div>
-        <input type="radio" name="filter" id="transferable" value="transferable" (change)="onFilterSelectionChanged()" [(ngModel)]="filterRadioSelectedValue">
-        <label for="">Transferable Tokens ( {{transferable}} )</label>
+        <input type="radio" name="filter" id="transferable" value="Art" (change)="onFilterSelectionChanged()" [(ngModel)]="filterRadioSelectedValue">
+        <label for="">Art ( {{transferable}} )</label>
     </div>
 
     <div>
-        <input type="radio" name="filter" id="nontransferable" value="non-transferable" (change)="onFilterSelectionChanged()" [(ngModel)]="filterRadioSelectedValue">
-        <label for="">Non-Transferable Tokens ( {{non_transferable}} )</label>
+        <input type="radio" name="filter" id="transferable" value="Music" (change)="onFilterSelectionChanged()" [(ngModel)]="filterRadioSelectedValue">
+        <label for="">Music ( {{transferable}} )</label>
+    </div>
+
+    <div>
+        <input type="radio" name="filter" id="transferable" value="Gaming" (change)="onFilterSelectionChanged()" [(ngModel)]="filterRadioSelectedValue">
+        <label for="">Gaming ( {{transferable}} )</label>
+    </div>
+
+    <div>
+        <input type="radio" name="filter" id="nontransferable" value="Sport" (change)="onFilterSelectionChanged()" [(ngModel)]="filterRadioSelectedValue">
+        <label for="">Sport ( {{non_transferable}} )</label>
     </div>
 
 </div>
