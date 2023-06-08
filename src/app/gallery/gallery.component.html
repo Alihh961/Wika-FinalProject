@@ -2,7 +2,7 @@
 
     <app-search (searchInputValueEvent)="onSearchTextEntered($event)"></app-search>
     <app-filter [all]="getAllTokensQty()" [art]="getNftArtQty()" [music]="getNftMusicQty()" [gaming]="getNftGamingQty()"
-        [sport]="getNftSportQty()" (filterSelectionChangedEvent)="onFilterSelectionChanged($event)"></app-filter>
+    [sport]="getNftSportQty()" (filterSelectionChangedEvent)="onFilterSelectionChanged($event)"></app-filter>
 
 </div>
 
@@ -12,6 +12,7 @@
         <ng-container *ngIf="selectedRadioButton === 'all' || selectedRadioButton === nft.category_name ">
             <ng-container
                 *ngIf="searchInputValue === '' || nft.NFT_name.toLowerCase().includes(searchInputValue.toLowerCase())">
+
                 <div class="product-accueil">
                     <img [src]="nft.url">
 
@@ -40,7 +41,7 @@
 
 </section>
 
-<ng-container *ngIf="limit < limitMax ">
+<ng-container *ngIf="limit < all_categories ">
     <div class="fetchMoreDiv px-auto py-5">
         <button class="btn-showmore" (click)="fetchMore()">Show More</button>
     </div>
