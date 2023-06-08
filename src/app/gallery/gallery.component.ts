@@ -23,28 +23,63 @@ export class GalleryComponent implements OnInit {
   searchInputValue: string = '';
   isAdmin: boolean = false;
   ETHPrice!: number;
+  limit: number = 4;
+  limitMax!: number;
 
   // checked radio button is all by default
   selectedRadioButton: string = "all";
 
   ngOnInit() {
 
-    this.http.get<any[]>('http://localhost/backend/gallerynfts.php?category=' + this.selectedRadioButton).subscribe(
+    this.maxNumberOfNfts();
+    this.fetchingNFTs();
+    this.loggedInUserServiceInstance.getLoggedInUserInfo().subscribe(info => {
+      this.isAdmin = info.isAdmin;
+    });
+    this.setETHPrice();
+
+
+  }
+
+  maxNumberOfNfts(): void {
+    this.http.get<any>('http://localhost/backend/gallerynfts.php?c=all').subscribe(
+      data => {
+ 
+        this.limitMax = data[0][0]["total"];
+        console.log(this.limitMax + " limit max");
+
+      })
+  }
+
+  fetchingNFTs() {
+
+    this.http.get<any[]>('http://localhost/backend/gallerynfts.php?c=' + this.selectedRadioButton + '&o=4').subscribe(
       data => {
         this.nfts = data;
-        // console.log(data);
-        console.log(this.nfts);
+
       },
       (error) => {
         console.error(error);
       }
     );
+  }
 
-    this.loggedInUserServiceInstance.getLoggedInUserInfo().subscribe(info => {
-      this.isAdmin = info.isAdmin;
-    });
-    this.setETHPrice();
-    // this.ETHPrice = this.ETHServiceInstance.ETHPrice;
+  fetchMore(): void {
+    this.http.get<any[]>('http://localhost/backend/gallerynfts.php?c=' + this.selectedRadioButton + '&o=' + (4 + this.limit)).subscribe(
+      data => {
+
+        this.nfts = data;
+        this.limit += 4;
+        console.log(this.limitMax + " limit max");
+        console.log(this.limit + " limi");
+
+
+
+      },
+      (error) => {
+        console.error(error);
+      }
+    );
   }
 
 
@@ -57,23 +92,21 @@ export class GalleryComponent implements OnInit {
 
 
   // displaying the qty of each filter option
-  getAllTokensQty() {
-    console.log(this.nfts);
+  getAllTokensQty(): number {
     return this.nfts.length;
 
   }
 
-  getNftArtQty() {
+  getNftArtQty(): number {
     return this.nfts.filter(nft => nft.category_name === "Art").length;
   }
-
-  getNftMusicQty() {
+  getNftMusicQty(): number {
     return this.nfts.filter(nft => nft.category_name === "Music").length;
   }
-  getNftSportQty() {
+  getNftSportQty(): number {
     return this.nfts.filter(nft => nft.category_name === "Sport").length;
   }
-  getNftGamingQty() {
+  getNftGamingQty(): number {
     return this.nfts.filter(nft => nft.category_name === "Gaming").length;
   }
 
@@ -82,6 +115,7 @@ export class GalleryComponent implements OnInit {
   onFilterSelectionChanged(data: string) {
 
     this.selectedRadioButton = data;
+    this.fetchingNFTs();
 
   }
 
