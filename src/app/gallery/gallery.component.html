@@ -1,8 +1,8 @@
 <div class="searchFilterDiv">
 
     <app-search (searchInputValueEvent)="onSearchTextEntered($event)"></app-search>
-    <app-filter [all]="getAllTokensQty()" [transferable]="getTransferableTokensQty()"
-        [non_transferable]="getNonTransferableTokensQty()"
+    <app-filter [all]="getAllTokensQty()" [art]="getNftArtQty()"
+        [music]="getNftMusicQty()" [gaming]="getNftGamingQty()" [sport]="getNftSportQty()"
         (filterSelectionChangedEvent)="onFilterSelectionChanged($event)"></app-filter>
 
 </div>
@@ -10,7 +10,7 @@
 <section class="homePageGallery">
 
     <ng-container *ngFor="let nft of nfts">
-        <ng-container *ngIf="selectedRadioButton === 'all' || selectedRadioButton === nft.category ">
+        <ng-container *ngIf="selectedRadioButton === 'all' || selectedRadioButton === nft.category_name ">
             <div class="product-accueil" appHighlight
                 *ngIf="searchInputValue === '' || nft.NFT_name.toLowerCase().includes(searchInputValue.toLowerCase())">
                 <div *ngIf="isAdmin" class="deleteNFT">X</div>

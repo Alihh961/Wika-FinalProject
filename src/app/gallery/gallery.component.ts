@@ -58,15 +58,23 @@ export class GalleryComponent implements OnInit {
 
   // displaying the qty of each filter option
   getAllTokensQty() {
+    console.log(this.nfts);
     return this.nfts.length;
+
   }
 
-  getTransferableTokensQty() {
-    return this.nfts.filter(nft => nft.category === "transferable").length;
+  getNftArtQty() {
+    return this.nfts.filter(nft => nft.category_name === "Art").length;
   }
 
-  getNonTransferableTokensQty() {
-    return this.nfts.filter(nft => nft.category === "non-transferable").length;
+  getNftMusicQty() {
+    return this.nfts.filter(nft => nft.category_name === "Music").length;
+  }
+  getNftSportQty() {
+    return this.nfts.filter(nft => nft.category_name === "Sport").length;
+  }
+  getNftGamingQty() {
+    return this.nfts.filter(nft => nft.category_name === "Gaming").length;
   }
 
 

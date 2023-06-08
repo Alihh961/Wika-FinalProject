@@ -2,7 +2,7 @@ export interface NFTs{
     IdNFT: number,
     IdMedia : string,
     NFT_name: string,
-    category: string,
+    category_name: string,
     price: number,
     creatorname: string,
     creationdate: Date,

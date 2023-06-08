@@ -10,8 +10,11 @@ export class FilterComponent {
 
   // inputting the value of the filter from gallery component to filter Component(two way binding)
   @Input() all: number = 0;
-  @Input() transferable: number = 0;
-  @Input() non_transferable: number = 0;
+  @Input() art: number = 0;
+  @Input() music: number = 0;
+  @Input() sport: number = 0;
+  @Input() gaming: number = 0;
+
 
   //  radio button all is checked by default
   filterRadioSelectedValue: string = "all";
