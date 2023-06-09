@@ -24,7 +24,9 @@ export class GalleryComponent implements OnInit {
   searchInputValue: string = '';
   isAdmin: boolean = false;
   ETHPrice!: number;
+
   limit: number = 4;
+  limitMax!: number;
   all_categories!:number;
   sport_categories!:number;
   music_categories!:number;
@@ -49,16 +51,7 @@ export class GalleryComponent implements OnInit {
 
   }
 
-  // maxNumberOfNfts(): void {
-  //   this.http.get<any>('http://localhost/backend/gallerynfts.php?c=all&o=0').subscribe(
-  //     data => {
- 
-  //       this.limitMax = data[0][0]["total"];
-  //       console.log(this.limitMax + " limit max");
-
-  //     })
-  // }
-
+  // get the total number of items for every category
   getCategoriesTotal(){
     this.http.get<any>(`${baseURL}calculateCategories.php`).subscribe(data => {
 
@@ -68,6 +61,9 @@ export class GalleryComponent implements OnInit {
       this.gaming_categories = data["gaming"];
       this.art_categories = data["art"];
 
+      //set limitMax to the total number of categories
+      
+      this.limitMax = this.all_categories;
 
     },
     error => {
@@ -75,12 +71,13 @@ export class GalleryComponent implements OnInit {
     })
   }
 
+  //fetching 4 NFTs
   fetchingNFTs() {
 
     this.http.get<any[]>('http://localhost/backend/gallerynfts.php?c=' + this.selectedRadioButton + '&o=4').subscribe(
       data => {
         this.nfts = data;
-        console.log(data.length);
+        // console.log(data.length);
 
       },
       (error) => {
@@ -89,6 +86,7 @@ export class GalleryComponent implements OnInit {
     );
   }
 
+  // FEtching more NFTs on button clicked
   fetchMore(): void {
     this.http.get<any[]>('http://localhost/backend/gallerynfts.php?c=' + this.selectedRadioButton + '&o=' + (4 + this.limit)).subscribe(
       data => {
@@ -132,6 +130,21 @@ export class GalleryComponent implements OnInit {
 
     this.selectedRadioButton = data;
     this.fetchingNFTs();
+   
+
+    if(data == "Art"){
+      this.limitMax = this.art_categories;
+    }else if(data == "Sport"){
+      this.limitMax = this.sport_categories;
+
+    }else if(data == "Gaming"){
+      this.limitMax = this.gaming_categories;
+
+    }else if(data == "Music"){
+      this.limitMax = this.music_categories;
+
+    }
+    console.log(this.limitMax);
 
   }
 

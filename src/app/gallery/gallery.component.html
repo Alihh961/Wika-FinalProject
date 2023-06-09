@@ -41,7 +41,7 @@
 
 </section>
 
-<ng-container *ngIf="limit < all_categories ">
+<ng-container *ngIf="limit < limitMax ">
     <div class="fetchMoreDiv px-auto py-5">
         <button class="btn-showmore" (click)="fetchMore()">Show More</button>
     </div>
