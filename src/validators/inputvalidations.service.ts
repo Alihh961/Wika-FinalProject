@@ -8,7 +8,7 @@ export class InputvalidationsService {
 
   constructor() { }
 
-  ageIsValid(control: FormControl): boolean {
+  ageIsValid(control: FormControl): ValidationErrors | null {
     const currentDate = new Date();
     const currentYear = currentDate.getFullYear();
     const currentMonth = currentDate.getMonth() + 1; // Adding 1 since getMonth() returns zero-based index
@@ -24,10 +24,10 @@ export class InputvalidationsService {
     const ageDays = currentDay - birthDay;
   
     if (ageYears > 18) {
-      return true; // Valid age
+      return null; // Valid age
     }
   
-    return false; // Age is less than 18
+    return { ageUnder18: true }; // Age is less than 18
   }
 
 }

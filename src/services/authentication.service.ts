@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { baseURL } from 'src/environment/environment';
-import { loginDataType } from '../Interface/userdetails';//creating an interface to handle logemail and logpassword
+import { loginDataType } from '../app/Interface/userdetails';//creating an interface to handle logemail and logpassword
 
 
 

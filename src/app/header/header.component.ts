@@ -1,8 +1,8 @@
 import { Component, ElementRef, ViewChild, AfterViewInit, asNativeElements, HostListener, Input, AfterViewChecked } from '@angular/core';
-import { LoggedInUserService } from '../services/logged-in-user.service';
+import { LoggedInUserService } from '../../services/logged-in-user.service';
 import { loggedInUserInfo } from '../Interface/userdetails';
 import { CookieService } from 'ngx-cookie-service';
-import { AuthenticationService } from '../services/authentication.service';
+import { AuthenticationService } from '../../services/authentication.service';
 import { Router } from '@angular/router';
 
 
@@ -59,6 +59,7 @@ export class HeaderComponent implements AfterViewChecked {
     this.loggedInUserInstance.getLoggedInUserInfo().subscribe(value => {
       this.isAdmin = value.isAdmin;
     })
+
   }
 
 
@@ -111,8 +112,6 @@ export class HeaderComponent implements AfterViewChecked {
     this.dropDownMenuStatus = false;
     this.dropDownMenuStatusIsAdmin = false;
     this.arrowDown = false;
-
-
   }
 
 }

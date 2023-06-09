@@ -4,13 +4,14 @@ import { Component, ElementRef, ViewChild } from '@angular/core';
 import { Feature, FeatureCollection } from '../Interface/AddressResults';
 import { UserInscription, loggedInUserInfo } from '../Interface/userdetails';
 import { FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
-import { AuthenticationService } from '../services/authentication.service';
-import { InputvalidationsService } from '../services/inputvalidations.service';
+import { AuthenticationService } from '../../services/authentication.service';
+import { InputvalidationsService } from '../../validators/inputvalidations.service';
 import { CookieService } from 'ngx-cookie-service';
-import { LoggedInUserService } from '../services/logged-in-user.service';
+import { LoggedInUserService } from '../../services/logged-in-user.service';
 import { baseURL } from 'src/environment/environment';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { passwordDoesntMatch } from 'src/validators/passwordvalidator.validator';
 
 
 
@@ -28,6 +29,7 @@ export class LoginComponent {
   patternRespected: boolean = false;
   pattern: any = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/;
   isLoggedIn: boolean = false;
+  displaySuggestions: boolean = false;
 
 
   userinscriptiondetails: UserInscription = {
@@ -64,7 +66,6 @@ export class LoginComponent {
   @ViewChild("input") input !: ElementRef; // input address
   @ViewChild("submitButton") submitbutton !: ElementRef;
   @ViewChild("firstFace") firstFace !: ElementRef;
-
   @ViewChild("secondFace") secondFace !: ElementRef;
   @ViewChild("thirdFace") thirdFace !: ElementRef;
   @ViewChild("registrationForm") regForm !: FormGroup;
@@ -73,15 +74,13 @@ export class LoginComponent {
 
 
   constructor(private http: HttpClient, private authService: AuthenticationService,
-    private ageIsValid: InputvalidationsService, private cookieService: CookieService,
-    private loggedInUserInstance: LoggedInUserService, private router: Router) {
+    private  ageValidationInstance: InputvalidationsService, private cookieService: CookieService,
+    private loggedInUserInstance: LoggedInUserService, private router: Router ) {
 
 
-      this.valueChangesSubscription = this.registrationFormGroup.get('thirdFaceGroup.street')?.valueChanges.subscribe((value: string) => {
-        this.searchingAddress(value);
-    })
+      this.initRegistrationForm();
 
-  }
+     }
 
 
 
@@ -89,7 +88,6 @@ export class LoginComponent {
 
   ngOnInit(): void {
     this.initLogForm();
-    this.initRegistrationForm();
 
     this.loggedInUserInstance.getLoggedInUserInfo().subscribe(value => {
       this.loggedInUserInfo = value;
@@ -211,17 +209,17 @@ export class LoginComponent {
 
   }
 
-  //* Displaying only the valid date of people over than 18 years old
-  ageValidator(control: FormControl): ValidationErrors | null {
+  //* valid date of people over than 18 years old
+  // ageValidator(control: FormControl): ValidationErrors | null {
 
 
-    if (this.ageIsValid.ageIsValid(control)) {
-      return null; // Valid age
-    } else {
+  //   if (this.ageIsValid.ageIsValid(control)) {
+  //     return null; // Valid age
+  //   } else {
 
-      return { ageInvalid: true }; // Age is less than 18
-    }
-  }
+  //     return { ageInvalid: true }; // Age is less than 18
+  //   }
+  // }
 
   //* Checking the value of address on blur
   onBlur(element: any): void {
@@ -267,17 +265,17 @@ export class LoginComponent {
     }
   }
   //* Check the match of passwords
-  passwordIsValid(event: Event): void {
-    const input = event.target as HTMLInputElement;
+  // passwordIsValid(event: Event): void {
+  //   const input = event.target as HTMLInputElement;
 
-    if (this.passwordMatch && this.pattern.test(input.value)) {
-      this.patternRespected == true;
-    } else {
-      this.patternRespected = false;
+  //   if (this.passwordMatch && this.pattern.test(input.value)) {
+  //     this.patternRespected == true;
+  //   } else {
+  //     this.patternRespected = false;
 
-    }
+  //   }
 
-  }
+  // }
   //* Init login form
   initLogForm() {
     this.loginFormInfo = new FormGroup({
@@ -288,7 +286,6 @@ export class LoginComponent {
       logpassword: new FormControl("", [Validators.required])
 
     })
-    // console.log(this.loginFormInfo);
   };
   get logemail() {
     return this.loginFormInfo.get("logemail");
@@ -307,10 +304,10 @@ export class LoginComponent {
         lastName: new FormControl(null, [
           Validators.required,
           Validators.pattern("^[a-zA-Z]+( [a-zA-Z]+( [a-zA-Z]+)?)?$")
-        ]),
+        ]),        
         birthdate: new FormControl(null, [
           Validators.required,
-          this.ageValidator?.bind(this)
+          this.ageValidationInstance.ageIsValid?.bind(this.ageValidationInstance)
         ])
       }),
 
@@ -319,21 +316,35 @@ export class LoginComponent {
           Validators.required,
           Validators.pattern("[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$")
         ]),
-        password: new FormControl(null, [
+
+        // passwordGroup: new FormGroup ({
+
+           password: new FormControl(null, [
           Validators.required,
           Validators.pattern("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$")
         ]),
         confPassword: new FormControl(null, [
           Validators.required,
-          Validators.pattern("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$")])
-      }),
-
+          Validators.pattern("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$")
+        ]),
+      },
+       {
+         validators: passwordDoesntMatch
+        // })
+        }),
+       
+      
+      
       thirdFaceGroup: new FormGroup({
         street: new FormControl(null, Validators.required),
         buildingNumber: new FormControl(null, Validators.required),
         gender: new FormControl(null, Validators.required)
       })
     })
+  }
+
+  get secondFaceGroup(){
+    return this.registrationFormGroup.get('secondFaceGroup');
   }
   get firstName() {
     return this.registrationFormGroup.get('firstFaceGroup.firstName');
@@ -381,15 +392,7 @@ export class LoginComponent {
 
             this.loggedInUserInstance.setLoggedInUserInfo(reponse);
             this.loggedInUserInstance.setLoggedInStatus(true);
-
-            if (reponse.isAdmin == 1) {
-              this.loggedInUserInstance.setLoggedInUserIsAdmin(true);
-              console.log("isAdmin");
-            } else {
-              console.log("not an admin");
-            }
-            // console.log(reponse);
-
+            
             const token = reponse.email;
             this.cookieService.set('token', token);
 

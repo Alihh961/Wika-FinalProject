@@ -112,7 +112,7 @@
                                                 <small class="alert alert-danger" *ngIf="lastName?.errors?.['pattern']
                                                     && (lastName?.touched ||
                                                     lastName?.dirty)">
-                                                    Only letters are allowed and one white space Max!
+                                                    Only letters are allowed and two white space Max!
                                                 </small>
                                             </div>
 
@@ -169,50 +169,53 @@
                                             </div>
 
 
+                                            <!-- <span formGroupName="passwordGroup"> -->
+                                                <!-- Password -->
+                                                <div class="form-group mt-2">
+                                                    <input type="password" class="form-style"
+                                                        placeholder="Your Password" autocomplete="off"
+                                                        formControlName="password">
 
-                                            <!-- Password -->
-                                            <div class="form-group mt-2">
-                                                <input type="password" class="form-style" placeholder="Your Password"
-                                                    autocomplete="off" formControlName="password">
+                                                    <!-- (ngModelChange)="checkPasswordMatch();passwordIsValid($event)" -->
+                                                    
+                                                    <i class="input-icon uil uil-lock-alt"></i>
+                                                    <small class="alert alert-danger"
+                                                        *ngIf="password?.errors?.['pattern'] && (password?.touched || password?.dirty)">
+                                                        At Least one LowerCase,UpperCase,SpaecialCharacter
+                                                        ,Number(total of 8 characters)
+                                                    </small>
+                                                    <small class="alert alert-danger"
+                                                        *ngIf="password?.errors?.['required'] && password?.touched">
+                                                        Password Required!
+                                                    </small>
 
-                                                <!-- (ngModelChange)="checkPasswordMatch();passwordIsValid($event)" -->
-                                                <i class="input-icon uil uil-lock-alt"></i>
+                                                    <small *ngIf="secondFaceGroup?.hasError('doesntMatchError')"
+                                                        class="alert alert-danger">
+                                                        Password doesn't match!
+                                                    </small>
+
+
+                                                </div>
+
+
+                                                <!-- Confirmed Password -->
+                                                <div class="form-group mt-2">
+                                                    <input type="password" class="form-style"
+                                                        placeholder="Confirmed Password" autocomplete="off"
+                                                        formControlName="confPassword">
+                                                    <i class="input-icon uil uil-lock-alt"></i>
+                                                    <!-- (ngModelChange)="checkPasswordMatch();passwordIsValid($event)" -->
+                                                </div>
                                                 <small class="alert alert-danger"
-                                                    *ngIf="password?.errors?.['pattern'] && (password?.touched || password?.dirty)">
+                                                    *ngIf="confPassword?.errors?.['pattern'] && (confPassword?.touched || confPassword?.dirty)">
                                                     At Least one LowerCase,UpperCase,SpaecialCharacter
                                                     ,Number(total of 8 characters)
                                                 </small>
                                                 <small class="alert alert-danger"
-                                                    *ngIf="password?.errors?.['required'] && password?.touched">
+                                                    *ngIf="confPassword?.errors?.['required'] && (confPassword?.touched || confPassword?.dirty)">
                                                     Password Required!
                                                 </small>
-
-                                                <small class="alert alert-danger">
-                                                    Password doesn't match!
-                                                </small>
-
-
-                                            </div>
-
-
-                                            <!-- Confirmed Password -->
-                                            <div class="form-group mt-2">
-                                                <input type="password" class="form-style"
-                                                    placeholder="Confirmed Password" autocomplete="off"
-                                                    formControlName="confPassword">
-                                                <i class="input-icon uil uil-lock-alt"></i>
-                                                <!-- (ngModelChange)="checkPasswordMatch();passwordIsValid($event)" -->
-                                            </div>
-                                            <small class="alert alert-danger"
-                                                *ngIf="confPassword?.errors?.['pattern'] && (confPassword?.touched || confPassword?.dirty)">
-                                                At Least one LowerCase,UpperCase,SpaecialCharacter
-                                                ,Number(total of 8 characters)
-                                            </small>
-                                            <small class="alert alert-danger"
-                                                *ngIf="confPassword?.errors?.['required'] && (confPassword?.touched || confPassword?.dirty)">
-                                                Password Required!
-                                            </small>
-
+                                            <!-- </span> -->
                                             <svg (click)="changingFace($event)" class='nextArrow toThirdFace'
                                                 xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                                 viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"

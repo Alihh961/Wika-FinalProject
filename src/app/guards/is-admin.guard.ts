@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, Router } from '@angular/router';
 import { Observable } from 'rxjs';
-import { LoggedInUserService } from '../services/logged-in-user.service';
+import { LoggedInUserService } from '../../services/logged-in-user.service';
 
 
 @Injectable({

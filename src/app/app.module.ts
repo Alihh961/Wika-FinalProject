@@ -29,8 +29,8 @@ const appRoutes: Routes = [
     { path: 'home', component: HomeComponent, pathMatch: 'full' },
     { path: 'nfts', component: NftsComponent, pathMatch: 'full' },
     { path: 'popularcreators', component: PopularcreatorsComponent, pathMatch: 'full' },
-    { path: 'contact', component: ContactComponent, pathMatch: 'full' ,canActivate : [IsAdminGuard]  },
-    { path: 'login', component: LoginComponent, pathMatch: 'full', canActivate : [GuardGuard] },
+    { path: 'contact', component: ContactComponent, pathMatch: 'full' },
+    { path: 'login', component: LoginComponent, pathMatch: 'full'},
     { path: '**', component: Error404Component, pathMatch: 'full' },
     
   ];

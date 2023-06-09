@@ -8,7 +8,7 @@
             </li>
             <li routerLinkActive="activeLink"><a routerLink="/nfts">NFTs</a></li>
             <li routerLinkActive="activeLink"><a routerLink="/popularcreators">Popular Creators</a></li>
-            <li *ngIf="!isAdmin" routerLinkActive="activeLink"><a routerLink="/contact">Contact</a></li>
+            <li routerLinkActive="activeLink"><a routerLink="/contact">Contact</a></li>
             <li *ngIf="!isLoggedIn" routerLinkActive="activeLink"><a routerLink="/login">Sign in / Sign up</a></li>
 
         </ul>
@@ -23,8 +23,8 @@
         </div>
 
         <ul [ngClass]="{'openedMenuList': dropDownMenuStatus && !isAdmin, 'openedMenuListIsAdmin': dropDownMenuStatusIsAdmin }">
-            <li *ngIf="!isAdmin" ><a href="#">My portfolio</a></li>
-            <li *ngIf="!isAdmin" ><a href="#">My Profile</a></li>
+            <li><a href="#">My portfolio</a></li>
+            <li><a href="#">My Profile</a></li>
             <li (click)="logout()" routerLinkActive="activeLink"><a href="#">Logout</a></li>
         </ul>
 

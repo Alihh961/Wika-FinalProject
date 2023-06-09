@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { NFTs } from '../Interface/Itoken';
 import { HttpClient } from '@angular/common/http';
-import { LoggedInUserService } from '../services/logged-in-user.service';
-import { ETHService } from '../services/eth.service';
+import { LoggedInUserService } from '../../services/logged-in-user.service';
+import { ETHService } from '../../services/eth.service';
 import { baseURL } from 'src/environment/environment';
 
 
