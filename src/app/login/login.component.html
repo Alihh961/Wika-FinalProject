@@ -137,10 +137,11 @@
 
                                             </div>
 
-                                            <svg class="nextArrow toSecondFace" (click)="changingFace($event)"
-                                                xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                                stroke-linecap="round" stroke-linejoin="round">
+                                            <svg *ngIf="firstFaceGroup?.valid" class="nextArrow toSecondFace"
+                                                (click)="changingFace($event)" xmlns="http://www.w3.org/2000/svg"
+                                                width="16" height="16" viewBox="0 0 24 24" fill="none"
+                                                stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                                stroke-linejoin="round">
                                                 <path d="M5 12h14M12 5l7 7-7 7" class="nextArrow toSecondFace"
                                                     (click)="changingFace($event)" />
                                             </svg>
@@ -169,57 +170,56 @@
                                             </div>
 
 
-                                            <!-- <span formGroupName="passwordGroup"> -->
-                                                <!-- Password -->
-                                                <div class="form-group mt-2">
-                                                    <input type="password" class="form-style"
-                                                        placeholder="Your Password" autocomplete="off"
-                                                        formControlName="password">
 
-                                                    <!-- (ngModelChange)="checkPasswordMatch();passwordIsValid($event)" -->
-                                                    
-                                                    <i class="input-icon uil uil-lock-alt"></i>
-                                                    <small class="alert alert-danger"
-                                                        *ngIf="password?.errors?.['pattern'] && (password?.touched || password?.dirty)">
-                                                        At Least one LowerCase,UpperCase,SpaecialCharacter
-                                                        ,Number(total of 8 characters)
-                                                    </small>
-                                                    <small class="alert alert-danger"
-                                                        *ngIf="password?.errors?.['required'] && password?.touched">
-                                                        Password Required!
-                                                    </small>
-
-                                                    <small *ngIf="secondFaceGroup?.hasError('doesntMatchError')"
-                                                        class="alert alert-danger">
-                                                        Password doesn't match!
-                                                    </small>
+                                            <!-- Password -->
+                                            <div class="form-group mt-2">
+                                                <input type="password" class="form-style" placeholder="Your Password"
+                                                    autocomplete="off" formControlName="password">
 
 
-                                                </div>
-
-
-                                                <!-- Confirmed Password -->
-                                                <div class="form-group mt-2">
-                                                    <input type="password" class="form-style"
-                                                        placeholder="Confirmed Password" autocomplete="off"
-                                                        formControlName="confPassword">
-                                                    <i class="input-icon uil uil-lock-alt"></i>
-                                                    <!-- (ngModelChange)="checkPasswordMatch();passwordIsValid($event)" -->
-                                                </div>
+                                                <i class="input-icon uil uil-lock-alt"></i>
                                                 <small class="alert alert-danger"
-                                                    *ngIf="confPassword?.errors?.['pattern'] && (confPassword?.touched || confPassword?.dirty)">
+                                                    *ngIf="password?.errors?.['pattern'] && (password?.touched || password?.dirty)">
                                                     At Least one LowerCase,UpperCase,SpaecialCharacter
                                                     ,Number(total of 8 characters)
                                                 </small>
                                                 <small class="alert alert-danger"
-                                                    *ngIf="confPassword?.errors?.['required'] && (confPassword?.touched || confPassword?.dirty)">
+                                                    *ngIf="password?.errors?.['required'] && password?.touched">
                                                     Password Required!
                                                 </small>
-                                            <!-- </span> -->
-                                            <svg (click)="changingFace($event)" class='nextArrow toThirdFace'
-                                                xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                                stroke-linecap="round" stroke-linejoin="round">
+
+                                                <small *ngIf="secondFaceGroup?.hasError('doesntMatchError')"
+                                                    class="alert alert-danger">
+                                                    Password doesn't match!
+                                                </small>
+
+
+                                            </div>
+
+
+                                            <!-- Confirmed Password -->
+                                            <div class="form-group mt-2">
+                                                <input type="password" class="form-style"
+                                                    placeholder="Confirmed Password" autocomplete="off"
+                                                    formControlName="confPassword">
+                                                <i class="input-icon uil uil-lock-alt"></i>
+
+                                            </div>
+                                            <small class="alert alert-danger"
+                                                *ngIf="confPassword?.errors?.['pattern'] && (confPassword?.touched || confPassword?.dirty)">
+                                                At Least one LowerCase,UpperCase,SpaecialCharacter
+                                                ,Number(total of 8 characters)
+                                            </small>
+                                            <small class="alert alert-danger"
+                                                *ngIf="confPassword?.errors?.['required'] && (confPassword?.touched || confPassword?.dirty)">
+                                                Password Required!
+                                            </small>
+
+                                            <svg *ngIf="secondFaceGroup?.valid" (click)="changingFace($event)"
+                                                class='nextArrow toThirdFace' xmlns="http://www.w3.org/2000/svg"
+                                                width="16" height="16" viewBox="0 0 24 24" fill="none"
+                                                stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                                stroke-linejoin="round">
                                                 <path d="M5 12h14M12 5l7 7-7 7" (click)="changingFace($event)"
                                                     class='nextArrow toThirdFace' />
                                             </svg>
@@ -242,12 +242,17 @@
                                                 <span>Full Address:</span>
 
 
-                                                <div class="d-flex justify-content-between align-items-center">
+                                                <div class="d-flex w-100">
+
                                                     <input class="form-style p-0 text-center" #input type="text"
                                                         placeholder="Street Name" autocomplete="off"
                                                         formControlName="street" required>
+
+
                                                     <div class="addressResults" #addressResults>
-                                                        <!-- (blur)="onBlur($event)" -->
+
+
+
                                                         <div class="suggestions" #suggestions
                                                             *ngFor="let address of features"
                                                             (click)="selectaddress($event)">
@@ -262,9 +267,9 @@
                                                         class="form-style p-0 text-center"
                                                         formControlName="buildingNumber" required>
 
-                                                    <input type="button" value="Reset Address" (click)="resetInput()">
 
                                                 </div>
+                                                <input type="button" value="Reset Address" (click)="resetInput()">
 
                                             </div>
 
@@ -289,7 +294,8 @@
 
 
 
-                                            <button class="btn" [disabled]="" #submitButton>Submit
+                                            <button class="btn" [disabled]="!registrationFormGroup.valid"
+                                                #submitButton>Submit
                                             </button>
                                             <svg class=" previousArrow toSecondFace" (click)=" changingFace($event)"
                                                 xmlns="http://www.w3.org/2000/svg" width="16" height="16"

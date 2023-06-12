@@ -323,14 +323,9 @@ h6 span:first-child {
 }
 
 .form-group input[name="buildingnumber"] {
-    width: 13%;
+    width: 65px;
 }
 
-.form-group input[name="streetname"] {
-
-    width: 45%;
-
-}
 
 
 .form-group input {
@@ -344,6 +339,7 @@ input[value="Reset Address"] {
     padding: 5px 10px;
     background-color: #A00;
     font-weight: 700;
+    margin: 0 0 0 auto;
 }
 
 .btn {

@@ -11,7 +11,7 @@ import { LoggedInUserService } from '../../services/logged-in-user.service';
 import { baseURL } from 'src/environment/environment';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { passwordDoesntMatch } from 'src/validators/passwordvalidator.validator';
+import { passwordDoesntMatch } from 'src/validators/passwordmatch.validator';
 
 
 
@@ -89,17 +89,28 @@ export class LoginComponent {
   ngOnInit(): void {
     this.initLogForm();
 
+ 
+
     this.loggedInUserInstance.getLoggedInUserInfo().subscribe(value => {
       this.loggedInUserInfo = value;
     });
     this.loggedInUserInstance.getLoggedInStatus().subscribe(value => {
       this.isLoggedIn = value;
     });
+    this.onAddressInputChanges();
 
   }
 
+//* 
+
+  onAddressInputChanges(){
+    this.registrationFormGroup.get("thirdFaceGroup.street")?.valueChanges.subscribe(value =>{
+      this.searchingAddress(value)});
+  };
+
   //* Searching for address when a change happens
-  searchingAddress(value: string): object {
+  searchingAddress(value :string): object{
+
 
     if (!value) {
       //* Display none for the previous results if the input value becomes null
@@ -110,14 +121,15 @@ export class LoginComponent {
 
     return this.http.get<FeatureCollection>(url)
       .subscribe(reponse => {
-        console.log(reponse);
+        // console.log("yes value");
+        // console.log(reponse);
 
         this.features = reponse.features;
         this.addressResults.nativeElement.style.display = "block";
 
-      });
-
-  }
+      })
+  };
+   
 
   //* Selecting the address on click event
   selectaddress(divElement: MouseEvent): void {
@@ -209,17 +221,6 @@ export class LoginComponent {
 
   }
 
-  //* valid date of people over than 18 years old
-  // ageValidator(control: FormControl): ValidationErrors | null {
-
-
-  //   if (this.ageIsValid.ageIsValid(control)) {
-  //     return null; // Valid age
-  //   } else {
-
-  //     return { ageInvalid: true }; // Age is less than 18
-  //   }
-  // }
 
   //* Checking the value of address on blur
   onBlur(element: any): void {
@@ -314,7 +315,7 @@ export class LoginComponent {
       secondFaceGroup: new FormGroup({
         email: new FormControl(null, [
           Validators.required,
-          Validators.pattern("[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$")
+          Validators.pattern('[^@ \\t\\r\\n]+@[^@ \\t\\r\\n]+\\.[^@ \\t\\r\\n]+')
         ]),
 
         // passwordGroup: new FormGroup ({
@@ -341,6 +342,10 @@ export class LoginComponent {
         gender: new FormControl(null, Validators.required)
       })
     })
+  }
+
+  get firstFaceGroup(){
+    return this.registrationFormGroup.get('firstFaceGroup');
   }
 
   get secondFaceGroup(){
