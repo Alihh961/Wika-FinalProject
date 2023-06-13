@@ -54,6 +54,8 @@ export class HeaderComponent implements AfterViewChecked {
         this.loggedInUserInstance.setLoggedInUserInfo(data);
         console.log(data);
       });
+    }else{
+      console.log("no Token");
     }
 
     this.loggedInUserInstance.getLoggedInUserInfo().subscribe(value => {

@@ -32,17 +32,19 @@ export class LoginComponent {
   displaySuggestions: boolean = false;
 
 
-  userinscriptiondetails: UserInscription = {
-    firstname: '',
-    lastname: '',
-    email: '',
-    password: '',
-    passwordconfirmation: '',
-    birthdate: null,
-    street: '',
-    buildingnumber: '',
-    gender: ''
-  };
+  // userinscriptiondetails: UserInscription = {
+  //   firstname: '',
+  //   lastname: '',
+  //   email: '',
+  //   password: '',
+  //   passwordconfirmation: '',
+  //   birthdate: null,
+  //   street: '',
+  //   buildingnumber: '',
+  //   gender: ''
+  // };
+
+  userinscriptiondetails: any = {};
 
   loggedInUserInfo !: loggedInUserInfo;
 
@@ -74,22 +76,20 @@ export class LoginComponent {
 
 
   constructor(private http: HttpClient, private authService: AuthenticationService,
-    private  ageValidationInstance: InputvalidationsService, private cookieService: CookieService,
-    private loggedInUserInstance: LoggedInUserService, private router: Router ) {
-
-
-      this.initRegistrationForm();
-
-     }
+    private ageValidationInstance: InputvalidationsService, private cookieService: CookieService,
+    private loggedInUserInstance: LoggedInUserService, private router: Router ) {}
 
 
 
 
 
   ngOnInit(): void {
-    this.initLogForm();
 
- 
+
+    this.initLogForm();
+    this.initRegistrationForm();
+
+
 
     this.loggedInUserInstance.getLoggedInUserInfo().subscribe(value => {
       this.loggedInUserInfo = value;
@@ -101,15 +101,16 @@ export class LoginComponent {
 
   }
 
-//* 
+  //* 
 
-  onAddressInputChanges(){
-    this.registrationFormGroup.get("thirdFaceGroup.street")?.valueChanges.subscribe(value =>{
-      this.searchingAddress(value)});
+  onAddressInputChanges() {
+    this.registrationFormGroup.get("thirdFaceGroup.street")?.valueChanges.subscribe(value => {
+      this.searchingAddress(value)
+    });
   };
 
   //* Searching for address when a change happens
-  searchingAddress(value :string): object{
+  searchingAddress(value: string): object {
 
 
     if (!value) {
@@ -121,48 +122,47 @@ export class LoginComponent {
 
     return this.http.get<FeatureCollection>(url)
       .subscribe(reponse => {
-        // console.log("yes value");
-        // console.log(reponse);
+
 
         this.features = reponse.features;
         this.addressResults.nativeElement.style.display = "block";
 
       })
   };
-   
+
 
   //* Selecting the address on click event
   selectaddress(divElement: MouseEvent): void {
 
-    // targeting the click Div
-    const address = divElement.target as HTMLDivElement;
+    // // targeting the click Div
+    // const address = divElement.target as HTMLDivElement;
 
-    // asign the value of the div address to the input value 
-    // this.input.nativeElement.value = address.innerHTML;
-    this.userinscriptiondetails.street = address.innerHTML;
+    // // asign the value of the div address to the input value 
+    // // this.input.nativeElement.value = address.innerHTML;
+    // this.userinscriptiondetails.street = address.innerHTML;
 
 
-    // display none of the container after selecting the address
-    this.addressResults.nativeElement.style.display = "none";
+    // // display none of the container after selecting the address
+    // this.addressResults.nativeElement.style.display = "none";
 
-    // disable the input after adding the value 
-    this.input.nativeElement.setAttribute('disabled', "");
+    // // disable the input after adding the value 
+    // this.input.nativeElement.setAttribute('disabled', "");
 
-    // display none for the container of the suggessted address
-    this.suggestions.nativeElement.innerHTML = "";
+    // // display none for the container of the suggessted address
+    // this.suggestions.nativeElement.innerHTML = "";
   }
 
   //* Reset the input to set a new address
   resetInput(): void {
-    // undisabled the address input to set a new address
-    this.input.nativeElement.removeAttribute("disabled", "");
+    // // undisabled the address input to set a new address
+    // this.input.nativeElement.removeAttribute("disabled", "");
 
-    // empty the value of the inputs
-    this.userinscriptiondetails.street = "";
-    this.userinscriptiondetails.buildingnumber = "";
+    // // empty the value of the inputs
+    // this.userinscriptiondetails.street = "";
+    // this.userinscriptiondetails.buildingnumber = "";
 
-    // 
-    this.submitbutton.nativeElement.setAttribute('disabled', 'true');
+    // // 
+    // this.submitbutton.nativeElement.setAttribute('disabled', 'true');
   }
 
   //* Changing the color of span signin and signup on click in the arrow
@@ -182,7 +182,7 @@ export class LoginComponent {
   //* Submitting the form
   onRegFormSubmit(): void {
 
-    this.http.post<string[]>(`${baseURL}/inscription.php`, this.userinscriptiondetails).subscribe(
+    this.http.post<string[]>(`${baseURL}inscription.php`, this.userinscriptiondetails).subscribe(
       (response) => {
         // Handle success response
         console.log(response[0]);
@@ -218,6 +218,9 @@ export class LoginComponent {
         })
       }
     );
+    console.log(this.registrationFormGroup.value.firstFaceGroup);
+
+
 
   }
 
@@ -230,7 +233,7 @@ export class LoginComponent {
 
   }
 
-  //* Switching between The Form Faces
+  //* Switching between The Form Faces 
   changingFace(click: MouseEvent): void {
 
     const button = click.target as HTMLDivElement;
@@ -254,29 +257,6 @@ export class LoginComponent {
     }
   }
 
-  //* Check the password match using ngModelChange 
-  checkPasswordMatch(): void {
-
-    if (this.userinscriptiondetails.password == this.userinscriptiondetails.passwordconfirmation) {
-      console.log("Passwords are equal");
-      this.passwordMatch = true;
-    } else {
-      console.log("Passwords are not equal");
-      this.passwordMatch = false;
-    }
-  }
-  //* Check the match of passwords
-  // passwordIsValid(event: Event): void {
-  //   const input = event.target as HTMLInputElement;
-
-  //   if (this.passwordMatch && this.pattern.test(input.value)) {
-  //     this.patternRespected == true;
-  //   } else {
-  //     this.patternRespected = false;
-
-  //   }
-
-  // }
   //* Init login form
   initLogForm() {
     this.loginFormInfo = new FormGroup({
@@ -305,7 +285,7 @@ export class LoginComponent {
         lastName: new FormControl(null, [
           Validators.required,
           Validators.pattern("^[a-zA-Z]+( [a-zA-Z]+( [a-zA-Z]+)?)?$")
-        ]),        
+        ]),
         birthdate: new FormControl(null, [
           Validators.required,
           this.ageValidationInstance.ageIsValid?.bind(this.ageValidationInstance)
@@ -320,7 +300,7 @@ export class LoginComponent {
 
         // passwordGroup: new FormGroup ({
 
-           password: new FormControl(null, [
+        password: new FormControl(null, [
           Validators.required,
           Validators.pattern("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$")
         ]),
@@ -329,27 +309,44 @@ export class LoginComponent {
           Validators.pattern("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$")
         ]),
       },
-       {
-         validators: passwordDoesntMatch
-        // })
+        {
+          validators: passwordDoesntMatch
+          // })
         }),
-       
-      
-      
+
+
+
       thirdFaceGroup: new FormGroup({
         street: new FormControl(null, Validators.required),
         buildingNumber: new FormControl(null, Validators.required),
         gender: new FormControl(null, Validators.required)
       })
     })
-  }
+  };
 
-  get firstFaceGroup(){
+  //* Combine the values of the three faces into one object
+    // combineFaces(){
+    //   const firstFace = this.firstFaceGroup;
+    //   const secondFace = this.secondFaceGroup;
+    //   const thirdFace = this.thirdFaceGroup;
+
+    //   this.userinscriptiondetails = {
+    //     ...firstFace , 
+    //     ...secondFace,
+    //     ...thirdFace
+    //   }
+
+    // }
+
+  get firstFaceGroup() {
     return this.registrationFormGroup.get('firstFaceGroup');
   }
 
-  get secondFaceGroup(){
+  get secondFaceGroup() {
     return this.registrationFormGroup.get('secondFaceGroup');
+  }
+  get thirdFaceGroup() {
+    return this.registrationFormGroup.get('thirdFaceGroup');
   }
   get firstName() {
     return this.registrationFormGroup.get('firstFaceGroup.firstName');
@@ -381,6 +378,10 @@ export class LoginComponent {
 
   //* Logging in method
   loginMethod() {
+    console.log(this.loginFormInfo.valid);
+    console.log(this.loginFormInfo.value.logemail);
+    console.log(this.loginFormInfo.value.logpassword);
+
     if (this.loginFormInfo.valid) {
 
       this.authService.login({ "logemail": `${this.loginFormInfo.value.logemail}`, "logpassword": `${this.loginFormInfo.value.logpassword}` }).subscribe(
@@ -397,7 +398,7 @@ export class LoginComponent {
 
             this.loggedInUserInstance.setLoggedInUserInfo(reponse);
             this.loggedInUserInstance.setLoggedInStatus(true);
-            
+
             const token = reponse.email;
             this.cookieService.set('token', token);
 
