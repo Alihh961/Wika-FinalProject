@@ -269,7 +269,8 @@
                                                                 *ngFor="let address of features"
                                                                 (click)="selectaddress($event)">
                                                                 {{address.properties.name}},
-                                                                {{address.properties.city}},{{address.properties.postcode}}
+                                                                {{address.properties.city}},{{address.properties.postcode}},
+                                                                {{address.properties.context}}
                                                             </div>
                                               
                                                         </div>
