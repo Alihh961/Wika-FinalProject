@@ -161,7 +161,7 @@
                                                     autocomplete="off" formControlName="email">
                                                 <i class="input-icon uil uil-at"></i>
                                                 <small class="alert alert-danger"
-                                                    *ngIf="email?.errors?.['required'] && email?.touched ">Email
+                                                    *ngIf="email?.errors?.['required'] && (email?.touched || email?.dirty) ">Email
                                                     is Required!</small>
                                                 <small class="alert alert-danger"
                                                     *ngIf="email?.errors?.['pattern'] && (email?.touched || email?.dirty)">
@@ -239,37 +239,50 @@
                                         <div class="thirdFace face" #thirdFace formGroupName="thirdFaceGroup">
                                             <!-- Full Address -->
                                             <div class="form-group mt-2 d-flex align-items-start flex-column gap-2">
-                                                <span>Full Address:</span>
 
+                                                <div>
+                                                    <span>Post Code:</span>
 
-                                                <div class="d-flex w-100">
-
-                                                    <input class="form-style p-0 text-center" #input type="text"
-                                                        placeholder="Street Name" autocomplete="off"
-                                                        formControlName="street" required>
-
-
-                                                    <div class="addressResults" #addressResults>
-
-
-
-                                                        <div class="suggestions" #suggestions
-                                                            *ngFor="let address of features"
-                                                            (click)="selectaddress($event)">
-                                                            {{address.properties.name}},
-                                                            {{address.properties.city}},{{address.properties.postcode}}
-                                                        </div>
-
-                                                    </div>
-
-
-                                                    <input type="text" name="buildingnumber" placeholder="Bld. №"
-                                                        class="form-style p-0 text-center"
-                                                        formControlName="buildingNumber" required>
-
+                                                    <input class="form-style p-0 text-center" type="text"
+                                                        placeholder="Post Code" autocomplete="off"
+                                                        formControlName="postCode" required>
+                                                    <small class="alert alert-danger"
+                                                        *ngIf="postCode?.invalid">
+                                                        A post code of 5 numbers is required
+                                                    </small>
 
                                                 </div>
-                                                <input type="button" value="Reset Address" (click)="resetInput()">
+
+                                                <div *ngIf="postCode?.valid" class="w-100">
+                                                    <span>Full Address:</span>
+
+                                                    <div class="d-flex w-100">
+
+                                                        <input class="form-style p-0 text-center" #input type="text"
+                                                            placeholder="Street Name" autocomplete="off"
+                                                            formControlName="street" required>
+
+
+                                                        <div *ngIf="displaySuggestions" class="addressResults" #addressResults>
+
+                                                            <div class="suggestions" #suggestions
+                                                                *ngFor="let address of features"
+                                                                (click)="selectaddress($event)">
+                                                                {{address.properties.name}},
+                                                                {{address.properties.city}},{{address.properties.postcode}}
+                                                            </div>
+                                              
+                                                        </div>
+
+
+                                                        <input type="text" name="buildingnumber" placeholder="Bld. №"
+                                                            class="form-style p-0 text-center"
+                                                            formControlName="buildingNumber" required>
+
+
+                                                    </div>
+                                                </div>
+
 
                                             </div>
 

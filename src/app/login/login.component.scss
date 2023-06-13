@@ -334,13 +334,6 @@ h6 span:first-child {
 
 }
 
-input[value="Reset Address"] {
-    height: fit-content;
-    padding: 5px 10px;
-    background-color: #A00;
-    font-weight: 700;
-    margin: 0 0 0 auto;
-}
 
 .btn {
     border-radius: 4px;
@@ -407,7 +400,7 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
 
 .addressResults {
 
-    display: none;
+    display: block;
     width: fit-content;
     border-radius: 2px;
     cursor: pointer;
@@ -417,7 +410,7 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
     z-index: 500;
     max-height: 200px;
     overflow-y: scroll;
-    top: 83px;
+    top: 145px;
 }
 
 input:disabled {

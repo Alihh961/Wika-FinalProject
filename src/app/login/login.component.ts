@@ -3,15 +3,16 @@ import Swal from 'sweetalert2';
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { Feature, FeatureCollection } from '../Interface/AddressResults';
 import { UserInscription, loggedInUserInfo } from '../Interface/userdetails';
-import { FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { AuthenticationService } from '../../services/authentication.service';
 import { InputvalidationsService } from '../../validators/inputvalidations.service';
 import { CookieService } from 'ngx-cookie-service';
 import { LoggedInUserService } from '../../services/logged-in-user.service';
 import { baseURL } from 'src/environment/environment';
 import { Router } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { Subscription, tap } from 'rxjs';
 import { passwordDoesntMatch } from 'src/validators/passwordmatch.validator';
+import { __values } from 'tslib';
 
 
 
@@ -31,20 +32,8 @@ export class LoginComponent {
   isLoggedIn: boolean = false;
   displaySuggestions: boolean = false;
 
+  userInscriptionDetails!: UserInscription;
 
-  // userinscriptiondetails: UserInscription = {
-  //   firstname: '',
-  //   lastname: '',
-  //   email: '',
-  //   password: '',
-  //   passwordconfirmation: '',
-  //   birthdate: null,
-  //   street: '',
-  //   buildingnumber: '',
-  //   gender: ''
-  // };
-
-  userinscriptiondetails: any = {};
 
   loggedInUserInfo !: loggedInUserInfo;
 
@@ -77,7 +66,7 @@ export class LoginComponent {
 
   constructor(private http: HttpClient, private authService: AuthenticationService,
     private ageValidationInstance: InputvalidationsService, private cookieService: CookieService,
-    private loggedInUserInstance: LoggedInUserService, private router: Router ) {}
+    private loggedInUserInstance: LoggedInUserService, private router: Router, private fb: FormBuilder) { }
 
 
 
@@ -90,7 +79,6 @@ export class LoginComponent {
     this.initRegistrationForm();
 
 
-
     this.loggedInUserInstance.getLoggedInUserInfo().subscribe(value => {
       this.loggedInUserInfo = value;
     });
@@ -98,73 +86,99 @@ export class LoginComponent {
       this.isLoggedIn = value;
     });
     this.onAddressInputChanges();
+    this.onPostCodeChange();
 
   }
 
-  //* 
-
+  //* Get the value of street input and execute the search method
   onAddressInputChanges() {
+
     this.registrationFormGroup.get("thirdFaceGroup.street")?.valueChanges.subscribe(value => {
-      this.searchingAddress(value)
+      this.searchingAddress(value, this.registrationFormGroup.get(['thirdFaceGroup', "postCode"])?.value)
     });
   };
 
-  //* Searching for address when a change happens
-  searchingAddress(value: string): object {
+  //* Hide the suggestions if the post code was changed
+  onPostCodeChange(){
 
+    this.registrationFormGroup.get("thirdFaceGroup.postCode")?.valueChanges.pipe(
+      tap(()=>{
+
+          this.displaySuggestions = false;
+          this.features = [];
+
+      })
+    ).subscribe();
+    
+  
+    
+  }
+
+  //* Searching for address when a change happens
+  searchingAddress(value: string, postCode: string): object {
 
     if (!value) {
       //* Display none for the previous results if the input value becomes null
-      this.addressResults.nativeElement.style.display = "none";
+      this.displaySuggestions = false;
+
     }
 
-    const url = `https://api-adresse.data.gouv.fr/search/?q=${value}&limit=10`;
+    const url = `https://api-adresse.data.gouv.fr/search/?q=${value}&postcode=${postCode}&limit=10`;
 
     return this.http.get<FeatureCollection>(url)
       .subscribe(reponse => {
 
-
+        this.displaySuggestions = true;
         this.features = reponse.features;
-        this.addressResults.nativeElement.style.display = "block";
 
       })
   };
 
 
+
+
   //* Selecting the address on click event
   selectaddress(divElement: MouseEvent): void {
 
-    // // targeting the click Div
-    // const address = divElement.target as HTMLDivElement;
-
-    // // asign the value of the div address to the input value 
-    // // this.input.nativeElement.value = address.innerHTML;
-    // this.userinscriptiondetails.street = address.innerHTML;
 
 
-    // // display none of the container after selecting the address
-    // this.addressResults.nativeElement.style.display = "none";
+    // targeting the click Div
+    const address = divElement.target as HTMLDivElement;
 
-    // // disable the input after adding the value 
-    // this.input.nativeElement.setAttribute('disabled', "");
+    console.log(address);
 
-    // // display none for the container of the suggessted address
-    // this.suggestions.nativeElement.innerHTML = "";
+    // asign the value of the div address to the input value 
+    // this.input.nativeElement.value = address.innerHTML;
+    this.userInscriptionDetails.street = address.innerHTML;
+
+
+    // display none of the container after selecting the address
+    this.addressResults.nativeElement.style.display = "none";
+
+    // disable the input after adding the value 
+    this.input.nativeElement.setAttribute('disabled', "");
+
+    // display none for the container of the suggessted address
+    this.suggestions.nativeElement.innerHTML = "";
   }
 
-  //* Reset the input to set a new address
-  resetInput(): void {
-    // // undisabled the address input to set a new address
-    // this.input.nativeElement.removeAttribute("disabled", "");
 
-    // // empty the value of the inputs
-    // this.userinscriptiondetails.street = "";
-    // this.userinscriptiondetails.buildingnumber = "";
 
-    // // 
-    // this.submitbutton.nativeElement.setAttribute('disabled', 'true');
-  }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
   //* Changing the color of span signin and signup on click in the arrow
   changingColorOfSpan(): void {
     if (getComputedStyle(this.signinspan.nativeElement).color == "rgb(8, 129, 120)") {
@@ -176,53 +190,7 @@ export class LoginComponent {
 
     }
 
-
   };
-
-  //* Submitting the form
-  onRegFormSubmit(): void {
-
-    this.http.post<string[]>(`${baseURL}inscription.php`, this.userinscriptiondetails).subscribe(
-      (response) => {
-        // Handle success response
-        console.log(response[0]);
-        if (response[0] === "An account associated to this email!") {
-          Swal.fire(
-            'Ops',
-            response[0],
-            'error'
-          )
-        } else if (response[0] === "Account has been successfully registered") {
-          Swal.fire(
-            'Good job!',
-            response[0],
-            'success'
-          )
-        } else {
-          Swal.fire({
-            title: 'Error!',
-            text: response[0],
-            icon: 'error',
-            confirmButtonText: 'Try Again'
-          })
-        }
-
-      },
-      (error) => {
-        // Handle error response
-        Swal.fire({
-          title: 'Error!',
-          text: error,
-          icon: 'error',
-          confirmButtonText: 'Cool'
-        })
-      }
-    );
-    console.log(this.registrationFormGroup.value.firstFaceGroup);
-
-
-
-  }
 
 
   //* Checking the value of address on blur
@@ -276,8 +244,8 @@ export class LoginComponent {
   }
   //* Init Registeration form
   initRegistrationForm() {
-    this.registrationFormGroup = new FormGroup({
-      firstFaceGroup: new FormGroup({
+    this.registrationFormGroup = this.fb.group({
+      firstFaceGroup: this.fb.group({
         firstName: new FormControl(null, [
           Validators.required,
           Validators.pattern("^[a-zA-Z]+$")
@@ -292,21 +260,21 @@ export class LoginComponent {
         ])
       }),
 
-      secondFaceGroup: new FormGroup({
+      secondFaceGroup: this.fb.group({
         email: new FormControl(null, [
           Validators.required,
-          Validators.pattern('[^@ \\t\\r\\n]+@[^@ \\t\\r\\n]+\\.[^@ \\t\\r\\n]+')
+          // Validators.pattern('[^@ \\t\\r\\n]+@[^@ \\t\\r\\n]+\\.[^@ \\t\\r\\n]+')
         ]),
 
         // passwordGroup: new FormGroup ({
 
         password: new FormControl(null, [
           Validators.required,
-          Validators.pattern("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$")
+          // Validators.pattern("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$")
         ]),
         confPassword: new FormControl(null, [
           Validators.required,
-          Validators.pattern("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$")
+          // Validators.pattern("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$")
         ]),
       },
         {
@@ -316,7 +284,12 @@ export class LoginComponent {
 
 
 
-      thirdFaceGroup: new FormGroup({
+      thirdFaceGroup: this.fb.group({
+        postCode: new FormControl(null, [
+          Validators.required,
+          Validators.pattern(/^\d{5}$/)
+
+        ]),
         street: new FormControl(null, Validators.required),
         buildingNumber: new FormControl(null, Validators.required),
         gender: new FormControl(null, Validators.required)
@@ -324,24 +297,95 @@ export class LoginComponent {
     })
   };
 
+
+  //* Submitting the form
+  onRegFormSubmit(): void {
+
+    if (this.registrationFormGroup.valid) {
+
+      this.userInscriptionDetails = this.combineFaces();
+      this.http.post<string[]>(`${baseURL}inscription.php`, this.userInscriptionDetails).subscribe(
+        (response) => {
+          console.log(this.userInscriptionDetails);
+          // Handle success response
+          if (response[0] === "An account associated to this email!") {
+            Swal.fire(
+              'Ops',
+              response[0],
+              'error'
+            )
+          } else if (response[0] === "Account has been successfully registered") {
+            Swal.fire(
+              'Good job!',
+              response[0],
+              'success'
+            )
+          } else {
+            Swal.fire({
+              title: 'Error!',
+              text: response[0],
+              icon: 'error',
+              confirmButtonText: 'Try Again'
+            })
+          }
+
+        },
+        (error) => {
+          // Handle error response
+          Swal.fire({
+            title: 'Error!',
+            text: error[0],
+            icon: 'error',
+            confirmButtonText: 'Cool'
+          })
+        }
+      );
+    } else {
+      //* Refresh the page , Invalid inputs
+      Swal.fire({
+        title: 'Error!',
+        text: "Invalid Inputs, refresh the page and try again!",
+        icon: 'error',
+        confirmButtonText: "Refresh"
+      }).then(()=>{
+        
+        this.refresh();
+      })
+    }
+
+  }
+
+  //* Refresh the page 
+  refresh(){
+    this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+      this.router.navigate([this.router.navigate(['/login'])]);
+    });
+  }
+
   //* Combine the values of the three faces into one object
-    // combineFaces(){
-    //   const firstFace = this.firstFaceGroup;
-    //   const secondFace = this.secondFaceGroup;
-    //   const thirdFace = this.thirdFaceGroup;
+  combineFaces():UserInscription {
 
-    //   this.userinscriptiondetails = {
-    //     ...firstFace , 
-    //     ...secondFace,
-    //     ...thirdFace
-    //   }
+    // using this.firstName to define the new object give an error 
 
-    // }
+    const firstName: string = this.firstFaceGroup?.get(['firstName'])?.value;
+    const lastName: string = this.firstFaceGroup?.get(['lastName'])?.value;
+    const birthdate: Date = this.firstFaceGroup?.get(['birthdate'])?.value;
+    const email: string = this.secondFaceGroup?.get(['email'])?.value;
+    const password: string = this.secondFaceGroup?.get(['password'])?.value;
+    const confPassword: string = this.secondFaceGroup?.get(['confPassword'])?.value;
+    const postCode: string = this.thirdFaceGroup?.get(['postCode'])?.value;
+    const street: string = this.thirdFaceGroup?.get(['street'])?.value;
+    const buildingNumber: string = this.thirdFaceGroup?.get(['buildingNumber'])?.value;
+    const gender: string = this.thirdFaceGroup?.get(['gender'])?.value;
+ 
+    return { firstName, lastName, birthdate, email, password, confPassword, gender , postCode, street, buildingNumber, };
 
+  }
+
+  // get the controls of the form groups  
   get firstFaceGroup() {
     return this.registrationFormGroup.get('firstFaceGroup');
   }
-
   get secondFaceGroup() {
     return this.registrationFormGroup.get('secondFaceGroup');
   }
@@ -366,6 +410,9 @@ export class LoginComponent {
   get email() {
     return this.registrationFormGroup.get('secondFaceGroup.email');
   }
+  get postCode() {
+    return this.registrationFormGroup.get("thirdFaceGroup.postCode");
+  }
   get street() {
     return this.registrationFormGroup.get('thirdFaceGroup.street');
   }
@@ -378,15 +425,11 @@ export class LoginComponent {
 
   //* Logging in method
   loginMethod() {
-    console.log(this.loginFormInfo.valid);
-    console.log(this.loginFormInfo.value.logemail);
-    console.log(this.loginFormInfo.value.logpassword);
 
     if (this.loginFormInfo.valid) {
 
       this.authService.login({ "logemail": `${this.loginFormInfo.value.logemail}`, "logpassword": `${this.loginFormInfo.value.logpassword}` }).subscribe(
         reponse => {
-
 
           if (reponse == "Please Check your email and password.") {
             Swal.fire({
