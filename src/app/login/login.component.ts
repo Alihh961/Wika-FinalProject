@@ -302,33 +302,38 @@ export class LoginComponent {
     if (this.registrationFormGroup.valid) {
 
       this.userInscriptionDetails = this.combineFaces();
-      this.http.post<string[]>(`${baseURL}inscription.php`, {userDEtails : this.userInscriptionDetails , userAddress : this.userInscriptionAddress}).subscribe(
+      this.http.post<string[]>(`${baseURL}inscription.php`, {userDetails : this.userInscriptionDetails , userAddress : this.userInscriptionAddress }).subscribe(
         (response) => {
           console.log(this.userInscriptionDetails);
+          console.log(this.userInscriptionAddress);
+          console.log(response);
+          
+
           // Handle success response
-          if (response[0] === "An account associated to this email!") {
-            Swal.fire(
-              'Ops',
-              response[0],
-              'error'
-            )
-          } else if (response[0] === "Account has been successfully registered") {
-            Swal.fire(
-              'Good job!',
-              response[0],
-              'success'
-            )
-          } else {
-            Swal.fire({
-              title: 'Error!',
-              text: response[0],
-              icon: 'error',
-              confirmButtonText: 'Try Again'
-            })
-          }
+          // if (response[0] === "An account associated to this email!") {
+          //   Swal.fire(
+          //     'Ops',
+          //     response[0],
+          //     'error'
+          //   )
+          // } else if (response[0] === "Account has been successfully registered") {
+          //   Swal.fire(
+          //     'Good job!',
+          //     response[0],
+          //     'success'
+          //   )
+          // } else {
+          //   Swal.fire({
+          //     title: 'Error!',
+          //     text: response[0],
+          //     icon: 'error',
+          //     confirmButtonText: 'Try Again'
+          //   })
+          // }
 
         },
         (error) => {
+          console.log(error);
           // Handle error response
           Swal.fire({
             title: 'Error!',
