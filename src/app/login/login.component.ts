@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import Swal from 'sweetalert2';
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { Feature, FeatureCollection } from '../Interface/AddressResults';
-import { UserInscription, loggedInUserInfo } from '../Interface/userdetails';
+import { UserInscription, UserInscriptionAddress, loggedInUserInfo } from '../Interface/userdetails';
 import { FormBuilder, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { AuthenticationService } from '../../services/authentication.service';
 import { InputvalidationsService } from '../../validators/inputvalidations.service';
@@ -31,8 +31,18 @@ export class LoginComponent {
   pattern: any = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/;
   isLoggedIn: boolean = false;
   displaySuggestions: boolean = false;
+  showStreetInput: boolean = false;
 
   userInscriptionDetails!: UserInscription;
+
+  userInscriptionAddress: UserInscriptionAddress = {
+    buildingNumber: "",
+    street: "",
+    municipality: "",
+    postCode: "",
+    departement: "",
+    region: ""
+  }
 
 
   loggedInUserInfo !: loggedInUserInfo;
@@ -98,20 +108,19 @@ export class LoginComponent {
     });
   };
 
-  //* Hide the suggestions if the post code was changed
-  onPostCodeChange(){
+  //* Hide the suggestions if the postCode is changed
+  onPostCodeChange() {
 
     this.registrationFormGroup.get("thirdFaceGroup.postCode")?.valueChanges.pipe(
-      tap(()=>{
+      tap(() => {
 
-          this.displaySuggestions = false;
-          this.features = [];
+        this.displaySuggestions = false;
+        this.features = [];
 
       })
     ).subscribe();
-    
-  
-    
+
+
   }
 
   //* Searching for address when a change happens
@@ -134,51 +143,34 @@ export class LoginComponent {
       })
   };
 
-
-
-
   //* Selecting the address on click event
   selectaddress(divElement: MouseEvent): void {
 
-
-
     // targeting the click Div
     const address = divElement.target as HTMLDivElement;
+    // Splitting the innerText of the div 
+    const addressArray = address.innerText.split(",");
+    const street = addressArray[0];
+    const municipality = addressArray[1];
+    const postCode = addressArray[2];
+    const departement = addressArray[4];
+    const region = addressArray[5];
 
-    console.log(address);
+    // asign the value of the div address to userinscriptionAddress
+    //! We dont add a value for the buildingNumber here because we dont let the user to add the buildingNumber int he input, if the buildingNumber isinvalid then the API will send the name of the street without a building number
 
-    // asign the value of the div address to the input value 
-    // this.input.nativeElement.value = address.innerHTML;
-    this.userInscriptionDetails.street = address.innerHTML;
+    this.userInscriptionAddress.street = street.trim();
+    this.userInscriptionAddress.municipality = municipality.trim();
+    this.userInscriptionAddress.postCode = postCode.trim();
+    this.userInscriptionAddress.departement = departement.trim();
+    this.userInscriptionAddress.region = region.trim();
+    this.userInscriptionAddress.buildingNumber = this.registrationFormGroup.get('thirdFaceGroup.buildingNumber')?.value.trim();
 
-
-    // display none of the container after selecting the address
-    this.addressResults.nativeElement.style.display = "none";
-
-    // disable the input after adding the value 
-    this.input.nativeElement.setAttribute('disabled', "");
-
-    // display none for the container of the suggessted address
-    this.suggestions.nativeElement.innerHTML = "";
+    // hide the suggestions and clear features array 
+    this.displaySuggestions = false;
+    this.features = [];
   }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
   //* Changing the color of span signin and signup on click in the arrow
   changingColorOfSpan(): void {
     if (getComputedStyle(this.signinspan.nativeElement).color == "rgb(8, 129, 120)") {
@@ -191,7 +183,6 @@ export class LoginComponent {
     }
 
   };
-
 
   //* Checking the value of address on blur
   onBlur(element: any): void {
@@ -242,6 +233,7 @@ export class LoginComponent {
   get logPassword() {
     return this.loginFormInfo.get("logPassword");
   }
+
   //* Init Registeration form
   initRegistrationForm() {
     this.registrationFormGroup = this.fb.group({
@@ -290,13 +282,19 @@ export class LoginComponent {
           Validators.pattern(/^\d{5}$/)
 
         ]),
-        street: new FormControl(null, Validators.required),
-        buildingNumber: new FormControl(null, Validators.required),
+        street: new FormControl(null, [
+          Validators.required,
+          // Validators.pattern(/^[A-Za-z]$/)
+        ]),
+        buildingNumber: new FormControl(null,
+          [
+            Validators.pattern("^[0-9].*"),
+            Validators.required
+          ]),
         gender: new FormControl(null, Validators.required)
       })
     })
   };
-
 
   //* Submitting the form
   onRegFormSubmit(): void {
@@ -304,7 +302,7 @@ export class LoginComponent {
     if (this.registrationFormGroup.valid) {
 
       this.userInscriptionDetails = this.combineFaces();
-      this.http.post<string[]>(`${baseURL}inscription.php`, this.userInscriptionDetails).subscribe(
+      this.http.post<string[]>(`${baseURL}inscription.php`, {userDEtails : this.userInscriptionDetails , userAddress : this.userInscriptionAddress}).subscribe(
         (response) => {
           console.log(this.userInscriptionDetails);
           // Handle success response
@@ -347,8 +345,8 @@ export class LoginComponent {
         text: "Invalid Inputs, refresh the page and try again!",
         icon: 'error',
         confirmButtonText: "Refresh"
-      }).then(()=>{
-        
+      }).then(() => {
+
         this.refresh();
       })
     }
@@ -356,14 +354,14 @@ export class LoginComponent {
   }
 
   //* Refresh the page 
-  refresh(){
+  refresh() {
     this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
       this.router.navigate([this.router.navigate(['/login'])]);
     });
   }
 
   //* Combine the values of the three faces into one object
-  combineFaces():UserInscription {
+  combineFaces(): UserInscription {
 
     // using this.firstName to define the new object give an error 
 
@@ -373,12 +371,9 @@ export class LoginComponent {
     const email: string = this.secondFaceGroup?.get(['email'])?.value;
     const password: string = this.secondFaceGroup?.get(['password'])?.value;
     const confPassword: string = this.secondFaceGroup?.get(['confPassword'])?.value;
-    const postCode: string = this.thirdFaceGroup?.get(['postCode'])?.value;
-    const street: string = this.thirdFaceGroup?.get(['street'])?.value;
-    const buildingNumber: string = this.thirdFaceGroup?.get(['buildingNumber'])?.value;
     const gender: string = this.thirdFaceGroup?.get(['gender'])?.value;
- 
-    return { firstName, lastName, birthdate, email, password, confPassword, gender , postCode, street, buildingNumber, };
+
+    return { firstName, lastName, birthdate, email, password, confPassword, gender };
 
   }
 

@@ -21,7 +21,6 @@ import { FooterComponent } from './footer/footer.component';
 import { LoginComponent } from './login/login.component';
 import { CookieService } from 'ngx-cookie-service';
 import { GuardGuard } from './guards/guard.guard';
-import { IsAdminGuard } from './guards/is-admin.guard';
 
 const appRoutes: Routes = [
     // { path: '' ,redirectTo: 'home' , pathMatch: 'full'},

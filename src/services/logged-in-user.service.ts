@@ -41,12 +41,5 @@ export class LoggedInUserService {
     return this.isLoggedIn.asObservable();
   }
 
-  setLoggedInUserIsAdmin(value: boolean):void{
-    this.isAdmin.next(value);
-  }
-
-  getLoggedIsUserIsAdmin():Observable<boolean>{
-    return this.isAdmin.asObservable();
-  }
 
 }

@@ -7,17 +7,19 @@ export interface UserInscription {
   confPassword: string,
   birthdate: Date | null,
   gender: string,
-  postCode: string,
 
-  street: string,
+}
+export interface UserInscriptionAddress{
+  
   buildingNumber: string,
+  street: string, 
+  municipality: string,
+  postCode: string,
+  departement: string,
+  region: string 
+
 }
 
-export interface AddressComp {
-  region: string,
-  departement: string,
-  municipality: string,
-}
 
 export interface loginDataType {
   logemail: string,

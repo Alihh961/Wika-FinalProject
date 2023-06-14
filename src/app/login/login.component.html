@@ -238,7 +238,7 @@
                                         <!-- Start of Third Face -->
                                         <div class="thirdFace face" #thirdFace formGroupName="thirdFaceGroup">
                                             <!-- Full Address -->
-                                            <div class="form-group mt-2 d-flex align-items-start flex-column gap-2">
+                                            <div class="form-group mt-2 d-flex align-items-start flex-column gap-3">
 
                                                 <div>
                                                     <span>Post Code:</span>
@@ -246,40 +246,47 @@
                                                     <input class="form-style p-0 text-center" type="text"
                                                         placeholder="Post Code" autocomplete="off"
                                                         formControlName="postCode" required>
-                                                    <small class="alert alert-danger"
-                                                        *ngIf="postCode?.invalid">
+                                                    <small class="alert alert-danger" *ngIf="postCode?.invalid">
                                                         A post code of 5 numbers is required
                                                     </small>
 
                                                 </div>
 
-                                                <div *ngIf="postCode?.valid" class="w-100">
-                                                    <span>Full Address:</span>
 
-                                                    <div class="d-flex w-100">
+
+
+
+                                                <div *ngIf="postCode?.valid" class="d-flex flex-row w-100">
+
+
+                                                    <div class="w-25 text-start">
+                                                        <span>Building Number:</span><br>
+                                                        <input type="text" name="buildingnumber" placeholder="Bld. №"
+                                                            class="form-style p-0 text-center"
+                                                            formControlName="buildingNumber" required><br>
+                                                    </div>
+
+
+                                                    <div *ngIf="buildingNumber?.valid" class="w-75">
+                                                        <span>Full Address:</span>
 
                                                         <input class="form-style p-0 text-center" #input type="text"
                                                             placeholder="Street Name" autocomplete="off"
                                                             formControlName="street" required>
 
 
-                                                        <div *ngIf="displaySuggestions" class="addressResults" #addressResults>
+                                                        <div *ngIf="displaySuggestions" class="addressResults"
+                                                            #addressResults>
 
                                                             <div class="suggestions" #suggestions
                                                                 *ngFor="let address of features"
                                                                 (click)="selectaddress($event)">
-                                                                {{address.properties.name}},
+                                                                {{address.properties.street}},
                                                                 {{address.properties.city}},{{address.properties.postcode}},
                                                                 {{address.properties.context}}
                                                             </div>
-                                              
+
                                                         </div>
-
-
-                                                        <input type="text" name="buildingnumber" placeholder="Bld. №"
-                                                            class="form-style p-0 text-center"
-                                                            formControlName="buildingNumber" required>
-
 
                                                     </div>
                                                 </div>
@@ -291,7 +298,7 @@
 
                                             <!-- Gender -->
 
-                                            <div class="form-group d-flex justify-start gap-5 mt-2">
+                                            <div class="form-group d-flex justify-start gap-5 my-3">
                                                 <label for="gender" id="gender"
                                                     class=" align-self-start">Gender:</label>
                                                 <div>
