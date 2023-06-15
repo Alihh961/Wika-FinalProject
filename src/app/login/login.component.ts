@@ -28,7 +28,7 @@ export class LoginComponent {
 
   passwordMatch !: boolean;
   patternRespected: boolean = false;
-  pattern: any = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/;
+  // pattern: any = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/;
   isLoggedIn: boolean = false;
   displaySuggestions: boolean = false;
   showStreetInput: boolean = false;
@@ -255,18 +255,18 @@ export class LoginComponent {
       secondFaceGroup: this.fb.group({
         email: new FormControl(null, [
           Validators.required,
-          // Validators.pattern('[^@ \\t\\r\\n]+@[^@ \\t\\r\\n]+\\.[^@ \\t\\r\\n]+')
+          Validators.pattern('[^@ \\t\\r\\n]+@[^@ \\t\\r\\n]+\\.[^@ \\t\\r\\n]+')
         ]),
 
         // passwordGroup: new FormGroup ({
 
         password: new FormControl(null, [
           Validators.required,
-          // Validators.pattern("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$")
+          Validators.pattern("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$")
         ]),
         confPassword: new FormControl(null, [
           Validators.required,
-          // Validators.pattern("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$")
+          Validators.pattern("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$")
         ]),
       },
         {
@@ -279,12 +279,12 @@ export class LoginComponent {
       thirdFaceGroup: this.fb.group({
         postCode: new FormControl(null, [
           Validators.required,
-          Validators.pattern(/^\d{5}$/)
+          Validators.pattern(/^[0-9]{5}$/)
 
         ]),
         street: new FormControl(null, [
           Validators.required,
-          // Validators.pattern(/^[A-Za-z]$/)
+          Validators.pattern(/^[A-Za-z\s]+$/)
         ]),
         buildingNumber: new FormControl(null,
           [
@@ -303,33 +303,34 @@ export class LoginComponent {
 
       this.userInscriptionDetails = this.combineFaces();
       this.http.post<string[]>(`${baseURL}inscription.php`, {userDetails : this.userInscriptionDetails , userAddress : this.userInscriptionAddress }).subscribe(
+       
         (response) => {
-          console.log(this.userInscriptionDetails);
+
           console.log(this.userInscriptionAddress);
+          console.log(this.userInscriptionDetails);
           console.log(response);
-          
 
           // Handle success response
-          // if (response[0] === "An account associated to this email!") {
-          //   Swal.fire(
-          //     'Ops',
-          //     response[0],
-          //     'error'
-          //   )
-          // } else if (response[0] === "Account has been successfully registered") {
-          //   Swal.fire(
-          //     'Good job!',
-          //     response[0],
-          //     'success'
-          //   )
-          // } else {
-          //   Swal.fire({
-          //     title: 'Error!',
-          //     text: response[0],
-          //     icon: 'error',
-          //     confirmButtonText: 'Try Again'
-          //   })
-          // }
+          if (response[0] === "An account associated to this email!") {
+            Swal.fire(
+              'Ops',
+              response[0],
+              'error'
+            )
+          } else if (response[0] === "Account has been successfully registered") {
+            Swal.fire(
+              'Good job!',
+              response[0],
+              'success'
+            )
+          } else {
+            Swal.fire({
+              title: 'Error!',
+              text: response[0],
+              icon: 'error',
+              confirmButtonText: 'Try Again'
+            })
+          }
 
         },
         (error) => {
