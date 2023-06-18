@@ -39,6 +39,7 @@ const appRoutes: Routes = [
 @NgModule({
   declarations: [
     AppComponent,
+    
     ContactComponent,
     BanniereHomePageComponent,
     CookiesNotificationComponent,
