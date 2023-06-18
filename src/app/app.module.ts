@@ -21,6 +21,7 @@ import { FooterComponent } from './footer/footer.component';
 import { LoginComponent } from './login/login.component';
 import { CookieService } from 'ngx-cookie-service';
 import { GuardGuard } from './guards/guard.guard';
+import { PortfolioComponent } from './portfolio/portfolio.component';
 
 const appRoutes: Routes = [
     // { path: '' ,redirectTo: 'home' , pathMatch: 'full'},
@@ -30,6 +31,7 @@ const appRoutes: Routes = [
     { path: 'popularcreators', component: PopularcreatorsComponent, pathMatch: 'full' },
     { path: 'contact', component: ContactComponent, pathMatch: 'full' },
     { path: 'login', component: LoginComponent, pathMatch: 'full'},
+    { path: 'portfolio', component: PortfolioComponent, pathMatch: 'full'},
     { path: '**', component: Error404Component, pathMatch: 'full' },
     
   ];
@@ -50,6 +52,7 @@ const appRoutes: Routes = [
     PopularcreatorsComponent,
     FooterComponent,
     LoginComponent,
+    PortfolioComponent,
   ],
   imports: [
     BrowserModule,

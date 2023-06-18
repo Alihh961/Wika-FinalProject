@@ -23,7 +23,7 @@
         </div>
 
         <ul [ngClass]="{'openedMenuList': dropDownMenuStatus && !isAdmin, 'openedMenuListIsAdmin': dropDownMenuStatusIsAdmin }">
-            <li><a href="#">My portfolio</a></li>
+            <li routerLinkActive="activeLink"><a routerLink="/portfolio">My portfolio</a></li>
             <li><a href="#">My Profile</a></li>
             <li (click)="logout()" routerLinkActive="activeLink"><a href="#">Logout</a></li>
         </ul>
