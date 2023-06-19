@@ -10,7 +10,7 @@ import { CookieService } from 'ngx-cookie-service';
 import { LoggedInUserService } from '../../services/logged-in-user.service';
 import { baseURL } from 'src/environment/environment';
 import { Router } from '@angular/router';
-import { Subscription, tap } from 'rxjs';
+import { Subscription, first, tap } from 'rxjs';
 import { passwordDoesntMatch } from 'src/validators/passwordmatch.validator';
 import { __values } from 'tslib';
 
@@ -44,9 +44,7 @@ export class LoginComponent {
     region: ""
   }
 
-
-  loggedInUserInfo !: loggedInUserInfo;
-
+  loggedInUserInfo!: loggedInUserInfo;
   loginFormInfo !: FormGroup;
   registrationFormGroup !: FormGroup;
   valueChangesSubscription: Subscription | undefined;
@@ -90,7 +88,8 @@ export class LoginComponent {
 
 
     this.loggedInUserInstance.getLoggedInUserInfo().subscribe(value => {
-      this.loggedInUserInfo = value;
+      // this.loggedInUserInfo = value;
+      // console.log(value);
     });
     this.loggedInUserInstance.getLoggedInStatus().subscribe(value => {
       this.isLoggedIn = value;
@@ -246,7 +245,7 @@ export class LoginComponent {
           Validators.required,
           Validators.pattern("^[a-zA-Z]+( [a-zA-Z]+( [a-zA-Z]+)?)?$")
         ]),
-        birthdate: new FormControl(null, [
+        dateOfBirth: new FormControl(null, [
           Validators.required,
           this.ageValidationInstance.ageIsValid?.bind(this.ageValidationInstance)
         ])
@@ -302,8 +301,8 @@ export class LoginComponent {
     if (this.registrationFormGroup.valid) {
 
       this.userInscriptionDetails = this.combineFaces();
-      this.http.post<string[]>(`${baseURL}inscription.php`, {userDetails : this.userInscriptionDetails , userAddress : this.userInscriptionAddress }).subscribe(
-       
+      this.http.post<string[]>(`${baseURL}inscription.php`, { userDetails: this.userInscriptionDetails, userAddress: this.userInscriptionAddress }).subscribe(
+
         (response) => {
 
           console.log(this.userInscriptionAddress);
@@ -373,13 +372,13 @@ export class LoginComponent {
 
     const firstName: string = this.firstFaceGroup?.get(['firstName'])?.value;
     const lastName: string = this.firstFaceGroup?.get(['lastName'])?.value;
-    const birthdate: Date = this.firstFaceGroup?.get(['birthdate'])?.value;
+    const dateOfBirth: Date = this.firstFaceGroup?.get(['dateOfBirth'])?.value;
     const email: string = this.secondFaceGroup?.get(['email'])?.value;
     const password: string = this.secondFaceGroup?.get(['password'])?.value;
     const confPassword: string = this.secondFaceGroup?.get(['confPassword'])?.value;
     const gender: string = this.thirdFaceGroup?.get(['gender'])?.value;
 
-    return { firstName, lastName, birthdate, email, password, confPassword, gender };
+    return { firstName, lastName, dateOfBirth, email, password, confPassword, gender };
 
   }
 
@@ -399,8 +398,8 @@ export class LoginComponent {
   get lastName() {
     return this.registrationFormGroup.get('firstFaceGroup.lastName');
   }
-  get birthdate() {
-    return this.registrationFormGroup.get('firstFaceGroup.birthdate');
+  get dateOfBirth() {
+    return this.registrationFormGroup.get('firstFaceGroup.dateOfBirth');
   }
   get password() {
     return this.registrationFormGroup.get('secondFaceGroup.password');
@@ -440,20 +439,27 @@ export class LoginComponent {
             })
           } else {
 
-            this.loggedInUserInstance.setLoggedInUserInfo(reponse);
-            this.loggedInUserInstance.setLoggedInStatus(true);
 
-            const token = reponse.email;
-            this.cookieService.set('token', token);
+            if (this.loggedInUserInstance.setLoggedInUserInfo(reponse.user) &&
+              this.loggedInUserInstance.setLoggedInStatus(true)) {
+              this.router.navigate(['/home']);
 
-            Swal.fire({
-              icon: 'success',
-              title: 'Welcome',
-              text: `${this.loggedInUserInfo.firstname}`,
-            });
+              //* use it to display the firstName within swal.fire.text;
+              this.loggedInUserInfo = reponse.user;
 
-            this.router.navigate(['/home']);
+              const token = reponse.token;
 
+              this.cookieService.set('token', token);
+
+
+              Swal.fire({
+                icon: 'success',
+                title: 'Welcome',
+                text: this.loggedInUserInfo.firstName,
+              });
+
+
+            }
           }
         },
         error => {

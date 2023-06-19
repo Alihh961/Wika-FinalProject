@@ -18,7 +18,7 @@ export class AuthenticationService {
 }
 
   getDataOfUser(token:string):Observable<any>{
-    return this.http.get<any>(`${baseURL}loggedInUserData.php?token=${token}`);
+    return this.http.post<any>(`${baseURL}loggedInUserData.php`,{token : token});
   }
 
 }

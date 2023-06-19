@@ -43,11 +43,7 @@ export class GalleryComponent implements OnInit {
 
     this.getCategoriesTotal();
     this.fetchingNFTs();
-    this.loggedInUserServiceInstance.getLoggedInUserInfo().subscribe(info => {
-      this.isAdmin = info.isAdmin;
-    });
     this.setETHPrice();
-
 
   }
 

@@ -17,8 +17,8 @@
     </div>
     <div *ngIf="isLoggedIn" class="dropDownMenu">
 
-        <div class="userDiv" (click)="toggleDropMenu()"><span>{{loggedInUserInfo.firstname
-                +" "+loggedInUserInfo.lastname }}</span>
+        <div class="userDiv" (click)="toggleDropMenu()"><span>{{loggedInUserInfo.firstName
+                +" "+loggedInUserInfo.lastName }}</span>
             <span class="dropDownArrow" [ngClass]="{'toUP': !arrowDown , 'toDOWN': arrowDown}"></span>
         </div>
 

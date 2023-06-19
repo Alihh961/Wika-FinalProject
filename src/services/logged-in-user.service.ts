@@ -10,31 +10,31 @@ export class LoggedInUserService {
 
   constructor() { }
 
-  private loggedInUserInfo: BehaviorSubject<loggedInUserInfo> = new BehaviorSubject<loggedInUserInfo>(  {firstname: '',
-  lastname: '',
+  private loggedInUserInfo: BehaviorSubject<loggedInUserInfo> = new BehaviorSubject<loggedInUserInfo>(  {
+
+  firstName: '',
+  lastName: '',
   email: '',
-  password: '',
-  birthdate: new Date(),
-  street: '',
-  buildingnumber: '',
+  dateOfBirth: new Date(),
   gender: '',
-  isAdmin: false ,
+
 });
 
   private isLoggedIn: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
-  private isAdmin: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
-  setLoggedInUserInfo(data: loggedInUserInfo): void {
+  setLoggedInUserInfo(data: loggedInUserInfo): boolean {
     this.loggedInUserInfo.next(data);
+    return true;
   }
 
   getLoggedInUserInfo(): Observable<loggedInUserInfo> {
     return this.loggedInUserInfo.asObservable();
   }
 
-  setLoggedInStatus(value: boolean): void {
+  setLoggedInStatus(value: boolean): boolean { //! I return a boolean because i have to check if the method is okay when a user user logni
     this.isLoggedIn.next(value);
+    return true;
   }
 
   getLoggedInStatus(): Observable<boolean> {

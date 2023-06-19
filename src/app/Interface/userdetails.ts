@@ -5,7 +5,7 @@ export interface UserInscription {
   email: string,
   password: string,
   confPassword: string,
-  birthdate: Date | null,
+  dateOfBirth: Date | null,
   gender: string,
 
 }
@@ -28,13 +28,9 @@ export interface loginDataType {
 
 export interface loggedInUserInfo {
 
-  firstname: string;
-  lastname: string;
+  firstName: string;
+  lastName: string;
   email: string;
-  password: string;
-  birthdate: Date | null;
-  street: string;
-  buildingnumber: string;
+  dateOfBirth: Date | null;
   gender: string;
-  isAdmin: boolean;
 }

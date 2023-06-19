@@ -41,27 +41,34 @@ export class HeaderComponent implements AfterViewChecked {
 
     this.loggedInUserInstance.getLoggedInStatus().subscribe(booleanValue => {
       this.isLoggedIn = booleanValue;
-    })
+    });
+    // this.loggedInUserInstance.getLoggedInUserInfo().subscribe(value=>{
+    //   console.log(value);
+    // });
 
     this.loggedInUserInstance.getLoggedInUserInfo().subscribe(userInfo => {
       this.loggedInUserInfo = userInfo;
-    })
+    });
 
     this.setLoggedInValue();
-    const token = this.cookieService.get("token");
+
+    this.checkToken();
+
+  }
+
+  //* Check token 
+  checkToken(){
+
+      const token = this.cookieService.get("token");
     if (token) {
       this.authService.getDataOfUser(token).subscribe(data => {
         this.loggedInUserInstance.setLoggedInUserInfo(data);
-        console.log(data);
       });
+      console.log("Token");
+
     }else{
       console.log("no Token");
     }
-
-    this.loggedInUserInstance.getLoggedInUserInfo().subscribe(value => {
-      this.isAdmin = value.isAdmin;
-    })
-
   }
 
 

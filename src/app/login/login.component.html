@@ -122,16 +122,16 @@
                                             <div class="form-group mt-2 d-flex flex-column">
                                                 <span class="position-absolute dob">Date of Birth</span>
                                                 <input type="date" class="form-style" autocomplete="off"
-                                                    formControlName="birthdate">
+                                                    formControlName="dateOfBirth">
                                                 <i class="input-icon uil uil-calendar-alt"></i>
 
-                                                <small class="alert alert-danger" *ngIf="birthdate?.errors?.['required']
-                                                    && (birthdate?.touched ||
-                                                    birthdate?.dirty)">
+                                                <small class="alert alert-danger" *ngIf="dateOfBirth?.errors?.['required']
+                                                    && (dateOfBirth?.touched ||
+                                                    dateOfBirth?.dirty)">
                                                     Birthdate is required!
                                                 </small>
-                                                <small class="alert alert-danger" *ngIf="birthdate?.hasError('ageInvalid')
-  && (birthdate?.touched || birthdate?.dirty)">
+                                                <small class="alert alert-danger" *ngIf="dateOfBirth?.hasError('ageInvalid')
+  && (dateOfBirth?.touched || dateOfBirth?.dirty)">
                                                     Sorry, you must be at least 18 years old!
                                                 </small>
 
