@@ -1,0 +1,48 @@
+<div class="searchFilterDiv">
+
+    <app-search (searchInputValueEvent)="onSearchTextEntered($event)"></app-search>
+    <app-filter [all]="getAllTokensQty()" [art]="getNftArtQty()" [music]="getNftMusicQty()" [gaming]="getNftGamingQty()"
+    [sport]="getNftSportQty()" (filterSelectionChangedEvent)="onFilterSelectionChanged($event)"></app-filter>
+
+</div>
+
+<section class="homePageGallery">
+
+    <ng-container *ngFor="let nft of nfts">
+        <ng-container *ngIf="selectedRadioButton === 'all' || selectedRadioButton === nft.category_name ">
+            <ng-container
+                *ngIf="searchInputValue === '' || nft.NFT_name.toLowerCase().includes(searchInputValue.toLowerCase())">
+
+                <div class="product-accueil">
+                    <img [src]="nft.url">
+
+                    <h3>{{nft.NFT_name}}</h3>
+                    <h5>Created by {{nft.creatorname}}</h5>
+                    <div class="info">
+                        <div class="price">
+                            <h4>{{nft.price}}</h4>
+                            <img src="../../assets/imgs/Ethereum.png" alt="ETH">
+                        </div>
+                        <h5>{{nft.creationdate}}</h5>
+                    </div>
+                    <div class="buttons">
+                        <a href=""><input type="button" value="Add To Carte"></a>
+                        <a href=""><input type="button" value="View"></a>
+                    </div>
+                </div>
+            </ng-container>
+
+
+
+
+
+        </ng-container>
+    </ng-container>
+
+</section>
+
+<ng-container *ngIf="limit < limitMax ">
+    <div class="fetchMoreDiv px-auto py-5">
+        <button class="btn-showmore" (click)="fetchMore()">Show More</button>
+    </div>
+</ng-container>

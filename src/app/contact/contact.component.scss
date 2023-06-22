@@ -1,0 +1,61 @@
+@import "../../styles.scss";
+
+section{
+    background-color: $bgColor;
+    min-height: 1000px;
+}
+.contact-form {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 400px;
+    height: 500px;
+    background-color: #f2f2f2;
+    padding: 20px;
+    border-radius: 5px;
+    transform: translate(-50%,-50%);
+  }
+  
+  .contact-form h2 {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .contact-form .form-group {
+    margin-bottom: 15px;
+  }
+  
+  .contact-form label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+  
+  .contact-form input[type="text"],
+  .contact-form input[type="email"],
+  .contact-form textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .contact-form button[type="submit"] {
+    width: 40%;
+    padding: 10px;
+    display: block;
+    margin: 0 auto;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .contact-form button[type="submit"]:hover {
+    background-color: #45a049;
+  }
+  
+  textarea{
+    resize: none;
+  }

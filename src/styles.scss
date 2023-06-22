@@ -1,0 +1,22 @@
+// @import "../node_modules/bootstrap/scss/bootstrap.scss";
+
+/* You can add global styles to this file, and also import other style files */
+$bgColor: #0d192b;
+$hoverLinkedColor : #088178;
+$bgGlass :rgb(150 150 150);
+$bgColorForm : #2a2b38 ;
+body{
+
+    // overflow: hidden;
+    margin: 0 !important;
+    padding: 0 !important;
+    box-sizing: border-box;
+}
+
+html {
+    height: 100vh;
+}
+
+*::selection{
+    background-color: transparent;
+}

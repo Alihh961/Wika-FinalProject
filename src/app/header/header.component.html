@@ -1,0 +1,41 @@
+<header class="" #header>
+    <a routerLink="" class="logo"><img [src]="logoSource" alt='Logo'></a>
+    <div class="" id="menuList" #menuList [ngClass]="{'openedMenu': isOpened}">
+
+        <ul class="linksList">
+
+            <li [routerLinkActive]="'activeLink'" [routerLinkActiveOptions]="{exact: true}"><a routerLink="">Home</a>
+            </li>
+            <li routerLinkActive="activeLink"><a routerLink="/nfts">NFTs</a></li>
+            <li routerLinkActive="activeLink"><a routerLink="/popularcreators">Popular Creators</a></li>
+            <li routerLinkActive="activeLink"><a routerLink="/contact">Contact</a></li>
+            <li *ngIf="!isLoggedIn" routerLinkActive="activeLink"><a routerLink="/login">Sign in / Sign up</a></li>
+
+        </ul>
+
+
+    </div>
+    <div *ngIf="isLoggedIn" class="dropDownMenu">
+
+        <div class="userDiv" (click)="toggleDropMenu()"><span>{{loggedInUserInfo.firstName
+                +" "+loggedInUserInfo.lastName }}</span>
+            <span class="dropDownArrow" [ngClass]="{'toUP': !arrowDown , 'toDOWN': arrowDown}"></span>
+        </div>
+
+        <ul [ngClass]="{'openedMenuList': dropDownMenuStatus && !isAdmin, 'openedMenuListIsAdmin': dropDownMenuStatusIsAdmin }">
+            <li routerLinkActive="activeLink"><a routerLink="/portfolio">My portfolio</a></li>
+            <li><a href="#">My Profile</a></li>
+            <li (click)="logout()" routerLinkActive="activeLink"><a href="#">Logout</a></li>
+        </ul>
+
+    </div>
+
+    <a class="menuburger-icon" id="menuburger-icon" #menuburgericon (click)="openAndCloseMenuBurger()"
+        [ngClass]="{'openedMenu': isOpened}">
+
+        <span></span>
+        <span></span>
+        <span></span>
+    </a>
+
+</header>

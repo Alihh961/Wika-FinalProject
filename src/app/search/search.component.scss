@@ -1,0 +1,60 @@
+div:not(.searchDiv){
+
+    float: right;
+    width: fit-content;
+    min-width: 187px;
+    color: #ffffff;
+
+}
+
+div .searchDiv{
+
+    background-color: #ffffff;
+    height: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: fit-content;
+    border-radius: 5px;
+    overflow: hidden;
+
+}
+div input{
+
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    border:1px solid #ffffff;
+    outline: none;
+    text-align: center;
+    width:75px ;
+    transition:1s;
+
+
+}
+
+
+
+svg{
+   
+    width:26px;
+    border-right: 1px solid grey;
+    background-color:#4fb77e ;
+
+}
+div input:focus,div input:hover{
+
+    width: 165px;
+      
+}
+
+.searchDiv:focus-within,.searchDiv:hover {
+    border: 0.5px solid #FFFFFF;
+    box-shadow: 0px 0px 10px 5px rgb(103 89 227 / 89%);
+}
+
+
+.resultSpan{
+
+    color: #ff0000;
+
+}
