@@ -20,7 +20,6 @@ export class LoggedInUserService {
 
 });
 
-
   private isLoggedIn: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
 
