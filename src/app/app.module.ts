@@ -22,6 +22,7 @@ import { LoginComponent } from './login/login.component';
 import { CookieService } from 'ngx-cookie-service';
 import { GuardGuard } from './guards/guard.guard';
 import { PortfolioComponent } from './portfolio/portfolio.component';
+import { ChartethComponent } from './chart-eth/charteth.component';
 
 const appRoutes: Routes = [
     // { path: '' ,redirectTo: 'home' , pathMatch: 'full'},
@@ -54,6 +55,7 @@ const appRoutes: Routes = [
     FooterComponent,
     LoginComponent,
     PortfolioComponent,
+    ChartethComponent,
   ],
   imports: [
     BrowserModule,
